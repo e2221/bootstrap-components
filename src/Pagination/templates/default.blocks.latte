@@ -2,29 +2,29 @@
 
 {define view-pageOfPages}
     <nav aria-label="Pagination">
-        <ul class="pagination">
+        <ul class="pagination pagination-sm">
             <li class="page-item">
-                <a class="page-link{if $activePage == 1}disabled{/if}" href="{$control->getLink(1)}" aria-label="First">
-                    <span aria-hidden="true">&laquo;&laquo;</span>
+                <a class="page-link{if $activePage == 1} disabled{/if}" href="{$control->getLink(1)}" aria-label="First">
+                    <span aria-hidden="true"> << </span>
                     <span class="sr-only">First</span>
                 </a>
             </li>
             <li class="page-item">
-                <a class="page-link{if $activePage == 1}disabled{/if}" href="{$control->getLink($activePage - 1)}" aria-label="Previous">
-                    <span aria-hidden="true">&laquo;</span>
+                <a class="page-link{if $activePage == 1} disabled{/if}" href="{$control->getLink($activePage - 1)}" aria-label="Previous">
+                    <span aria-hidden="true"> < </span>
                     <span class="sr-only">Previous</span>
                 </a>
             </li>
             <li class="page-item"><a class="page-link" href="#">{$activePage}/{$paginator->getPageCount()}</a></li>
             <li class="page-item">
-                <a class="page-link{if $paginator->lastPage == $activePage}disabled{/if}" href="{$activePage+1)}" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
+                <a class="page-link{if $paginator->lastPage == $activePage} disabled{/if}" href="{$activePage+1}" aria-label="Next">
+                    <span aria-hidden="true"> > </span>
                     <span class="sr-only">Next</span>
                 </a>
             </li>
             <li class="page-item">
-                <a class="page-link{if $paginator->lastPage == $activePage}disabled{/if}" href="{$control->getLink($paginator->getLastPage())}" aria-label="Last">
-                    <span aria-hidden="true">&raquo;&raquo;</span>
+                <a class="page-link{if $paginator->lastPage == $activePage} disabled{/if}" href="{$control->getLink($paginator->getLastPage())}" aria-label="Last">
+                    <span aria-hidden="true"> >> </span>
                     <span class="sr-only">Last</span>
                 </a>
             </li>
