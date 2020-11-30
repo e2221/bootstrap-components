@@ -23,34 +23,38 @@ class Pagination extends Control
     /** @var int Only for PAGES view => show count of pages in selection */
     public int $showPagesCount=3;
 
-    /** @var callable|null Link to change page function(int $activePage, Paginator $paginator):string */
-    protected $linkCallback=null;
+    /** @var callable|null On paginate callback function(Paginator $paginator):void  */
+    protected $onPaginateCallback=null;
 
+    /**
+     * Signal - paginate
+     * @param int $page
+     */
+    public function handlePaginate(int $page): void
+    {
+        if($page < 1)
+            $page = 1;
+        if($page > $this->paginator->getPageCount())
+            $page = $this->paginator->getPageCount();
+        $this->paginator->page = $page;
+        if(is_callable($this->onPaginateCallback))
+        {
+            $onPaginateFn = $this->onPaginateCallback;
+            $onPaginateFn($this->paginator);
+        }
+        if($this->presenter->isAjax())
+            $this->redrawControl('paginator');
+    }
 
     public function render(): void
     {
         $this->template->view = $this->view;
         $this->template->paginator = $this->paginator;
         $this->template->showPagesCount = $this->showPagesCount;
-
         $this->template->setFile(__DIR__ . '/templates/default.latte');
         $this->template->render();
     }
 
-    /**
-     * Get link
-     * @param int $page
-     * @return string|null
-     */
-    public function getLink(int $page): ?string
-    {
-        if($page > 0 && $page <= $this->paginator->getPageCount() && is_callable($this->linkCallback))
-        {
-            $getLinkFn = $this->linkCallback;
-            return $getLinkFn($page, $this->paginator);
-        }
-        return null;
-    }
 
     /**
      * Set view type
@@ -87,13 +91,13 @@ class Pagination extends Control
     }
 
     /**
-     * Set link callback
-     * @param callable|null $linkCallback function(int $activePage, Paginator $paginator):string
+     * Set on paginate callback function(Paginator $paginator): void
+     * @param callable|null $onPaginateCallback
      * @return Pagination
      */
-    public function setLinkCallback(?callable $linkCallback): self
+    public function setOnPaginateCallback(?callable $onPaginateCallback): self
     {
-        $this->linkCallback = $linkCallback;
+        $this->onPaginateCallback = $onPaginateCallback;
         return $this;
     }
 
