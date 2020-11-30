@@ -46,7 +46,7 @@ class Pagination extends Control
      * @param int $page
      * @return string|null
      */
-    protected function getLink(int $page): ?string
+    public function getLink(int $page): ?string
     {
         $getLinkFn = $this->linkCallback;
         return $getLinkFn($page, $this->paginator);
