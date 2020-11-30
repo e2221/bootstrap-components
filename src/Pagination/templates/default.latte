@@ -1,4 +1,6 @@
 {templateType e2221\BootstrapComponents\Pagination\PaginationTemplate}
 {import default.blocks.latte}
 
-{include #"view-{$view}"}
+{if $paginator instanceof Nette\Utils\Paginator}
+    {include #"view-{$view}"}
+{/if}
