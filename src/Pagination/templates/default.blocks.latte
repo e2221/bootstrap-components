@@ -2,7 +2,7 @@
 
 {define view-pageOfPages}
     {var int $previousePage = $paginator->page-1 > 0 ? $paginator->page-1 : 1}
-    {var int $nextPage = $paginator->page+1 > $paginator->getPageCount() ? $paginator->page+1 : $paginator->getPageCount()}
+    {var int $nextPage = $paginator->page+1 > $paginator->getPageCount() ?  $paginator->getPageCount() : $paginator->page+1}
 
     <nav aria-label="Pagination">
         <ul class="pagination pagination-sm">

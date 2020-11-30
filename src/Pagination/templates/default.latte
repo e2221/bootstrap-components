@@ -1,8 +1,11 @@
 {templateType e2221\BootstrapComponents\Pagination\PaginationTemplate}
 
-{snippet paginator}
-    {import default.blocks.latte}
-    {if $paginator instanceof Nette\Utils\Paginator}
-        {include #"view-{$view}"}
-    {/if}
-{/snippet}
+{snippetArea paginatorArea}
+    {snippet paginator}
+        {import default.blocks.latte}
+        {if $paginator instanceof Nette\Utils\Paginator}
+            {include #"view-{$view}"}
+        {/if}
+    {/snippet}
+{/snippetArea}
+

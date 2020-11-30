@@ -39,7 +39,10 @@ class Pagination extends Control
             $onPaginateFn($this->paginator);
         }
         if($this->presenter->isAjax())
+        {
+            $this->redrawControl('paginatorArea');
             $this->redrawControl('paginator');
+        }
     }
 
     public function render(): void
