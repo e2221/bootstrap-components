@@ -72,7 +72,7 @@ class Pagination extends Control
      * @param Paginator|null $paginator
      * @return Pagination
      */
-    public function setPaginator(Paginator $paginator): self
+    public function setPaginator(?Paginator $paginator): self
     {
         $this->paginator = $paginator;
         return $this;
