@@ -13,7 +13,6 @@ class PaginationTemplate extends Template
     public string $basePath;
     public array $flashes;
     public Pagination $control;
-    public int $activePage;
     public string $view;
     public ?Paginator $paginator;
     public int $showPagesCount;

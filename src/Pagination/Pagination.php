@@ -20,9 +20,6 @@ class Pagination extends Control
     /** @var Paginator|null Nette Paginator */
     protected ?Paginator $paginator=null;
 
-    /** @var int @persistent */
-    public int $activePage=1;
-
     /** @var int Only for PAGES view => show count of pages in selection */
     public int $showPagesCount=3;
 
@@ -32,7 +29,6 @@ class Pagination extends Control
 
     public function render(): void
     {
-        $this->template->activePage = $this->activePage;
         $this->template->view = $this->view;
         $this->template->paginator = $this->paginator;
         $this->template->showPagesCount = $this->showPagesCount;
@@ -78,16 +74,6 @@ class Pagination extends Control
         return $this;
     }
 
-    /**
-     * Set active page
-     * @param int $activePage
-     * @return Pagination
-     */
-    public function setActivePage(int $activePage): self
-    {
-        $this->activePage = $activePage;
-        return $this;
-    }
 
     /**
      * Set show pages count (buttons to pages)
