@@ -48,7 +48,7 @@ class Pagination extends Control
      */
     public function getLink(int $page): ?string
     {
-        if($page > 0 && is_callable($this->linkCallback))
+        if($page > 0 && $page <= $this->paginator->getPageCount() && is_callable($this->linkCallback))
         {
             $getLinkFn = $this->linkCallback;
             return $getLinkFn($page, $this->paginator);

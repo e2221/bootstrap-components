@@ -17,7 +17,7 @@
             </li>
             <li class="page-item"><a class="page-link" href="#">{$activePage}/{$paginator->getPageCount()}</a></li>
             <li class="page-item">
-                <a class="page-link{if $paginator->lastPage == $activePage} disabled{/if}" href="{$activePage+1}" aria-label="Next">
+                <a class="page-link{if $paginator->lastPage == $activePage} disabled{/if}" href="{$control->getLink($activePage+1)}" aria-label="Next">
                     <span aria-hidden="true"> > </span>
                     <span class="sr-only">Next</span>
                 </a>
