@@ -67,6 +67,14 @@ class Pagination extends Control
     }
 
     /**
+     * @return string
+     */
+    public function getView(): string
+    {
+        return $this->view;
+    }
+
+    /**
      * Set Nette paginator
      * @param Paginator|null $paginator
      * @return Pagination
@@ -77,6 +85,13 @@ class Pagination extends Control
         return $this;
     }
 
+    /**
+     * @return Paginator|null
+     */
+    public function getPaginator(): ?Paginator
+    {
+        return $this->paginator;
+    }
 
     /**
      * Set show pages count (buttons to pages)
