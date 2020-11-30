@@ -32,10 +32,6 @@ class Pagination extends Control
      */
     public function handlePaginate(int $page): void
     {
-        if($page < 1)
-            $page = 1;
-        if($page > $this->paginator->getPageCount())
-            $page = $this->paginator->getPageCount();
         $this->paginator->page = $page;
         if(is_callable($this->onPaginateCallback))
         {

@@ -1,6 +1,9 @@
 {templateType e2221\BootstrapComponents\Pagination\PaginationTemplate}
 
 {define view-pageOfPages}
+    {var int $previousePage = $paginator->page-1 > 0 ? $paginator->page-1 : 1}
+    {var int $nextPage = $paginator->page+1 > $paginator->getPageCount() ? $paginator->page+1 : $paginator->getPageCount()}
+
     <nav aria-label="Pagination">
         <ul class="pagination pagination-sm">
             <li class="page-item{if $paginator->page == 1} disabled{/if}">
@@ -10,7 +13,7 @@
                 </a>
             </li>
             <li class="page-item{if $paginator->page == 1} disabled{/if}">
-                <a class="page-link" n:href="paginate! $paginator->page-1" aria-label="Previous">
+                <a class="page-link" n:href="paginate! $previousePage" aria-label="Previous">
                     <span aria-hidden="true"> < </span>
                     <span class="sr-only">Previous</span>
                 </a>
@@ -19,7 +22,7 @@
                 <a class="page-link" href="#">{$paginator->page}/{$paginator->getPageCount()}</a>
             </li>
             <li class="page-item{if $paginator->lastPage == $paginator->page} disabled{/if}">
-                <a class="page-link" n:href="paginate! $paginator->page+1" aria-label="Next">
+                <a class="page-link" n:href="paginate! $nextPage" aria-label="Next">
                     <span aria-hidden="true"> > </span>
                     <span class="sr-only">Next</span>
                 </a>
