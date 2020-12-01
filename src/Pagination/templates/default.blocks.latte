@@ -26,11 +26,10 @@
         {$previousItem->renderEndTag()|noescape}
     {/if}
 
+    {php
+        $baseItemTemplate->setActive();
+    }
     {$baseItemTemplate->renderStartTag()|noescape}
-
-        {php
-            $baseItemTemplate->setActive();
-        }
 
         {$baseLinkTemplate->renderStartTag()|noescape}
 
