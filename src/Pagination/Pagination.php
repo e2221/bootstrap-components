@@ -44,6 +44,9 @@ class Pagination extends Control
     /** @var bool Show link to last page */
     public bool $showLastLink=true;
 
+    /** @var bool Show info text on the bottom */
+    public bool $showInfoText=true;
+
     protected DocumentTemplate $documentTemplate;
 
     public function __construct()
@@ -164,6 +167,7 @@ class Pagination extends Control
     }
 
     /**
+     * Set show first link
      * @param bool $showFirstLink
      * @return Pagination
      */
@@ -174,6 +178,7 @@ class Pagination extends Control
     }
 
     /**
+     * Set show previous link
      * @param bool $showPreviousLink
      * @return Pagination
      */
@@ -184,6 +189,7 @@ class Pagination extends Control
     }
 
     /**
+     * Set show next link
      * @param bool $showNextLink
      * @return Pagination
      */
@@ -194,6 +200,7 @@ class Pagination extends Control
     }
 
     /**
+     * Set show last link
      * @param bool $showLastLink
      * @return Pagination
      */
@@ -204,6 +211,7 @@ class Pagination extends Control
     }
 
     /**
+     * Set width class
      * @param string $widthClass
      * @return Pagination
      */
@@ -213,12 +221,25 @@ class Pagination extends Control
         return $this;
     }
 
-
+    /**
+     * Set align class
+     * @param string $alignClass
+     * @return Pagination
+     */
     public function setAlign(string $alignClass): self
     {
         $this->documentTemplate->getPaginatorTemplate()->setClass($alignClass);
         return $this;
     }
 
-
+    /**
+     * Set show info text
+     * @param bool $showInfoText
+     * @return Pagination
+     */
+    public function setShowInfoText(bool $showInfoText=true): self
+    {
+        $this->showInfoText = $showInfoText;
+        return $this;
+    }
 }

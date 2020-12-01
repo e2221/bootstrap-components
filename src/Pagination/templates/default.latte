@@ -14,6 +14,9 @@
 
                 {* </ul> *}
                 {$paginatorTemplate->renderEndTag()|noescape}
+
+                <small n:if="$showInfoText" class="text-muted justify-content-center">(Items: {$paginator->page * $paginator->length - $paginator->length + 1} - {$paginator->page * $paginator->length} from {$paginator->itemCount})</small>
+
             </nav>
 
         {/if}

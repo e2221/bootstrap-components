@@ -38,4 +38,5 @@ class PaginationTemplate extends Template
     public bool $showPreviousLink;
     public bool $showNextLink;
     public bool $showLastLink;
+    public bool $showInfoText;
 }
