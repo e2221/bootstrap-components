@@ -16,7 +16,11 @@
 
     {$baseItemTemplate->renderStartTag()|noescape}
 
-        {$baseLinkTemplate|noescape}
+        {$baseLinkTemplate->renderStartTag()|noescape}
+
+            {$paginator->page}/{$paginator->getPageCount()}
+
+        {$baseLinkTemplate->renderEndTag()|noescape}
 
     {$baseItemTemplate->renderEndTag()|noescape}
 

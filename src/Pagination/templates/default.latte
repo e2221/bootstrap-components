@@ -8,7 +8,7 @@
             <nav aria-label="Pagination">
 
                 {* <ul> *}
-                {$paginatorTemplate->renderStartTag()}
+                {$paginatorTemplate->renderStartTag()|noescape}
 
                     {include #"view-{$view}"}
 
