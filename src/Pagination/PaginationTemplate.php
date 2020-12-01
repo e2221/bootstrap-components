@@ -6,6 +6,7 @@ namespace e2221\BootstrapComponents\Pagination;
 
 use e2221\BootstrapComponents\Pagination\Document\BaseItemTemplate;
 use e2221\BootstrapComponents\Pagination\Document\BaseLinkTemplate;
+use e2221\BootstrapComponents\Pagination\Document\DocumentTemplate;
 use e2221\BootstrapComponents\Pagination\Document\FirstLinkTemplate;
 use e2221\BootstrapComponents\Pagination\Document\LastLinkTemplate;
 use e2221\BootstrapComponents\Pagination\Document\NextLinkTemplate;
@@ -23,6 +24,7 @@ class PaginationTemplate extends Template
     public PreviousLinkTemplate $previousLinkTemplate;
     public NextLinkTemplate $nextLinkTemplate;
     public LastLinkTemplate $lastLinkTemplate;
+    public DocumentTemplate $documentTemplate;
 
     public string $baseUrl;
     public string $basePath;

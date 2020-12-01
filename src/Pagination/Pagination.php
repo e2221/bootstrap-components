@@ -88,6 +88,7 @@ class Pagination extends Control
         $this->template->previousLinkTemplate = $this->documentTemplate->getRendererPreviousLinkTemplate();
         $this->template->nextLinkTemplate = $this->documentTemplate->getRendererNextLinkTemplate();
         $this->template->lastLinkTemplate = $this->documentTemplate->getRendererLastLinkTemplate();
+        $this->template->documentTemplate = $this->documentTemplate;
 
         $this->template->showFirstLink = $this->showFirstLink;
         $this->template->showPreviousLink = $this->showPreviousLink;
