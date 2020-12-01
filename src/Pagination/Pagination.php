@@ -97,6 +97,7 @@ class Pagination extends Control
         $this->template->showPreviousLink = $this->showPreviousLink;
         $this->template->showNextLink = $this->showNextLink;
         $this->template->showLastLink = $this->showLastLink;
+        $this->template->showInfoText = $this->showInfoText;
 
         $this->template->view = $this->view;
         $this->template->paginator = $this->paginator;
