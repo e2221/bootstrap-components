@@ -14,6 +14,12 @@ class Pagination extends Control
         'PAGES'         => 'pages'
     ];
 
+    const
+        SMALL = 'pagination-sm',
+        LARGE = 'pagination-lg',
+        ALIGN_CENTER = 'justify-content-center',
+        ALIGN_END = 'justify-content-end';
+
     /** @var string Active view type */
     protected string $view = 'pageOfPages';
 
@@ -196,7 +202,22 @@ class Pagination extends Control
         return $this;
     }
 
+    /**
+     * @param string $widthClass
+     * @return Pagination
+     */
+    public function setWidth(string $widthClass): self
+    {
+        $this->documentTemplate->getPaginatorTemplate()->setClass($widthClass);
+        return $this;
+    }
 
+
+    public function setAlign(string $alignClass): self
+    {
+        $this->documentTemplate->getPaginatorTemplate()->setClass($alignClass);
+        return $this;
+    }
 
 
 }
