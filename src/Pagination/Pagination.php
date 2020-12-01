@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace e2221\BootstrapComponents\Pagination;
 
-
+use e2221\BootstrapComponents\Pagination\Document\DocumentTemplate;
 use Nette\Application\UI\Control;
 use Nette\Utils\Paginator;
 
@@ -26,6 +26,34 @@ class Pagination extends Control
     /** @var callable|null On paginate callback function(Paginator $paginator):void  */
     protected $onPaginateCallback=null;
 
+    /** @var bool Link to first page */
+    public bool $showFirstLink=true;
+
+    /** @var bool Show link to previous page */
+    public bool $showPreviousLink=true;
+
+    /** @var bool Show next link */
+    public bool $showNextLink=true;
+
+    /** @var bool Show link to last page */
+    public bool $showLastLink=true;
+
+    protected DocumentTemplate $documentTemplate;
+
+    public function __construct()
+    {
+        $this->documentTemplate = new DocumentTemplate($this);
+    }
+
+    /**
+     * Get document templates
+     * @return DocumentTemplate
+     */
+    public function getDocumentTemplate(): DocumentTemplate
+    {
+        return $this->documentTemplate;
+    }
+
     /**
      * Signal - paginate
      * @param int $page
@@ -47,6 +75,19 @@ class Pagination extends Control
 
     public function render(): void
     {
+        $this->template->paginatorTemplate = $this->documentTemplate->getRendererPaginatorTemplate();
+        $this->template->baseItemTemplate = $this->documentTemplate->getRendererBaseItemTemplate();
+        $this->template->baseLinkTemplate = $this->documentTemplate->getRendererBaseLinkTemplate();
+        $this->template->fistLinkTemplate = $this->documentTemplate->getRendererFirstLinkTemplate();
+        $this->template->previousLinkTemplate = $this->documentTemplate->getRendererPreviousLinkTemplate();
+        $this->template->nextLinkTemplate = $this->documentTemplate->getRendererNextLinkTemplate();
+        $this->template->lastLinkTemplate = $this->documentTemplate->getRendererLastLinkTemplate();
+
+        $this->template->showFirstLink = $this->showFirstLink;
+        $this->template->showPreviousLink = $this->showPreviousLink;
+        $this->template->showNextLink = $this->showNextLink;
+        $this->template->showLastLink = $this->showLastLink;
+
         $this->template->view = $this->view;
         $this->template->paginator = $this->paginator;
         $this->template->showPagesCount = $this->showPagesCount;
@@ -114,6 +155,48 @@ class Pagination extends Control
         $this->onPaginateCallback = $onPaginateCallback;
         return $this;
     }
+
+    /**
+     * @param bool $showFirstLink
+     * @return Pagination
+     */
+    public function setShowFirstLink(bool $showFirstLink=true): self
+    {
+        $this->showFirstLink = $showFirstLink;
+        return $this;
+    }
+
+    /**
+     * @param bool $showPreviousLink
+     * @return Pagination
+     */
+    public function setShowPreviousLink(bool $showPreviousLink=true): self
+    {
+        $this->showPreviousLink = $showPreviousLink;
+        return $this;
+    }
+
+    /**
+     * @param bool $showNextLink
+     * @return Pagination
+     */
+    public function setShowNextLink(bool $showNextLink=true): self
+    {
+        $this->showNextLink = $showNextLink;
+        return $this;
+    }
+
+    /**
+     * @param bool $showLastLink
+     * @return Pagination
+     */
+    public function setShowLastLink(bool $showLastLink=true): self
+    {
+        $this->showLastLink = $showLastLink;
+        return $this;
+    }
+
+
 
 
 }

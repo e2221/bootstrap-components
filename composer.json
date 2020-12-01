@@ -2,11 +2,20 @@
     "name": "e2221/bootstrap-components",
     "description": "Bootstrap components for Nette 3 Framework",
     "type": "libraly",
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/e2221/utils"
+        }
+    ],
     "require": {
         "nette/application": "^3.0",
         "nette/component-model": "^3.0",
         "nette/utils": "^3.1",
         "latte/latte": "^2.8"
+    },
+    "require-dev": {
+        "e2221/utils": "dev-main@dev"
     },
     "autoload": {
         "classmap": ["src/"]

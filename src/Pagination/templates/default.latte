@@ -4,7 +4,18 @@
     {import default.blocks.latte}
     {snippet paginator}
         {if $paginator instanceof Nette\Utils\Paginator}
-            {include #"view-{$view}"}
+
+            <nav aria-label="Pagination">
+
+                {* <ul> *}
+                {$paginatorTemplate->renderStartTag()}
+
+                    {include #"view-{$view}"}
+
+                {* </ul> *}
+                {$paginatorTemplate->renderEndTag()}
+            </nav>
+
         {/if}
     {/snippet}
 {/snippetArea}
