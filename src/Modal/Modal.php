@@ -11,6 +11,7 @@ use e2221\BootstrapComponents\Modal\Components\HeaderTitleTemplate;
 use e2221\BootstrapComponents\Modal\Components\ModalContentTemplate;
 use e2221\BootstrapComponents\Modal\Components\ModalDialogTemplate;
 use Nette\Application\UI\Control;
+use Nette\Bridges\ApplicationLatte\Template;
 
 class Modal extends Control
 {
@@ -35,6 +36,9 @@ class Modal extends Control
     /** @var ModalDialogTemplate Dialog template */
     protected ModalDialogTemplate $dialogTemplate;
 
+    /** @var string[] Paths to external templates with blocks */
+    protected array $templates=[];
+
     public function __construct()
     {
         $this->modalTemplate = new \e2221\BootstrapComponents\Modal\Components\ModalTemplate();
@@ -48,6 +52,7 @@ class Modal extends Control
 
     public function render(): void
     {
+        $this->template->templates = $this->templates;
         $this->template->modalTemplate = $this->modalTemplate;
         $this->template->bodyTemplate = $this->bodyTemplate;
         $this->template->footerTemplate = $this->footerTemplate;
@@ -60,6 +65,20 @@ class Modal extends Control
         $this->template->render();
     }
 
+    /**
+     * Add custom template with blocks
+     * @param string|Template $path
+     */
+    public function addTemplate($path): void
+    {
+        if ($path instanceof Template) {
+            $path = $path->getFile();
+        }
+        if (!file_exists($path)) {
+            throw new \InvalidArgumentException("Template '{$path}' does not exist.");
+        }
+        $this->templates[] = $path;
+    }
 
 
     /**

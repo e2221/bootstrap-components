@@ -2,7 +2,68 @@
 
 {snippetArea modalArea}
 
+    {import default.blocks.latte}
+    {foreach $templates as $templateKey => $template}
+        {import $template}
+    {/foreach}
 
+    {snippet modal}
+
+        {* <div class='modal'> *}
+        {include #modal-start-tag}
+
+            {* <div class='modal-dialog'> *}
+            {include #dialog-start-tag}
+
+                {* <div class="modal-content"> *}
+                {include #content-start-tag}
+
+                    {* <div class="modal-header"> *}
+                    {include #header-start-tag}
+
+                        {snippet modalHeader}
+
+                            {include #title}
+
+                        {/snippet}
+
+                    {* </div> *}
+                    {include #header-end-tag}
+
+                    {* <div class="modal-body"> *}
+                    {include #body-start-tag}
+
+                        {snippet modalContent}
+
+                            {include #content}
+
+                        {/snippet}
+
+                    {* </div> *}
+                    {include #body-end-tag}
+
+                    {* <div class="modal-footer"> *}
+                    {include #footer-start-tag}
+
+                        {snippet modalFooter}
+
+                            {include #footer-content}
+
+                        {/snippet}
+
+                    {* </div> *}
+                    {include #footer-end-tag}
+
+                {* </div> *}
+                {include #content-end-tag}
+
+            {* </div> *}
+            {include #dialog-end-tag}
+
+        {* </div> *}
+        {include #modal-end-tag}
+
+    {/snippet}
 
 {/snippetArea}
 

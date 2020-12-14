@@ -1,0 +1,75 @@
+{templateType e2221\BootstrapComponents\Modal\ModalTemplate}
+
+{* Modal start tag <div class='modal'> *}
+{define modal-start-tag}
+    {$modalTemplate->renderStartTag()|noescape}
+{/define}
+
+{* Modal end tag </div> *}
+{define modal-end-tag}
+    {$modalTemplate->renderEndTag()|noescape}
+{/define}
+
+{* Dialog start tag *}
+{define dialog-start-tag}
+    {$dialogTemplate->renderStartTag()|noescape}
+{/define}
+
+{* Dialog end tag *}
+{define dialog-end-tag}
+    {$dialogTemplate->renderStartTag()|noescape}
+{/define}
+
+{* Content start tag *}
+{define content-start-tag}
+    {$contentTemplate->renderStartTag()|noescape}
+{/define}
+
+{* Content end tag *}
+{define content-end-tag}
+    {$contentTemplate->renderEndTag()|noescape}
+{/define}
+
+{* Header start tag *}
+{define header-start-tag}
+    {$headerTemplate->renderStartTag()|noescape}
+{/define}
+
+{* Header end tag *}
+{define header-end-tag}
+    {$headerTemplate->renderEndTag()|noescape}
+{/define}
+
+{* Title *}
+{define title}
+    {$headerTitleTemplate->render()|noescape}
+{/define}
+
+{* Body start tag *}
+{define body-start-tag}
+    {$bodyTemplate->renderStartTag()|noescape}
+{/define}
+
+{* Body end tag *}
+{define body-end-tag}
+    {$bodyTemplate->renderEndTag()|noescape}
+{/define}
+
+
+{* Footer start tag *}
+{define footer-start-tag}
+    {$footerTemplate->renderStartTag()|noescape}
+{/define}
+
+{* Footer end tag *}
+{define footer-end-tag}
+    {$footerTemplate->renderEndTag()|noescape}
+{/define}
+
+{define content}
+
+{/define}
+
+{define footer-content}
+
+{/define}
