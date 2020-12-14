@@ -3,10 +3,7 @@ declare(strict_types=1);
 
 namespace e2221\BootstrapComponents\Modal\Components;
 
-
-use e2221\utils\Html\BaseElement;
-
-class ModalTemplate extends BaseElement
+class ModalTemplate extends BaseTemplate
 {
     protected ?string $elementName='div';
     public string $defaultClass='modal';
@@ -27,6 +24,20 @@ class ModalTemplate extends BaseElement
     public function setAnimation(string $animation): self
     {
         $this->animation = $animation;
+        return $this;
+    }
+
+    /**
+     * Set static backdrop
+     * @param bool $static
+     * @return ModalTemplate
+     */
+    public function setStaticBackdrop(bool $static=true): self
+    {
+        if($static === true)
+            $this
+                ->addDataAttribute('backdrop', 'static')
+                ->addDataAttribute('keyboard', 'false');
         return $this;
     }
 

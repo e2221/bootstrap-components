@@ -3,10 +3,7 @@ declare(strict_types=1);
 
 namespace e2221\BootstrapComponents\Modal\Components;
 
-
-use e2221\utils\Html\BaseElement;
-
-class FooterTemplate extends BaseElement
+class FooterTemplate extends BaseTemplate
 {
     protected ?string $elementName='div';
     public string $defaultClass='modal-footer';

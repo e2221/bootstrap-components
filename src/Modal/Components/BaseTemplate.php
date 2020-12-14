@@ -3,7 +3,9 @@ declare(strict_types=1);
 
 namespace e2221\BootstrapComponents\Modal\Components;
 
-class HeaderTitleTemplate extends BaseTemplate
+
+use e2221\utils\Html\BaseElement;
+
+class BaseTemplate extends BaseElement
 {
-    protected ?string $elementName='h5';
 }

@@ -4,7 +4,10 @@ declare(strict_types=1);
 namespace e2221\BootstrapComponents\Modal;
 
 
+use e2221\BootstrapComponents\Modal\Content\Content;
+use e2221\utils\Html\BaseElement;
 use Nette\Bridges\ApplicationLatte\Template;
+use Nette\Utils\Html;
 
 /**
  * @method bool isLinkCurrent(string $destination = null, $args = [])
@@ -26,4 +29,11 @@ class ModalTemplate extends Template
 
     /** @var string[] */
     public array $templates;
+
+    /** @var Content[] */
+    public array $content;
+
+    /** @var null|Html|BaseElement */
+    public $bodyWrapper;
+
 }

@@ -35,7 +35,42 @@
 
                         {snippet modalContent}
 
-                            {include #content}
+                            {ifset #content}
+
+                                {include #content content => $content}
+
+                            {else}
+
+                                {foreach $content as $contentName => $contentField}
+
+                                    {var $contents = $contentField->getContent()}
+
+                                    {ifset #content-$contentName}
+
+                                        {include #"content-{$contentName}"}
+
+                                    {else}
+
+                                        {ifset $contentField->getElementName()}
+                                            {$contentField->startTag()|noescape}
+                                        {/ifset}
+
+                                            {if $contents instanceof Nette\ComponentModel\IComponent}
+                                                {$contents->render()|noescape}
+                                            {else}
+                                                {$contents|noescape}
+                                            {/if}
+
+                                        {ifset $contentField->getElementName()}
+                                            {$contentField->endTag()|noescape}
+                                        {/ifset}
+
+                                    {/ifset}
+
+                                {/foreach}
+
+                            {/ifset}
+
 
                         {/snippet}
 
@@ -46,6 +81,8 @@
                     {include #footer-start-tag}
 
                         {snippet modalFooter}
+
+
 
                             {include #footer-content}
 

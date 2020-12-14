@@ -66,9 +66,20 @@
     {$footerTemplate->renderEndTag()|noescape}
 {/define}
 
-{define content}
-
+{* Body wrapper start tag *}
+{define body-wrapper-start-tag}
+    {ifset $bodyWrapper}
+        {$bodyWrapper->startTag()|noescape}
+    {/ifset}
 {/define}
+
+{* Body wrapper end tag *}
+{define body-wrapper-end-tag}
+    {ifset $bodyWrapper}
+        {$bodyWrapper->endTag()|noescape}
+    {/ifset}
+{/define}
+
 
 {define footer-content}
 
