@@ -95,7 +95,7 @@ class Modal extends Control
 
     public function __construct()
     {
-        $this->modalTemplate = new ModalMainTemplate();
+        $this->modalTemplate = new ModalMainTemplate($this);
         $this->bodyTemplate = new BodyTemplate();
         $this->footerTemplate = new FooterTemplate();
         $this->headerTemplate = new HeaderTemplate();

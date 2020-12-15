@@ -3,15 +3,27 @@ declare(strict_types=1);
 
 namespace e2221\BootstrapComponents\Modal\Components;
 
+use e2221\BootstrapComponents\Modal\Modal;
+
 class ModalMainTemplate extends BaseTemplate
 {
     protected ?string $elementName='div';
     public string $defaultClass='modal';
     public string $animation='fade';
+    private Modal $modal;
+
+    public function __construct(Modal $modal)
+    {
+        parent::__construct();
+        $this->modal = $modal;
+    }
 
     public function beforeRender(): void
     {
-        $this->addHtmlAttributes(['tabindex'=>'-1', 'aria-hidden' => 'true']);
+        $this
+            ->addHtmlAttribute('tabindex', '-1')
+            ->addHtmlAttribute('aria-hidden', 'true')
+            ->addHtmlAttribute('id', $this->modal->getModalId());
         $this->addClass($this->animation);
         parent::beforeRender();
     }
