@@ -47,17 +47,17 @@
                                         {else}
 
                                             {* wrapper of content *}
-                                            {ifset $headerContentField->getElementName()}
+                                            {if is_string($headerContentField->getElementName())}
                                                 {$headerContentField->startTag()|noescape}
-                                            {/ifset}
+                                            {/if}
 
                                                 {* content *}
                                                 {$headerContentField->renderContent()|noescape}
 
                                             {* wrapper of content *}
-                                            {ifset $headerContentField->getElementName()}
+                                            {if is_string($headerContentField->getElementName())}
                                                 {$headerContentField->endTag()|noescape}
-                                            {/ifset}
+                                            {/if}
 
                                         {/ifset}
 
@@ -95,17 +95,17 @@
                                     {else}
 
                                         {* content wrapper *}
-                                        {ifset $contentField->getElementName()}
+                                        {if is_string($contentField->getElementName())}
                                             {$contentField->startTag()|noescape}
-                                        {/ifset}
+                                        {/if}
 
                                             {* content *}
                                             {$contentField->renderContent()|noescape}
 
                                         {* content wrapper *}
-                                        {ifset $contentField->getElementName()}
+                                        {if is_string($contentField->getElementName())}
                                             {$contentField->endTag()|noescape}
-                                        {/ifset}
+                                        {/if}
 
                                     {/ifset}
 
@@ -135,17 +135,17 @@
                                     {else}
 
                                         {* content wrapper *}
-                                        {ifset $contentField->getElementName()}
+                                        {if is_string($contentField->getElementName())}
                                             {$contentField->startTag()|noescape}
-                                        {/ifset}
+                                        {/if}
 
                                         {* content *}
                                         {$contentField->renderContent()|noescape}
 
                                         {* content wrapper *}
-                                        {ifset $contentField->getElementName()}
+                                        {if is_string($contentField->getElementName())}
                                             {$contentField->endTag()|noescape}
-                                        {/ifset}
+                                        {/if}
 
                                     {/ifset}
 

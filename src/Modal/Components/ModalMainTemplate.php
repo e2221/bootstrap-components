@@ -11,7 +11,7 @@ class ModalMainTemplate extends BaseTemplate
 
     public function beforeRender(): void
     {
-        $this->addHtmlAttributes(['tabindex'=>'-1', 'aria-hidden', 'true']);
+        $this->addHtmlAttributes(['tabindex'=>'-1', 'aria-hidden' => 'true']);
         $this->addClass($this->animation);
         parent::beforeRender();
     }
