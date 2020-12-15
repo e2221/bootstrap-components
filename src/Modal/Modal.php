@@ -362,6 +362,17 @@ class Modal extends Control
     }
 
     /**
+     * Set Header title
+     * @param string $title
+     * @return Modal
+     */
+    public function setTitle(string $title): self
+    {
+        $this->getHeaderTitleTemplate()->setTextContent($title);
+        return $this;
+    }
+
+    /**
      * Set show top close button
      * @param bool $showHeaderCloseButton
      * @return Modal
