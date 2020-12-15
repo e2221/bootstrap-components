@@ -20,26 +20,6 @@
     {$dialogTemplate->renderEndTag()|noescape}
 {/define}
 
-{* Content start tag *}
-{define content-start-tag}
-    {$contentTemplate->renderStartTag()|noescape}
-{/define}
-
-{* Content end tag *}
-{define content-end-tag}
-    {$contentTemplate->renderEndTag()|noescape}
-{/define}
-
-{* Header start tag *}
-{define header-start-tag}
-    {$headerTemplate->renderStartTag()|noescape}
-{/define}
-
-{* Header end tag *}
-{define header-end-tag}
-    {$headerTemplate->renderEndTag()|noescape}
-{/define}
-
 {* Title *}
 {define title}
     {$headerTitleTemplate->render()|noescape}

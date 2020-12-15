@@ -379,7 +379,7 @@ class Modal extends Control
      */
     public function setShowHeaderCloseButton(bool $showHeaderCloseButton=true): self
     {
-        $this->getHeaderCloseButton()->setHidden($showHeaderCloseButton);
+        $this->getHeaderCloseButton()->setHidden(!$showHeaderCloseButton);
         return $this;
     }
 
@@ -390,7 +390,7 @@ class Modal extends Control
      */
     public function setShowFooterCloseButton(bool $showFooterCloseButton=true): self
     {
-        $this->getFooterCloseButton()->setHidden($showFooterCloseButton);
+        $this->getFooterCloseButton()->setHidden(!$showFooterCloseButton);
         return $this;
     }
 

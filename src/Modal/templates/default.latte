@@ -18,147 +18,125 @@
                 {* <div class="modal-content"> *}
                 {include #content-start-tag}
 
-                    {* <div class="modal-header"> *}
-                    {include #header-start-tag}
+                    {* Header *}
+                    <div n:snippet="modalHeader" {$headerTemplate->getAttributes()|noescape}>
 
-                        {snippet modalHeader}
+                        {* block #header-content rewrites all header content *}
+                        {ifset #header-content}
+                            {include #header-content content => $headerContent, wrapper => $headerWrapper}
+                        {else}
 
-                            {* block #header-content rewrites all header content *}
-                            {ifset #header-content}
-                                {include #header-content content => $headerContent, wrapper => $headerWrapper}
-                            {else}
-
-                                {* Header wrapper *}
-                                {ifset $headerWrapper}
-                                    {$headerWrapper->startTag()|noescape}
-                                {/ifset}
-
-                                    {* Title *}
-                                    {include #title}
-
-                                    {* Header close button *}
-                                    {include #header-close-button}
-
-                                    {* Header content *}
-                                    {foreach $headerContent as $contentName => $headerContentField}
-
-                                        {ifset #header-content-$contentName}
-                                            {include #"header-content-{$contentName}"}
-                                        {else}
-
-                                            {* wrapper of content *}
-                                            {if is_string($headerContentField->getElementName())}
-                                                {$headerContentField->startTag()|noescape}
-                                            {/if}
-
-                                                {* content *}
-                                                {$headerContentField->renderContent()|noescape}
-
-                                            {* wrapper of content *}
-                                            {if is_string($headerContentField->getElementName())}
-                                                {$headerContentField->endTag()|noescape}
-                                            {/if}
-
-                                        {/ifset}
-
-                                    {/foreach}
-
-                                {* Header wrapper *}
-                                {ifset $headerWrapper}
-                                    {$headerWrapper->endTag()|noescape}
-                                {/ifset}
-
+                            {* Header wrapper *}
+                            {ifset $headerWrapper}
+                                {$headerWrapper->startTag()|noescape}
                             {/ifset}
 
-                        {/snippet}
+                                {* Title *}
+                                {include #title}
 
-                    {* </div> *}
-                    {include #header-end-tag}
+                                {* Header close button *}
+                                {include #header-close-button}
 
-                    {* <div class="modal-body"> *}
-                    {include #body-start-tag}
+                                {* Header content *}
+                                {foreach $headerContent as $contentName => $headerContentField}
 
-                        {snippet modalContent}
-
-                            {* Footer close button *}
-                            {include #footer-close-button}
-
-                            {* block #content rewrites all modal body cotnent *}
-                            {ifset #content}
-                                {include #content content => $content, wrapper => $headerWrapper}
-                            {else}
-
-                                {foreach $content as $contentName => $contentField}
-
-                                    {ifset #content-$contentName}
-                                        {include #"content-{$contentName}"}
+                                    {ifset #header-content-$contentName}
+                                        {include #"header-content-{$contentName}"}
                                     {else}
 
-                                        {* content wrapper *}
-                                        {if is_string($contentField->getElementName())}
-                                            {$contentField->startTag()|noescape}
+                                        {* wrapper of content *}
+                                        {if is_string($headerContentField->getElementName())}
+                                            {$headerContentField->startTag()|noescape}
                                         {/if}
 
                                             {* content *}
-                                            {$contentField->renderContent()|noescape}
+                                            {$headerContentField->renderContent()|noescape}
 
-                                        {* content wrapper *}
-                                        {if is_string($contentField->getElementName())}
-                                            {$contentField->endTag()|noescape}
+                                        {* wrapper of content *}
+                                        {if is_string($headerContentField->getElementName())}
+                                            {$headerContentField->endTag()|noescape}
                                         {/if}
 
                                     {/ifset}
 
                                 {/foreach}
 
+                            {* Header wrapper *}
+                            {ifset $headerWrapper}
+                                {$headerWrapper->endTag()|noescape}
                             {/ifset}
 
-                        {/snippet}
+                        {/ifset}
+                    </div>
 
-                    {* </div> *}
-                    {include #body-end-tag}
+                    {* Body *}
+                    <div n:snippet="modalContent" {$bodyTemplate->getAttributes()|noescape}>
+                        {* Footer close button *}
+                        {include #footer-close-button}
 
-                    {* <div class="modal-footer"> *}
-                    {include #footer-start-tag}
+                        {* block #content rewrites all modal body cotnent *}
+                        {ifset #content}
+                            {include #content content => $content, wrapper => $headerWrapper}
+                        {else}
+                            {foreach $content as $contentName => $contentField}
 
-                        {snippet modalFooter}
+                                {ifset #content-$contentName}
+                                    {include #"content-{$contentName}"}
+                                {else}
 
-                            {* block #footer-content rewrites all footer *}
-                            {ifset #footer-content}
-                                {include #footer-content content => $footerContent, wrapper => $footerWrapper}
-                            {else}
-
-                                {include #footer-close-button}
-
-                                {foreach $footerContent as $contentName => $contentField}
-
-                                    {ifset #footer-content-$contentName}
-                                        {include #"content-{$contentName}"}
-                                    {else}
-
-                                        {* content wrapper *}
-                                        {if is_string($contentField->getElementName())}
-                                            {$contentField->startTag()|noescape}
-                                        {/if}
+                                    {* content wrapper *}
+                                    {if is_string($contentField->getElementName())}
+                                        {$contentField->startTag()|noescape}
+                                    {/if}
 
                                         {* content *}
                                         {$contentField->renderContent()|noescape}
 
-                                        {* content wrapper *}
-                                        {if is_string($contentField->getElementName())}
-                                            {$contentField->endTag()|noescape}
-                                        {/if}
+                                    {* content wrapper *}
+                                    {if is_string($contentField->getElementName())}
+                                        {$contentField->endTag()|noescape}
+                                    {/if}
 
-                                    {/ifset}
+                                {/ifset}
 
-                                {/foreach}
+                            {/foreach}
+                        {/ifset}
+                    </div>
 
-                            {/ifset}
+                    {* Footer *}
+                    <div n:snippet="modalFooter" {$footerTemplate->getAttributes()|noescape}>
+                        {* block #footer-content rewrites all footer *}
+                        {ifset #footer-content}
+                            {include #footer-content content => $footerContent, wrapper => $footerWrapper}
+                        {else}
 
-                        {/snippet}
+                            {include #footer-close-button}
 
-                    {* </div> *}
-                    {include #footer-end-tag}
+                            {foreach $footerContent as $contentName => $contentField}
+
+                                {ifset #footer-content-$contentName}
+                                    {include #"content-{$contentName}"}
+                                {else}
+
+                                    {* content wrapper *}
+                                    {if is_string($contentField->getElementName())}
+                                        {$contentField->startTag()|noescape}
+                                    {/if}
+
+                                    {* content *}
+                                    {$contentField->renderContent()|noescape}
+
+                                    {* content wrapper *}
+                                    {if is_string($contentField->getElementName())}
+                                        {$contentField->endTag()|noescape}
+                                    {/if}
+
+                                {/ifset}
+
+                            {/foreach}
+
+                        {/ifset}
+                    </div>
 
                 {* </div> *}
                 {include #content-end-tag}
