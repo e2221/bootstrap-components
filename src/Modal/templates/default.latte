@@ -128,6 +128,8 @@
                                 {include #footer-content content => $footerContent, wrapper => $footerWrapper}
                             {else}
 
+                                {include #footer-close-button}
+
                                 {foreach $footerContent as $contentName => $contentField}
 
                                     {ifset #footer-content-$contentName}
