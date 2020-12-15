@@ -24,8 +24,8 @@
                         {snippet modalHeader}
 
                             {* block #header-content rewrites all header content *}
-                            {ifset #header-content content => $headerContent, wrapper => $headerWrapper}
-                                {include #header-content}
+                            {ifset #header-content}
+                                {include #header-content content => $headerContent, wrapper => $headerWrapper}
                             {else}
 
                                 {* Header wrapper *}
