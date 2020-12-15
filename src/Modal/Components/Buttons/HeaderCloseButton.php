@@ -17,6 +17,6 @@ class HeaderCloseButton extends BaseButton
             ->addHtmlAttribute('aria-label', 'Close')
             ->addHtmlAttribute('type', 'button')
             ->addSpanElement(null, ['aria-hidden'=>'true'])
-                ->addText('&times;');
+                ->addHtml('&times;');
     }
 }
