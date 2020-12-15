@@ -20,29 +20,19 @@
     {$dialogTemplate->renderEndTag()|noescape}
 {/define}
 
+{* Content start tag *}
+{define content-start-tag}
+    {$contentTemplate->renderStartTag()|noescape}
+{/define}
+
+{* Content end tag *}
+{define content-end-tag}
+    {$contentTemplate->renderEndTag()|noescape}
+{/define}
+
 {* Title *}
 {define title}
     {$headerTitleTemplate->render()|noescape}
-{/define}
-
-{* Body start tag *}
-{define body-start-tag}
-    {$bodyTemplate->renderStartTag()|noescape}
-{/define}
-
-{* Body end tag *}
-{define body-end-tag}
-    {$bodyTemplate->renderEndTag()|noescape}
-{/define}
-
-{* Footer start tag *}
-{define footer-start-tag}
-    {$footerTemplate->renderStartTag()|noescape}
-{/define}
-
-{* Footer end tag *}
-{define footer-end-tag}
-    {$footerTemplate->renderEndTag()|noescape}
 {/define}
 
 {* Body wrapper start tag *}
