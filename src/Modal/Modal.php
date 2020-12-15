@@ -7,6 +7,7 @@ namespace e2221\BootstrapComponents\Modal;
 use e2221\BootstrapComponents\Modal\Components\BodyTemplate;
 use e2221\BootstrapComponents\Modal\Components\Buttons\FooterCloseButton;
 use e2221\BootstrapComponents\Modal\Components\Buttons\HeaderCloseButton;
+use e2221\BootstrapComponents\Modal\Components\Buttons\OpenModalButton;
 use e2221\BootstrapComponents\Modal\Components\FooterTemplate;
 use e2221\BootstrapComponents\Modal\Components\HeaderTemplate;
 use e2221\BootstrapComponents\Modal\Components\HeaderTitleTemplate;
@@ -20,6 +21,7 @@ use Nette\Application\UI\Control;
 use Nette\Bridges\ApplicationLatte\Template;
 use Nette\ComponentModel\IComponent;
 use Nette\Utils\Html;
+use Nette\Utils\Random;
 
 class Modal extends Control
 {
@@ -31,7 +33,8 @@ class Modal extends Control
         SNIPPET_HEADER = 'modalHeader',
         SNIPPET_BODY = 'modalBody',
         SNIPPET_FOOTER = 'modalFooter',
-        SNIPPET_MODAL = 'modal';
+        SNIPPET_MODAL = 'modal',
+        SNIPPET_OPEN_BUTTON = 'openModalButton';
 
     /** @var Components\ModalMainTemplate Modal template */
     protected Components\ModalMainTemplate $modalTemplate;
@@ -81,6 +84,15 @@ class Modal extends Control
     /** @var HeaderCloseButton Header close button */
     protected HeaderCloseButton $headerCloseButton;
 
+    /** @var OpenModalButton Open modal button */
+    protected OpenModalButton $openModalButton;
+
+    /** @var bool  */
+    public bool $printOpenButton=false;
+
+    /** @var string Modal id */
+    protected string $modalId;
+
     public function __construct()
     {
         $this->modalTemplate = new ModalMainTemplate();
@@ -92,8 +104,44 @@ class Modal extends Control
         $this->dialogTemplate = new ModalDialogTemplate();
         $this->footerCloseButton = new FooterCloseButton();
         $this->headerCloseButton = new HeaderCloseButton();
+        $this->openModalButton = new OpenModalButton($this);
+        $this->modalId = sprintf('modal-%s', Random::generate(5, 'A-Z'));
     }
 
+    /**
+     * Get modal id
+     * @return string
+     */
+    public function getModalId(): string
+    {
+        return $this->modalId;
+    }
+
+    /**
+     * Set modal id
+     * @param string $modalId
+     * @return Modal
+     */
+    public function setModalId(string $modalId): self
+    {
+        $this->modalId = $modalId;
+        return $this;
+    }
+
+    /**
+     * Set print open button
+     * @param bool $printOpenButton
+     * @return Modal
+     */
+    public function setPrintOpenButton(bool $printOpenButton=true): self
+    {
+        $this->printOpenButton = $printOpenButton;
+        return $this;
+    }
+
+    /**
+     * Render default
+     */
     public function render(): void
     {
         $this->template->templates = $this->templates;
@@ -106,7 +154,6 @@ class Modal extends Control
         $this->template->dialogTemplate = $this->dialogTemplate;
         $this->template->headerCloseButton = $this->headerCloseButton;
         $this->template->footerCloseButton = $this->footerCloseButton;
-
         $this->template->bodyWrapper = $this->bodyWrapper;
         $this->template->headerWrapper = $this->headerWrapper;
         $this->template->footerWrapper = $this->footerWrapper;
@@ -114,7 +161,20 @@ class Modal extends Control
         $this->template->headerContent = $this->headerContent;
         $this->template->footerContent = $this->footerContent;
 
+        if($this->printOpenButton === true)
+            $this->template->openModalButton = $this->openModalButton;
+
         $this->template->setFile(__DIR__ . '/templates/default.latte');
+        $this->template->render();
+    }
+
+    /**
+     * Render button
+     */
+    public function renderButton(): void
+    {
+        $this->template->openModalButton = $this->openModalButton;
+        $this->template->setFile(__DIR__ . '/templates/button.latte');
         $this->template->render();
     }
 
@@ -452,6 +512,14 @@ class Modal extends Control
     public function reloadHeader(): void
     {
         $this->reload(self::SNIPPET_FOOTER);
+    }
+
+    /**
+     * Reload open modal button
+     */
+    public function reloadOpenButton(): void
+    {
+        $this->reload(self::SNIPPET_OPEN_BUTTON);
     }
 
 }

@@ -6,6 +6,7 @@ namespace e2221\BootstrapComponents\Modal;
 
 use e2221\BootstrapComponents\Modal\Components\Buttons\FooterCloseButton;
 use e2221\BootstrapComponents\Modal\Components\Buttons\HeaderCloseButton;
+use e2221\BootstrapComponents\Modal\Components\Buttons\OpenModalButton;
 use e2221\BootstrapComponents\Modal\Content\Content;
 use e2221\utils\Html\BaseElement;
 use Nette\Bridges\ApplicationLatte\Template;
@@ -30,6 +31,7 @@ class ModalTemplate extends Template
     public Components\ModalDialogTemplate $dialogTemplate;
     public HeaderCloseButton $headerCloseButton;
     public FooterCloseButton $footerCloseButton;
+    public OpenModalButton $openModalButton;
 
     /** @var string[] */
     public array $templates;

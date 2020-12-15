@@ -8,5 +8,4 @@ use e2221\utils\Html\BaseElement;
 
 class BaseButton extends BaseElement
 {
-
 }
