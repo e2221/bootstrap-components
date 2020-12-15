@@ -26,6 +26,7 @@ class OpenModalButton extends BaseButton
         parent::beforeRender();
         $this
             ->addDataAttribute('toggle', 'modal')
-            ->addDataAttribute('target', $this->modal->getModalId());
+            ->addDataAttribute('target', sprintf('#%s', $this->modal->getModalId()))
+            ->addHtmlAttribute('href', 'javascript:void(0)');
     }
 }
