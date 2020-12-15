@@ -5,13 +5,16 @@ namespace e2221\BootstrapComponents\Modal;
 
 
 use e2221\BootstrapComponents\Modal\Components\BodyTemplate;
+use e2221\BootstrapComponents\Modal\Components\Buttons\FooterCloseButton;
+use e2221\BootstrapComponents\Modal\Components\Buttons\HeaderCloseButton;
 use e2221\BootstrapComponents\Modal\Components\FooterTemplate;
 use e2221\BootstrapComponents\Modal\Components\HeaderTemplate;
 use e2221\BootstrapComponents\Modal\Components\HeaderTitleTemplate;
 use e2221\BootstrapComponents\Modal\Components\ModalContentTemplate;
 use e2221\BootstrapComponents\Modal\Components\ModalDialogTemplate;
+use e2221\BootstrapComponents\Modal\Components\ModalMainTemplate;
 use e2221\BootstrapComponents\Modal\Content\Content;
-use e2221\HtmElement\BaseElement;
+use e2221\utils\Html\BaseElement;
 use InvalidArgumentException;
 use Nette\Application\UI\Control;
 use Nette\Bridges\ApplicationLatte\Template;
@@ -23,10 +26,15 @@ class Modal extends Control
     const
         MODAL_WIDTH_XL = 'modal-xl',
         MODAL_WIDTH_LG = 'modal-lg',
-        MODAL_WIDTH_SM = 'modal-sm';
+        MODAL_WIDTH_SM = 'modal-sm',
+        SNIPPET_AREA = 'modalArea',
+        SNIPPET_HEADER = 'modalHeader',
+        SNIPPET_BODY = 'modalBody',
+        SNIPPET_FOOTER = 'modalFooter',
+        SNIPPET_MODAL = 'modal';
 
-    /** @var Components\ModalTemplate Modal template */
-    protected Components\ModalTemplate $modalTemplate;
+    /** @var Components\ModalMainTemplate Modal template */
+    protected Components\ModalMainTemplate $modalTemplate;
 
     /** @var BodyTemplate Body template */
     protected BodyTemplate $bodyTemplate;
@@ -50,20 +58,40 @@ class Modal extends Control
     protected array $templates=[];
 
     /** @var BaseElement|Html|null Wrapper of content */
-    protected  $bodyWrapper=null;
+    protected $bodyWrapper=null;
 
     /** @var Content[] Body content */
     protected array $content=[];
 
+    /** @var BaseElement|Html|null Wrapper of footer */
+    protected $footerWrapper=null;
+
+    /** @var Content[] Footer content */
+    protected array $footerContent=[];
+
+    /** @var BaseElement|Html|null Wrapper of header */
+    protected $headerWrapper=null;
+
+    /** @var Content[] Header content */
+    protected array $headerContent=[];
+
+    /** @var FooterCloseButton Footer close button */
+    protected FooterCloseButton $footerCloseButton;
+
+    /** @var HeaderCloseButton Header close button */
+    protected HeaderCloseButton $headerCloseButton;
+
     public function __construct()
     {
-        $this->modalTemplate = new \e2221\BootstrapComponents\Modal\Components\ModalTemplate();
+        $this->modalTemplate = new ModalMainTemplate();
         $this->bodyTemplate = new BodyTemplate();
         $this->footerTemplate = new FooterTemplate();
         $this->headerTemplate = new HeaderTemplate();
         $this->headerTitleTemplate = new HeaderTitleTemplate();
         $this->contentTemplate = new ModalContentTemplate();
         $this->dialogTemplate = new ModalDialogTemplate();
+        $this->footerCloseButton = new FooterCloseButton();
+        $this->headerCloseButton = new HeaderCloseButton();
     }
 
     public function render(): void
@@ -76,9 +104,15 @@ class Modal extends Control
         $this->template->headerTitleTemplate = $this->headerTitleTemplate;
         $this->template->contentTemplate = $this->contentTemplate;
         $this->template->dialogTemplate = $this->dialogTemplate;
+        $this->template->headerCloseButton = $this->headerCloseButton;
+        $this->template->footerCloseButton = $this->footerCloseButton;
 
         $this->template->bodyWrapper = $this->bodyWrapper;
+        $this->template->headerWrapper = $this->headerWrapper;
+        $this->template->footerWrapper = $this->footerWrapper;
         $this->template->content = $this->content;
+        $this->template->headerContent = $this->headerContent;
+        $this->template->footerContent = $this->footerContent;
 
         $this->template->setFile(__DIR__ . '/templates/default.latte');
         $this->template->render();
@@ -125,13 +159,67 @@ class Modal extends Control
     }
 
     /**
+     * HEADER Wrapper
+     * ******************************************************************************
+     *
+     */
+
+    /**
+     * Set Header wrapper
+     * @param BaseElement|Html|null $headerWrapper
+     * @return Modal
+     */
+    public function setHeaderWrapper($headerWrapper): self
+    {
+        $this->headerWrapper = $headerWrapper;
+        return $this;
+    }
+
+    /**
+     * Get header wrapper
+     * @return BaseElement|Html|null
+     */
+    public function getHeaderWrapper()
+    {
+        return $this->headerWrapper;
+    }
+
+    /**
+     * FOOTER Wrapper
+     * ******************************************************************************
+     *
+     */
+
+    /**
+     * Set footer wrapper
+     * @param BaseElement|Html|null $footerWrapper
+     * @return Modal
+     */
+    public function setFooterWrapper($footerWrapper): self
+    {
+        $this->footerWrapper = $footerWrapper;
+        return $this;
+    }
+
+    /**
+     * Get footer wrapper
+     * @return BaseElement|Html|null
+     */
+    public function getFooterWrapper()
+    {
+        return $this->footerWrapper;
+    }
+
+
+    /**
      * Content
      * ******************************************************************************
      *
      */
 
     /**
-     * @param  IComponent|string|Html|\e2221\utils\Html\BaseElement $content
+     * Add content of body
+     * @param IComponent|string|Html|BaseElement $content
      * @param string $name
      * @return Content
      */
@@ -139,6 +227,29 @@ class Modal extends Control
     {
         return $this->content[$name] = new Content($this, $content, $name);
     }
+
+    /**
+     * Add content of header
+     * @param IComponent|string|Html|BaseElement $content
+     * @param string $name
+     * @return Content
+     */
+    public function addHeaderContent($content, string $name): Content
+    {
+        return $this->headerContent[$name] = new Content($this, $content, $name);
+    }
+
+    /**
+     * Add content of footer
+     * @param IComponent|string|Html|BaseElement $content
+     * @param string $name
+     * @return Content
+     */
+    public function addFooterContent($content, string $name): Content
+    {
+        return $this->footerContent[$name] = new Content($this, $content, $name);
+    }
+
 
     /**
      * FEATURES - MODAL STYLING
@@ -190,6 +301,28 @@ class Modal extends Control
         return $this;
     }
 
+    /**
+     * Set show top close button
+     * @param bool $showHeaderCloseButton
+     * @return Modal
+     */
+    public function setShowHeaderCloseButton(bool $showHeaderCloseButton=true): self
+    {
+        $this->getHeaderCloseButton()->setHidden($showHeaderCloseButton);
+        return $this;
+    }
+
+    /**
+     * Set show footer close button
+     * @param bool $showFooterCloseButton
+     * @return Modal
+     */
+    public function setShowFooterCloseButton(bool $showFooterCloseButton=true): self
+    {
+        $this->getFooterCloseButton()->setHidden($showFooterCloseButton);
+        return $this;
+    }
+
 
     /**
      * TEMPLATE GETTERS
@@ -198,9 +331,9 @@ class Modal extends Control
      */
 
     /**
-     * @return Components\ModalTemplate
+     * @return Components\ModalMainTemplate
      */
-    public function getModalTemplate(): Components\ModalTemplate
+    public function getModalTemplate(): Components\ModalMainTemplate
     {
         return $this->modalTemplate;
     }
@@ -253,5 +386,72 @@ class Modal extends Control
         return $this->dialogTemplate;
     }
 
+    /**
+     * @return FooterCloseButton
+     */
+    public function getFooterCloseButton(): FooterCloseButton
+    {
+        return $this->footerCloseButton;
+    }
+
+    /**
+     * @return HeaderCloseButton
+     */
+    public function getHeaderCloseButton(): HeaderCloseButton
+    {
+        return $this->headerCloseButton;
+    }
+
+
+    /**
+     * Reloading snippets
+     * ******************************************************************************
+     *
+     */
+
+    /**
+     * Reload
+     * @param string|array|null $snippets
+     */
+    public function reload($snippets=null): void
+    {
+        if($this->getPresenter()->isAjax())
+        {
+            $this->redrawControl(self::SNIPPET_AREA);
+            if(is_null($snippets)){
+                $this->redrawControl(self::SNIPPET_MODAL);
+            }else if(is_string($snippets))
+            {
+                $this->redrawControl($snippets);
+            }else{
+                foreach($snippets as $snippet)
+                    $this->redrawControl($snippet);
+            }
+        }
+    }
+
+    /**
+     * Reload modal body
+     */
+    public function reloadBody(): void
+    {
+        $this->reload(self::SNIPPET_BODY);
+    }
+
+    /**
+     * Reload footer
+     */
+    public function reloadFooter(): void
+    {
+        $this->reload(self::SNIPPET_FOOTER);
+    }
+
+    /**
+     * Reload Header
+     */
+    public function reloadHeader(): void
+    {
+        $this->reload(self::SNIPPET_FOOTER);
+    }
 
 }

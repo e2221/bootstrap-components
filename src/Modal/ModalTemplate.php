@@ -4,6 +4,8 @@ declare(strict_types=1);
 namespace e2221\BootstrapComponents\Modal;
 
 
+use e2221\BootstrapComponents\Modal\Components\Buttons\FooterCloseButton;
+use e2221\BootstrapComponents\Modal\Components\Buttons\HeaderCloseButton;
 use e2221\BootstrapComponents\Modal\Content\Content;
 use e2221\utils\Html\BaseElement;
 use Nette\Bridges\ApplicationLatte\Template;
@@ -19,13 +21,15 @@ class ModalTemplate extends Template
     public string $basePath;
     public array $flashes;
     public Modal $control;
-    public Components\ModalTemplate $modalTemplate;
+    public Components\ModalMainTemplate $modalTemplate;
     public Components\BodyTemplate $bodyTemplate;
     public Components\FooterTemplate $footerTemplate;
     public Components\HeaderTemplate $headerTemplate;
     public Components\HeaderTitleTemplate $headerTitleTemplate;
     public Components\ModalContentTemplate $contentTemplate;
     public Components\ModalDialogTemplate $dialogTemplate;
+    public HeaderCloseButton $headerCloseButton;
+    public FooterCloseButton $footerCloseButton;
 
     /** @var string[] */
     public array $templates;
@@ -33,7 +37,18 @@ class ModalTemplate extends Template
     /** @var Content[] */
     public array $content;
 
+    /** @var Content[] */
+    public array $headerContent;
+
+    /** @var Content[] */
+    public array $footerContent;
+
     /** @var null|Html|BaseElement */
     public $bodyWrapper;
 
+    /** @var null|Html|BaseElement */
+    public $headerWrapper;
+
+    /** @var null|Html|BaseElement */
+    public $footerWrapper;
 }

@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace e2221\BootstrapComponents\Modal\Components;
 
-class ModalTemplate extends BaseTemplate
+class ModalMainTemplate extends BaseTemplate
 {
     protected ?string $elementName='div';
     public string $defaultClass='modal';
@@ -19,7 +19,7 @@ class ModalTemplate extends BaseTemplate
     /**
      * Set Animation
      * @param string $animation
-     * @return ModalTemplate
+     * @return ModalMainTemplate
      */
     public function setAnimation(string $animation): self
     {
@@ -30,7 +30,7 @@ class ModalTemplate extends BaseTemplate
     /**
      * Set static backdrop
      * @param bool $static
-     * @return ModalTemplate
+     * @return ModalMainTemplate
      */
     public function setStaticBackdrop(bool $static=true): self
     {
@@ -44,7 +44,7 @@ class ModalTemplate extends BaseTemplate
     /**
      * Set modal id
      * @param string $id
-     * @return ModalTemplate
+     * @return ModalMainTemplate
      */
     public function setModalId(string $id): self
     {

@@ -6,6 +6,7 @@ namespace e2221\BootstrapComponents\Modal\Content;
 
 use e2221\BootstrapComponents\Modal\Modal;
 use e2221\utils\Html\BaseElement;
+use Nette\Application\UI\Component;
 use Nette\ComponentModel\IComponent;
 use Nette\Utils\Html;
 
@@ -13,9 +14,6 @@ class Content extends BaseElement
 {
     /** @var Modal  */
     protected Modal $modal;
-
-    /** @var null|BaseElement|Html Wrapper of content */
-    protected $contentWrapper=null;
 
     /** @var IComponent|string|Html|BaseElement */
     protected $content;
@@ -29,10 +27,10 @@ class Content extends BaseElement
      * @param IComponent|string|Html|BaseElement $content
      * @param string $name
      */
-    public function __construct(Modal $modal, $content, $name)
+    public function __construct(Modal $modal, $content, string $name)
     {
         parent::__construct();
-        if($content instanceof IComponent && is_null($content->getPresenterIfExists()))
+        if($content instanceof Component && is_null($content->getPresenterIfExists()))
         {
             $modal->addComponent($content, $name);
         }
@@ -51,19 +49,30 @@ class Content extends BaseElement
     }
 
     /**
-     * @return BaseElement|Html|null
-     */
-    public function getContentWrapper()
-    {
-        return $this->contentWrapper;
-    }
-
-    /**
      * @return BaseElement|IComponent|Html|string
      */
     public function getContent()
     {
         return $this->content;
+    }
+
+    /**
+     * Render content - internal
+     * @return BaseElement|IComponent|Html|string|null
+     * @internal
+     */
+    public function renderContent()
+    {
+        if($this->content instanceof Component)
+        {
+            if(method_exists($this->content, 'render'))
+            {
+                return $this->content->render();
+            }
+            return null;
+        }else{
+            return $this->content;
+        }
     }
 
 }

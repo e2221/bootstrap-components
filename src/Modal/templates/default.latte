@@ -23,7 +23,52 @@
 
                         {snippet modalHeader}
 
-                            {include #title}
+                            {* block #header-content rewrites all header content *}
+                            {ifset #header-content content => $headerContent, wrapper => $headerWrapper}
+                                {include #header-content}
+                            {else}
+
+                                {* Header wrapper *}
+                                {ifset $headerWrapper}
+                                    {$headerWrapper->startTag()|noescape}
+                                {/ifset}
+
+                                    {* Title *}
+                                    {include #title}
+
+                                    {* Header close button *}
+                                    {include #header-close-button}
+
+                                    {* Header content *}
+                                    {foreach $headerContent as $contentName => $headerContentField}
+
+                                        {ifset #header-content-$contentName}
+                                            {include #"header-content-{$contentName}"}
+                                        {else}
+
+                                            {* wrapper of content *}
+                                            {ifset $headerContentField->getElementName()}
+                                                {$headerContentField->startTag()|noescape}
+                                            {/ifset}
+
+                                                {* content *}
+                                                {$headerContentField->renderContent()|noescape}
+
+                                            {* wrapper of content *}
+                                            {ifset $headerContentField->getElementName()}
+                                                {$headerContentField->endTag()|noescape}
+                                            {/ifset}
+
+                                        {/ifset}
+
+                                    {/foreach}
+
+                                {* Header wrapper *}
+                                {ifset $headerWrapper}
+                                    {$headerWrapper->endTag()|noescape}
+                                {/ifset}
+
+                            {/ifset}
 
                         {/snippet}
 
@@ -35,32 +80,29 @@
 
                         {snippet modalContent}
 
+                            {* Footer close button *}
+                            {include #footer-close-button}
+
+                            {* block #content rewrites all modal body cotnent *}
                             {ifset #content}
-
-                                {include #content content => $content}
-
+                                {include #content content => $content, wrapper => $headerWrapper}
                             {else}
 
                                 {foreach $content as $contentName => $contentField}
 
-                                    {var $contents = $contentField->getContent()}
-
                                     {ifset #content-$contentName}
-
                                         {include #"content-{$contentName}"}
-
                                     {else}
 
+                                        {* content wrapper *}
                                         {ifset $contentField->getElementName()}
                                             {$contentField->startTag()|noescape}
                                         {/ifset}
 
-                                            {if $contents instanceof Nette\ComponentModel\IComponent}
-                                                {$contents->render()|noescape}
-                                            {else}
-                                                {$contents|noescape}
-                                            {/if}
+                                            {* content *}
+                                            {$contentField->renderContent()|noescape}
 
+                                        {* content wrapper *}
                                         {ifset $contentField->getElementName()}
                                             {$contentField->endTag()|noescape}
                                         {/ifset}
@@ -70,7 +112,6 @@
                                 {/foreach}
 
                             {/ifset}
-
 
                         {/snippet}
 
@@ -82,9 +123,35 @@
 
                         {snippet modalFooter}
 
+                            {* block #footer-content rewrites all footer *}
+                            {ifset #footer-content}
+                                {include #footer-content content => $footerContent, wrapper => $footerWrapper}
+                            {else}
 
+                                {foreach $footerContent as $contentName => $contentField}
 
-                            {include #footer-content}
+                                    {ifset #footer-content-$contentName}
+                                        {include #"content-{$contentName}"}
+                                    {else}
+
+                                        {* content wrapper *}
+                                        {ifset $contentField->getElementName()}
+                                            {$contentField->startTag()|noescape}
+                                        {/ifset}
+
+                                        {* content *}
+                                        {$contentField->renderContent()|noescape}
+
+                                        {* content wrapper *}
+                                        {ifset $contentField->getElementName()}
+                                            {$contentField->endTag()|noescape}
+                                        {/ifset}
+
+                                    {/ifset}
+
+                                {/foreach}
+
+                            {/ifset}
 
                         {/snippet}
 

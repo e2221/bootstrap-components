@@ -12,12 +12,16 @@
         "nette/application": "^3.0",
         "nette/component-model": "^3.0",
         "nette/utils": "^3.1",
-        "latte/latte": "^2.8"
+        "latte/latte": "^2.8",
+        "phpstan/phpstan-nette": "^0.12.12"
     },
     "require-dev": {
         "e2221/utils": "dev-main@dev"
     },
     "autoload": {
         "classmap": ["src/"]
+    },
+    "scripts": {
+        "phpstan": "phpstan analyse --level 5 --configuration phpstan.neon src"
     }
 }

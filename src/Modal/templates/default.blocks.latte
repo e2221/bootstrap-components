@@ -55,7 +55,6 @@
     {$bodyTemplate->renderEndTag()|noescape}
 {/define}
 
-
 {* Footer start tag *}
 {define footer-start-tag}
     {$footerTemplate->renderStartTag()|noescape}
@@ -80,7 +79,12 @@
     {/ifset}
 {/define}
 
+{* Header close button *}
+{define header-close-button}
+    {$headerCloseButton->render()|noescape}
+{/define}
 
-{define footer-content}
-
+{* Footer close button *}
+{define footer-close-button}
+    {$footerCloseButton->render()|noescape}
 {/define}
