@@ -71,8 +71,6 @@
 
                     {* Body *}
                     <div n:snippet="modalContent" {$bodyTemplate->getAttributes()|noescape}>
-                        {* Footer close button *}
-                        {include #footer-close-button}
 
                         {* block #content rewrites all modal body cotnent *}
                         {ifset #content}
@@ -105,6 +103,7 @@
 
                     {* Footer *}
                     <div n:snippet="modalFooter" {$footerTemplate->getAttributes()|noescape}>
+
                         {* block #footer-content rewrites all footer *}
                         {ifset #footer-content}
                             {include #footer-content content => $footerContent, wrapper => $footerWrapper}

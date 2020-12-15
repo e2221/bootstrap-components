@@ -17,6 +17,6 @@ class FooterCloseButton extends BaseButton
         $this
             ->addDataAttribute('dismiss', 'modal')
             ->addHtmlAttribute('type', 'button')
-            ->addTextContent('Close');
+            ->setTextContent('Close');
     }
 }
