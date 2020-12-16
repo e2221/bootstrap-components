@@ -25,24 +25,28 @@
 
                 {foreach $tabs as $tabId => $tab}
 
-                    {ifset #content-tab-$tabId}
-                        {include #"content-tab-{$tabId}"}
-                    {else}
-                        {foreach $tab->getContents() as $contentName => $content}
+                    {$tab->getTabContentContainerTemplate()->startTag()|noescape}
 
-                            {* Print wrapper tag if isset *}
-                            {if is_string($content->getElementName())}
-                                {$content->startTag()|noescape}
-                            {/if}
+                        {ifset #content-tab-$tabId}
+                            {include #"content-tab-{$tabId}"}
+                        {else}
+                            {foreach $tab->getContents() as $contentName => $content}
 
-                                {$content->renderContent()|noescape}
+                                {* Print wrapper tag if isset *}
+                                {if is_string($content->getElementName())}
+                                    {$content->startTag()|noescape}
+                                {/if}
 
-                            {* Print wrapper tag if isset *}
-                            {if is_string($content->getElementName())}
-                                {$content->endTag()|noescape}
-                            {/if}
-                        {/foreach}
-                    {/ifset}
+                                    {$content->renderContent()|noescape}
+
+                                {* Print wrapper tag if isset *}
+                                {if is_string($content->getElementName())}
+                                    {$content->endTag()|noescape}
+                                {/if}
+                            {/foreach}
+                        {/ifset}
+
+                    {$tab->getTabContentContainerTemplate()->endTag()|noescape}
 
                 {/foreach}
 

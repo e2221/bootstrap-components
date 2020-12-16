@@ -72,4 +72,12 @@ class Content extends BaseElement
         }
     }
 
+    /**
+     * @return string
+     */
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
 }

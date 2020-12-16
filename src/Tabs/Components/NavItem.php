@@ -23,6 +23,8 @@ class NavItem extends BaseTemplate
     /** @var Content[] */
     protected array $contents=[];
 
+    protected TabContentItemTemplate $tabContentContainerTemplate;
+
     private Tabs $tabs;
 
     public function __construct(Tabs $tabs, string $id, string $title)
@@ -31,6 +33,7 @@ class NavItem extends BaseTemplate
         $this->id = $id;
         $this->title = $title;
         $this->tabs = $tabs;
+        $this->tabContentContainerTemplate = new TabContentItemTemplate($tabs, $this);
     }
 
     public function beforeRender(): void
@@ -39,7 +42,17 @@ class NavItem extends BaseTemplate
         $this
             ->addDataAttribute('toggle', 'tab')
             ->addHtmlAttribute('role', 'tab')
-            ->setTextContent($this->title);
+            ->setTextContent($this->title)
+            ->addHtmlAttribute('href', sprintf('#%s-tab-%s', $this->tabs->getUniqueId(), $this->id));
+    }
+
+    /**
+     * Return to tabs
+     * @return Tabs
+     */
+    public function endTab(): Tabs
+    {
+        return $this->tabs;
     }
 
     /**
@@ -63,6 +76,15 @@ class NavItem extends BaseTemplate
         if(isset($this->contents[$name]) === false)
             throw new TabsException(sprintf('Content [%s] does not exist in tab id [%s]', $name, $this->id));
         return $this->contents[$name];
+    }
+
+    /**
+     * Tabs content wrapper
+     * @return TabContentItemTemplate
+     */
+    public function getTabContentContainerTemplate(): TabContentItemTemplate
+    {
+        return $this->tabContentContainerTemplate;
     }
 
     /**
@@ -94,6 +116,15 @@ class NavItem extends BaseTemplate
     public function getActiveLink(): string
     {
         return $this->tabs->link('tab!', $this->id);
+    }
+
+    /**
+     * Get id
+     * @return string
+     */
+    public function getId(): string
+    {
+        return $this->id;
     }
 
 }
