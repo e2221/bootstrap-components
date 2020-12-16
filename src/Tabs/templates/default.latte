@@ -55,8 +55,28 @@
         {* </nav> *}
         {include #nav-end-tag}
 
-
     {/snippet}
+
+    <script type="application/javascript">
+        (window._stack = window._stack || []).push(function(di) {
+            var tabId;
+            di.getService('page').getSnippet({snippet.id tabs})
+                .setup(function (tabs) {
+                    $(tabs).on('click', 'a[data-toggle-tab-link]', function(){
+                        tabId = $(this).data('id');
+                        {if $lazyMode === true}
+
+                        {else}
+
+                            $(tabs).find('[data-tab-id='+tabId+']').tab('show');
+
+                        {/if}
+                    });
+                });
+        });
+
+    </script>
+
 {/snippetArea}
 
 

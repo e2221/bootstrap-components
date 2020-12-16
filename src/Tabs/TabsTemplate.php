@@ -19,4 +19,6 @@ class TabsTemplate extends Template
     public TabContentTemplate $tabContentTemplate;
     public TabHeaderTemplate $tabHeaderTemplate;
     public bool $lazyMode;
+    public bool $reloadOnChangeTab;
+    public ?string $activeTab;
 }

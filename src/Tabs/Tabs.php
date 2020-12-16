@@ -6,7 +6,6 @@ namespace e2221\BootstrapComponents\Tabs;
 
 use e2221\BootstrapComponents\Tabs\Components\NavItem;
 use e2221\BootstrapComponents\Tabs\Components\NavTemplate;
-use e2221\BootstrapComponents\Tabs\Components\TabContentItemTemplate;
 use e2221\BootstrapComponents\Tabs\Components\TabContentTemplate;
 use e2221\BootstrapComponents\Tabs\Components\TabHeaderTemplate;
 use e2221\BootstrapComponents\Tabs\Exceptions\TabsException;
@@ -30,6 +29,9 @@ class Tabs extends Control
 
     /** @var bool Lazy mode [true = render only content of active tab, false = render all content] */
     protected bool $lazyMode=false;
+
+    /** @var bool Reload on change tab [true = on each table change will be reprinted content, false = content will be cached (html)] */
+    protected bool $reloadOnChangeTab=false;
 
     /** @var string|null @persistent */
     public ?string $activeTab=null;
@@ -73,6 +75,8 @@ class Tabs extends Control
         $this->template->tabHeaderTemplate = $this->tabHeaderTemplate;
         $this->template->tabs = $this->tabs;
         $this->template->lazyMode = $this->lazyMode;
+        $this->template->reloadOnChangeTab = $this->reloadOnChangeTab;
+        $this->template->activeTab = $this->getActiveTab();
 
         $this->template->setFile(__DIR__ . '/templates/default.latte');
         $this->template->render();
@@ -134,9 +138,9 @@ class Tabs extends Control
 
     /**
      * Get tab content template
-     * @return TabContentItemTemplate
+     * @return TabContentTemplate
      */
-    public function getTabContentTemplate(): TabContentItemTemplate
+    public function getTabContentTemplate(): TabContentTemplate
     {
         return $this->tabContentTemplate;
     }
@@ -184,6 +188,17 @@ class Tabs extends Control
     {
         $this->lazyMode = $lazyMode;
         return $this;
+    }
+
+    /**
+     * Get active tab
+     * @return string|null
+     */
+    public function getActiveTab(): ?string
+    {
+        if(count($this->tabs) == 0)
+            return null;
+        return $this->activeTab ?? array_key_first($this->tabs);
     }
 
 }

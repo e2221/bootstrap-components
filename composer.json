@@ -13,7 +13,8 @@
         "nette/component-model": "^3.0",
         "nette/utils": "^3.1",
         "latte/latte": "^2.8",
-        "phpstan/phpstan-nette": "^0.12.12"
+        "phpstan/phpstan-nette": "^0.12.12",
+        "nittro/nette-bridges": "^2.1"
     },
     "require-dev": {
         "e2221/utils": "dev-main@dev"
