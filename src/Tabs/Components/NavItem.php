@@ -30,6 +30,7 @@ class NavItem extends BaseTemplate
         $this->id = $id;
         $this->title = $title;
         $this->tabs = $tabs;
+        $this->setTextContent($title);
         parent::__construct();
     }
 
