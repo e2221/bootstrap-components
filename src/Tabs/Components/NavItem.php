@@ -43,7 +43,7 @@ class NavItem extends BaseTemplate
            // ->addDataAttribute('toggle', 'tab')
             ->addHtmlAttribute('role', 'tab')
             ->addDataAttribute('toggle-tab-link')
-            ->addDataAttribute('id', $this->elementName)
+            ->addDataAttribute('id', $this->id)
             ->setTextContent($this->title)
 //            ->addHtmlAttribute('href', sprintf('#%s-tab-%s', $this->tabs->getUniqueId(), $this->id));
             ->addHtmlAttribute('href', 'javascript:void(0);');
