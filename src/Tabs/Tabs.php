@@ -7,6 +7,7 @@ namespace e2221\BootstrapComponents\Tabs;
 use e2221\BootstrapComponents\Tabs\Components\NavItem;
 use e2221\BootstrapComponents\Tabs\Components\NavTemplate;
 use e2221\BootstrapComponents\Tabs\Components\TabContentItemTemplate;
+use e2221\BootstrapComponents\Tabs\Components\TabContentTemplate;
 use e2221\BootstrapComponents\Tabs\Components\TabHeaderTemplate;
 use e2221\BootstrapComponents\Tabs\Exceptions\TabsException;
 use Nette\Application\AbortException;
@@ -21,7 +22,7 @@ class Tabs extends Control
         SNIPPET_ALL = 'tabs';
 
     protected NavTemplate $navTemplate;
-    protected TabContentItemTemplate $tabContentTemplate;
+    protected TabContentTemplate $tabContentTemplate;
     protected TabHeaderTemplate $tabHeaderTemplate;
 
     /** @var NavItem[] */
@@ -36,7 +37,7 @@ class Tabs extends Control
     public function __construct()
     {
         $this->navTemplate = new NavTemplate();
-        $this->tabContentTemplate = new TabContentItemTemplate();
+        $this->tabContentTemplate = new TabContentTemplate();
         $this->tabHeaderTemplate = new TabHeaderTemplate();
     }
 
