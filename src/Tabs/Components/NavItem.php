@@ -27,11 +27,10 @@ class NavItem extends BaseTemplate
 
     public function __construct(Tabs $tabs, string $id, string $title)
     {
+        parent::__construct();
         $this->id = $id;
         $this->title = $title;
         $this->tabs = $tabs;
-        $this->setTextContent($title);
-        parent::__construct();
     }
 
     public function beforeRender(): void
@@ -39,7 +38,8 @@ class NavItem extends BaseTemplate
         parent::beforeRender();
         $this
             ->addDataAttribute('toggle', 'tab')
-            ->addHtmlAttribute('role', 'tab');
+            ->addHtmlAttribute('role', 'tab')
+            ->setTextContent($this->title);
     }
 
     /**
