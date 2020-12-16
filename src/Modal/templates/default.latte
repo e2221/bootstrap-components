@@ -76,28 +76,38 @@
                         {ifset #content}
                             {include #content content => $content, wrapper => $headerWrapper}
                         {else}
-                            {foreach $content as $contentName => $contentField}
 
-                                {ifset #content-$contentName}
-                                    {include #"content-{$contentName}"}
-                                {else}
+                            {* body html wrapper *}
+                            {ifset $bodyWrapper}
+                                {$bodyWrapper->startTag()|noescape}
+                            {/ifset}
 
-                                    {* content wrapper *}
-                                    {if is_string($contentField->getElementName())}
-                                        {$contentField->startTag()|noescape}
-                                    {/if}
+                                {foreach $content as $contentName => $contentField}
+                                    {ifset #content-$contentName}
+                                        {include #"content-{$contentName}"}
+                                    {else}
 
-                                        {* content *}
-                                        {$contentField->renderContent()|noescape}
+                                        {* content wrapper *}
+                                        {if is_string($contentField->getElementName())}
+                                            {$contentField->startTag()|noescape}
+                                        {/if}
 
-                                    {* content wrapper *}
-                                    {if is_string($contentField->getElementName())}
-                                        {$contentField->endTag()|noescape}
-                                    {/if}
+                                            {* content *}
+                                            {$contentField->renderContent()|noescape}
 
-                                {/ifset}
+                                        {* content wrapper *}
+                                        {if is_string($contentField->getElementName())}
+                                            {$contentField->endTag()|noescape}
+                                        {/if}
 
-                            {/foreach}
+                                    {/ifset}
+                                {/foreach}
+
+                            {* body html wrapper *}
+                            {ifset $bodyWrapper}
+                                {$bodyWrapper->endTag()|noescape}
+                            {/ifset}
+
                         {/ifset}
                     </div>
 
@@ -109,30 +119,38 @@
                             {include #footer-content content => $footerContent, wrapper => $footerWrapper}
                         {else}
 
-                            {include #footer-close-button}
+                            {* footer wrapper *}
+                            {ifset $footerWrapper}
+                                {$footerWrapper->startTag()|noescape}
+                            {/ifset}
 
-                            {foreach $footerContent as $contentName => $contentField}
+                                {include #footer-close-button}
 
-                                {ifset #footer-content-$contentName}
-                                    {include #"content-{$contentName}"}
-                                {else}
+                                {foreach $footerContent as $contentName => $contentField}
+                                    {ifset #footer-content-$contentName}
+                                        {include #"content-{$contentName}"}
+                                    {else}
 
-                                    {* content wrapper *}
-                                    {if is_string($contentField->getElementName())}
-                                        {$contentField->startTag()|noescape}
-                                    {/if}
+                                        {* content wrapper *}
+                                        {if is_string($contentField->getElementName())}
+                                            {$contentField->startTag()|noescape}
+                                        {/if}
 
-                                    {* content *}
-                                    {$contentField->renderContent()|noescape}
+                                        {* content *}
+                                        {$contentField->renderContent()|noescape}
 
-                                    {* content wrapper *}
-                                    {if is_string($contentField->getElementName())}
-                                        {$contentField->endTag()|noescape}
-                                    {/if}
+                                        {* content wrapper *}
+                                        {if is_string($contentField->getElementName())}
+                                            {$contentField->endTag()|noescape}
+                                        {/if}
 
-                                {/ifset}
+                                    {/ifset}
+                                {/foreach}
 
-                            {/foreach}
+                            {* footer wrapper *}
+                            {ifset $footerWrapper}
+                                {$footerWrapper->endTag()|noescape}
+                            {/ifset}
 
                         {/ifset}
                     </div>
