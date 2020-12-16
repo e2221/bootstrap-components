@@ -1,0 +1,72 @@
+{templateType e2221\BootstrapComponents\Tabs\TabsTemplate}
+
+{snippetArea tabsArea}
+
+    {import default.blocks.latte}
+
+    {snippet tabs}
+
+        {* <nav> *}
+        {include #nav-start-tag}
+
+            <div n:snippet="tabsHeader" {$tabHeaderTemplate->getAttributes()|noescape}>
+
+                {foreach $tabs as $tabId => $tab}
+                    {ifset #nav-tab-$tabId}
+                        {include #"nav-tab-{$tabId}"}
+                    {else}
+                        {include #nav-tab tab => $tab}
+                    {/ifset}
+                {/foreach}
+
+            </div>
+
+            <div n:snippet="tabsContent" {$tabContentTemplate->getAttributes()|noescape}>
+
+                {foreach $tabs as $tabId => $tab}
+
+                    {ifset #content-tab-$tabId}
+                        {include #"content-tab-{$tabId}"}
+                    {else}
+                        {foreach $tab->getContents() as $contentName => $content}
+
+                            {* Print wrapper tag if isset *}
+                            {if is_string($content->getElementName())}
+                                {$content->startTag()|noescape}
+                            {/if}
+
+                                {$content->renderContent()|noescape}
+
+                            {* Print wrapper tag if isset *}
+                            {if is_string($content->getElementName())}
+                                {$content->endTag()|noescape}
+                            {/if}
+                        {/foreach}
+                    {/ifset}
+
+                {/foreach}
+
+            </div>
+
+        {* </nav> *}
+        {include #nav-end-tag}
+
+
+    {/snippet}
+{/snippetArea}
+
+
+
+
+<nav>
+    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+        <a class="nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Home</a>
+        <a class="nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Profile</a>
+        <a class="nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">Contact</a>
+    </div>
+</nav>
+<div class="tab-content" id="nav-tabContent">
+    <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">...</div>
+    <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">...</div>
+    <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">...</div>
+</div>

@@ -1,0 +1,18 @@
+{templateType e2221\BootstrapComponents\Tabs\TabsTemplate}
+{varType e2221\BootstrapComponents\Tabs\Components\NavItem $tab}
+
+{* Nav open tag *}
+{define nav-start-tag}
+    {$navTemplate->startTag()|noescape}
+{/define}
+
+{* Nav end tag *}
+{define nav-end-tag}
+    {$navTemplate->endTag()|noescape}
+{/define}
+
+{* Nav header tab link - available parameters: NavItem $tab *}
+{define nav-tab}
+    {$tab->render()|noescape}
+{/define}
+
