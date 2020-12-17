@@ -20,6 +20,9 @@ class NavItem extends BaseTemplate
     protected string $id;
     protected string $title;
 
+    /** @var bool Print content */
+    protected bool $printContent=true;
+
     /** @var Content[] */
     protected array $contents=[];
 
@@ -52,6 +55,27 @@ class NavItem extends BaseTemplate
         if($this->isActive() === true)
             $this->addClass('active');
 
+    }
+
+    /**
+     * Set print content
+     * @param bool $printContent
+     * @return NavItem
+     * @internal
+     */
+    public function setPrintContent(bool $printContent=true): self
+    {
+        $this->printContent = $printContent;
+        return $this;
+    }
+
+    /**
+     * @return bool
+     * @internal
+     */
+    public function printContent(): bool
+    {
+        return $this->printContent || $this->isActive();
     }
 
     /**

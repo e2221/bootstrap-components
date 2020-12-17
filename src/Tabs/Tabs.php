@@ -28,9 +28,6 @@ class Tabs extends Control
     /** @var NavItem[] */
     protected array $tabs=[];
 
-    /** @var NavItem[] */
-    protected array $tabsToPrint=[];
-
     /** @var bool Lazy mode [true = render only content of active tab, false = render all content] */
     protected bool $lazyMode=false;
 
@@ -69,16 +66,18 @@ class Tabs extends Control
     {
         $this->activeTab = $tabId;
         $this->reloadHeader();
-        $this->reloadSingleContent();
+
+        if($this->lazyMode === true)
+        {
+            $this->reloadSingleContent($tabId);
+        }else{
+            $this->reloadContent();
+        }
     }
 
 
     public function render(): void
     {
-        $tabsToPrint = $this->getTabsToPrint();
-        foreach($tabsToPrint as $tabKey => $tab)
-            $tab->addClass('tab-loaded');
-
         $this->template->navTemplate = $this->navTemplate;
         $this->template->tabContentTemplate = $this->tabContentTemplate;
         $this->template->tabHeaderTemplate = $this->tabHeaderTemplate;
@@ -86,26 +85,9 @@ class Tabs extends Control
         $this->template->lazyMode = $this->lazyMode;
         $this->template->reloadOnChangeTab = $this->reloadOnChangeTab;
         $this->template->activeTab = $this->getActiveTabId();
-        $this->template->tabsToPrint = $tabsToPrint;
 
         $this->template->setFile(__DIR__ . '/templates/default.latte');
         $this->template->render();
-    }
-
-
-    /**
-     * @return NavItem[]
-     */
-    public function getTabsToPrint(): array
-    {
-        if($this->lazyMode === true)
-        {
-            $this->tabsToPrint = [];
-            $this->tabsToPrint[$this->getActiveTabId()] = $this->getActiveTab();
-        }else{
-            $this->tabsToPrint = $this->tabs;
-        }
-        return $this->tabsToPrint;
     }
 
 
@@ -156,9 +138,10 @@ class Tabs extends Control
      * Reload single item content
      * @throws AbortException
      */
-    public function reloadSingleContent(): void
+    public function reloadSingleContent(string $tabId): void
     {
-        $this->reload(self::SNIPPET_CONTENT_AREA);
+        //$this->reload(self::SNIPPET_CONTENT_AREA);
+        $this->reload('tab-'.$tabId);
     }
 
     /**
@@ -221,6 +204,11 @@ class Tabs extends Control
     public function setLazyMode(bool $lazyMode=true): self
     {
         $this->lazyMode = $lazyMode;
+        $activeTab = $this->getActiveTabId();
+        foreach($this->tabs as $tabId => $tab)
+        {
+            $tab->setPrintContent($activeTab == $tabId);
+        }
         return $this;
     }
 
@@ -229,7 +217,7 @@ class Tabs extends Control
      * @param bool $reloadOnChangeTab
      * @return Tabs
      */
-    public function setReloadOnChangeTab(bool $reloadOnChangeTab): self
+    public function setReloadOnChangeTab(bool $reloadOnChangeTab=true): self
     {
         $this->reloadOnChangeTab = $reloadOnChangeTab;
         return $this;

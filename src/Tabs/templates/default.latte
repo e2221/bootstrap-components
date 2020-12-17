@@ -25,9 +25,11 @@
 
                 {snippetArea tabContentArea}
 
-                    {foreach $tabsToPrint as $tabId => $tab}
+                    {foreach $tabs as $tabId => $tab}
 
                         <div n:snippet="tab-$tabId" {$tab->getTabContentContainerTemplate()->getAttributes()|noescape}>
+
+                            {continueIf $tab->printContent() === false}
 
                             {ifset #content-tab-$tabId}
                                 {include #"content-tab-{$tabId}"}
