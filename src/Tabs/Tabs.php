@@ -61,12 +61,16 @@ class Tabs extends Control
      * Change active table
      * @param string $tabId
      * @throws AbortException
+     * @throws TabsException
      */
     public function handleTab(string $tabId): void
     {
-        $this->activeTab = $tabId;
-        $this->reloadHeader();
+        $this
+            ->setActiveTab($tabId)
+            ->getActiveTab()
+            ->setPrintContent(true);
 
+        $this->reloadHeader();
         if($this->lazyMode === true)
         {
             $this->reloadSingleContent($tabId);
@@ -75,6 +79,15 @@ class Tabs extends Control
         }
     }
 
+    public function loadState(array $params): void
+    {
+        parent::loadState($params);
+        $activeTab = $this->getActiveTabId();
+        foreach($this->tabs as $tabId => $tab)
+        {
+            $tab->setPrintContent($activeTab == $tabId);
+        }
+    }
 
     public function render(): void
     {
@@ -187,13 +200,15 @@ class Tabs extends Control
     /**
      * Set active tab
      * @param string|null $activeTabId
+     * @return Tabs
      * @throws TabsException
      */
-    public function setActiveTab(?string $activeTabId): void
+    public function setActiveTab(?string $activeTabId): self
     {
         if(!isset($this->tabs[$activeTabId]))
             throw new TabsException(sprintf('Tab [%s] does not exist.', $activeTabId));
         $this->activeTab = $activeTabId;
+        return $this;
     }
 
     /**
@@ -204,11 +219,6 @@ class Tabs extends Control
     public function setLazyMode(bool $lazyMode=true): self
     {
         $this->lazyMode = $lazyMode;
-        $activeTab = $this->getActiveTabId();
-        foreach($this->tabs as $tabId => $tab)
-        {
-            $tab->setPrintContent($activeTab == $tabId);
-        }
         return $this;
     }
 

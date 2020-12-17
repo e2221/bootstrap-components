@@ -55,6 +55,11 @@ class NavItem extends BaseTemplate
         if($this->isActive() === true)
             $this->addClass('active');
 
+        if($this->printContent() === true)
+        {
+            $this->addClass('tab-loaded');
+        }
+
     }
 
     /**
