@@ -5,20 +5,21 @@
     {snippet paginator}
         {if $paginator instanceof Nette\Utils\Paginator}
 
-            <nav aria-label="Pagination">
+            <div class="d-flex flex-row justify-content-center">
+                <nav aria-label="Pagination">
 
-                {* <ul> *}
-                {$paginatorTemplate->renderStartTag()|noescape}
+                    {* <ul> *}
+                    {$paginatorTemplate->renderStartTag()|noescape}
 
-                    {include #"view-{$view}"}
+                        {include #"view-{$view}"}
 
-                {* </ul> *}
-                {$paginatorTemplate->renderEndTag()|noescape}
-
+                    {* </ul> *}
+                    {$paginatorTemplate->renderEndTag()|noescape}
+                </nav>
+            </div>
+            <div class="d-flex flex-row justify-content-center">
                 <small n:if="$showInfoText" class="text-muted justify-content-center">(Items: {$paginator->page * $paginator->length - $paginator->length + 1} - {$paginator->page * $paginator->length} from {$paginator->itemCount})</small>
-
-            </nav>
-
+            </div>
         {/if}
     {/snippet}
 {/snippetArea}
