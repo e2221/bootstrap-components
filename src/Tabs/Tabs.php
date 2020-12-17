@@ -39,7 +39,7 @@ class Tabs extends Control
     public ?string $activeTab=null;
 
     /** @var string[] templates with blocks */
-    protected array $templates;
+    protected array $templates=[];
 
     public function __construct()
     {
