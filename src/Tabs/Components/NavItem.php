@@ -80,7 +80,7 @@ class NavItem extends BaseTemplate
      */
     public function printContent(): bool
     {
-        return $this->printContent || $this->isActive();
+        return $this->printContent;
     }
 
     /**

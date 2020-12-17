@@ -15,9 +15,6 @@ class TabsTemplate extends Template
     /** @var NavItem[] */
     public array $tabs;
 
-    /** @var NavItem[] */
-    public array $tabsToPrint;
-
     public NavTemplate $navTemplate;
     public TabContentTemplate $tabContentTemplate;
     public TabHeaderTemplate $tabHeaderTemplate;

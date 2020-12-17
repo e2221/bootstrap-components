@@ -65,6 +65,21 @@
 
     <script type="application/javascript">
         (window._stack = window._stack || []).push(function(di) {
+
+            function changeActiveTab(headerLink, contentContainer, activeTabId)
+            {
+                let linkTabId = headerLink.data('id');
+                headerLink.tab('show');
+                contentContainer.find('div[data-tab-id]').each(function(){
+                    if(linkTabId === activeTabId)
+                    {
+                        $(this).addClass('show active');
+                    }else{
+                        $(this).removeClass('show active');
+                    }
+                });
+            }
+
             var tabId, tabHref;
             di.getService('page').getSnippet({snippet.id tabs})
                 .setup(function (tabs) {
@@ -79,13 +94,27 @@
                             {if $reloadOnChangeTab === true}
 
                                 di.getService('page').open(tabHref);
+                                di.getService('snippetManager').one('after-update', function () {
+                                    $(function () {
+                                        changeActiveTab($(this), $(tabs), tabId);
+                                        {*}$(tabs).find('div[data-tab-id]').each(function(){
+                                            if($(this).data('tab-id') === tabId)
+                                            {
+                                                $(this).addClass('show active');
+                                            }else{
+                                                $(this).removeClass('show active');
+                                            }
+                                        });{*}
+                                    });
+                                });
 
                             {* if tab loaded => change tab, else => load *}
                             {else}
 
                                 if($(this).hasClass('tab-loaded'))
                                 {
-                                    $(this).tab('show');
+                                    changeActiveTab($(this), $(tabs), tabId);
+                                    {*}$(this).tab('show');
                                     $(tabs).find('div[data-tab-id]').each(function(){
                                         if($(this).data('tab-id') === tabId)
                                         {
@@ -93,19 +122,20 @@
                                         }else{
                                             $(this).removeClass('show active');
                                         }
-                                    });
+                                    });{*}
                                 }else{
                                     di.getService('page').open(tabHref);
                                     di.getService('snippetManager').one('after-update', function () {
                                         $(function () {
-                                            $(tabs).find('div[data-tab-id]').each(function(){
+                                            changeActiveTab($(this), $(tabs), tabId);
+                                            {*}$(tabs).find('div[data-tab-id]').each(function(){
                                                 if($(this).data('tab-id') === tabId)
                                                 {
                                                     $(this).addClass('show active');
                                                 }else{
                                                     $(this).removeClass('show active');
                                                 }
-                                            });
+                                            });{*}
                                         });
                                     });
                                 }
@@ -121,7 +151,8 @@
 
                             {else}
 
-                                $(this).tab('show');
+                                changeActiveTab($(this), $(tabs), tabId);
+                                {*}$(this).tab('show');
                                 $(tabs).find('div[data-tab-id]').each(function(){
                                     if($(this).data('tab-id') === tabId)
                                     {
@@ -129,33 +160,12 @@
                                     }else{
                                         $(this).removeClass('show active');
                                     }
-                                });
+                                });{*}
 
                             {/if}
 
                         {/if}
 
-
-                        {if $reloadOnChangeTab}
-
-                            di.getService('page').open(tabHref);
-
-                            {else}
-                                {if $lazyMode === true}
-
-
-                                {else}
-                                    $(this).tab('show');
-                                    $(tabs).find('div[data-tab-id]').each(function(){
-                                        if($(this).data('tab-id') === tabId)
-                                        {
-                                            $(this).addClass('show active');
-                                        }else{
-                                            $(this).removeClass('show active');
-                                        }
-                                    });
-                                {/if}
-                        {/if}
                 });
             });
         });
