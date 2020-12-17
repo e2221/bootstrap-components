@@ -46,7 +46,8 @@ class NavItem extends BaseTemplate
             ->addDataAttribute('id', $this->id)
             ->setTextContent($this->title)
 //            ->addHtmlAttribute('href', sprintf('#%s-tab-%s', $this->tabs->getUniqueId(), $this->id));
-            ->addHtmlAttribute('href', 'javascript:void(0);');
+            ->addHtmlAttribute('href', 'javascript:void(0);')
+            ->addDataAttribute('tab-href', $this->tabs->link('tab', $this->id));
 
         if($this->isActive() === true)
             $this->addClass('active');
@@ -120,7 +121,7 @@ class NavItem extends BaseTemplate
      */
     public function isActive(): bool
     {
-        return $this->tabs->getActiveTab() == $this->id;
+        return $this->tabs->getActiveTabId() == $this->id;
     }
 
     /**

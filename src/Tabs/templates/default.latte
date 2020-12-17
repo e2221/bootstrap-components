@@ -23,32 +23,36 @@
 
             <div n:snippet="tabsContent" {$tabContentTemplate->getAttributes()|noescape}>
 
-                {foreach $tabs as $tabId => $tab}
+                {snippetArea tabContentArea}
 
-                    {$tab->getTabContentContainerTemplate()->startTag()|noescape}
+                    {foreach $tabsToPrint as $tabId => $tab}
 
-                        {ifset #content-tab-$tabId}
-                            {include #"content-tab-{$tabId}"}
-                        {else}
-                            {foreach $tab->getContents() as $contentName => $content}
+                        <div n:snippet="tab-$tabId" {$tab->getTabContentContainerTemplate()->getAttributes()|noescape}>
 
-                                {* Print wrapper tag if isset *}
-                                {if is_string($content->getElementName())}
-                                    {$content->startTag()|noescape}
-                                {/if}
+                            {ifset #content-tab-$tabId}
+                                {include #"content-tab-{$tabId}"}
+                            {else}
+                                {foreach $tab->getContents() as $contentName => $content}
 
-                                    {$content->renderContent()|noescape}
+                                    {* Print wrapper tag if isset *}
+                                    {if is_string($content->getElementName())}
+                                        {$content->startTag()|noescape}
+                                    {/if}
 
-                                {* Print wrapper tag if isset *}
-                                {if is_string($content->getElementName())}
-                                    {$content->endTag()|noescape}
-                                {/if}
-                            {/foreach}
-                        {/ifset}
+                                        {$content->renderContent()|noescape}
 
-                    {$tab->getTabContentContainerTemplate()->endTag()|noescape}
+                                    {* Print wrapper tag if isset *}
+                                    {if is_string($content->getElementName())}
+                                        {$content->endTag()|noescape}
+                                    {/if}
+                                {/foreach}
+                            {/ifset}
 
-                {/foreach}
+                        </div>
+
+                    {/foreach}
+
+                {/snippetArea}
 
             </div>
 
@@ -59,20 +63,86 @@
 
     <script type="application/javascript">
         (window._stack = window._stack || []).push(function(di) {
-            var tabId;
+            var tabId, tabHref;
             di.getService('page').getSnippet({snippet.id tabs})
                 .setup(function (tabs) {
                     $(tabs).on('click', 'a[data-toggle-tab-link]', function(){
                         tabId = $(this).data('id');
+                        tabHref = $(this).data('tab-href');
+                        console.log(tabId);
+
                         {if $lazyMode === true}
+
+                            {* reload tab *}
+                            {if $reloadOnChangeTab === true}
+
+                                di.getService('page').open(tabHref);
+
+                            {* if tab loaded => change tab, else => load *}
+                            {else}
+
+                                if($(this).hasClass('tab-loaded'))
+                                {
+                                    $(this).tab('show');
+                                    $(tabs).find('div[data-tab-id]').each(function(){
+                                        if($(this).data('tab-id') === tabId)
+                                        {
+                                            $(this).addClass('show active');
+                                        }else{
+                                            $(this).removeClass('show active');
+                                        }
+                                    });
+                                }else{
+                                    di.getService('page').open(tabHref);
+                                }
+
+                            {/if}
 
                         {else}
 
-                            $(tabs).find('div[data-tab-id="'+tabId+'"]').tab('show');
+                            {if $reloadOnChangeTab === true}
+
+                                di.getService('page').open(tabHref);
+
+                            {else}
+
+                                $(this).tab('show');
+                                $(tabs).find('div[data-tab-id]').each(function(){
+                                    if($(this).data('tab-id') === tabId)
+                                    {
+                                        $(this).addClass('show active');
+                                    }else{
+                                        $(this).removeClass('show active');
+                                    }
+                                });
+
+                            {/if}
 
                         {/if}
-                    });
+
+
+                        {if $reloadOnChangeTab}
+
+                            di.getService('page').open(tabHref);
+
+                            {else}
+                                {if $lazyMode === true}
+
+
+                                {else}
+                                    $(this).tab('show');
+                                    $(tabs).find('div[data-tab-id]').each(function(){
+                                        if($(this).data('tab-id') === tabId)
+                                        {
+                                            $(this).addClass('show active');
+                                        }else{
+                                            $(this).removeClass('show active');
+                                        }
+                                    });
+                                {/if}
+                        {/if}
                 });
+            });
         });
 
     </script>

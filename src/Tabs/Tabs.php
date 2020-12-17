@@ -18,7 +18,8 @@ class Tabs extends Control
         SNIPPET_TABS_AREA = 'tabsArea',
         SNIPPET_HEADER = 'tabsHeader',
         SNIPPET_CONTENT = 'tabsContent',
-        SNIPPET_ALL = 'tabs';
+        SNIPPET_ALL = 'tabs',
+        SNIPPET_CONTENT_AREA = 'tabContentArea';
 
     protected NavTemplate $navTemplate;
     protected TabContentTemplate $tabContentTemplate;
@@ -26,6 +27,9 @@ class Tabs extends Control
 
     /** @var NavItem[] */
     protected array $tabs=[];
+
+    /** @var NavItem[] */
+    protected array $tabsToPrint=[];
 
     /** @var bool Lazy mode [true = render only content of active tab, false = render all content] */
     protected bool $lazyMode=false;
@@ -64,22 +68,44 @@ class Tabs extends Control
     public function handleTab(string $tabId): void
     {
         $this->activeTab = $tabId;
-        $this->reload();
+        $this->reloadHeader();
+        $this->reloadSingleContent();
     }
 
 
     public function render(): void
     {
+        $tabsToPrint = $this->getTabsToPrint();
+        foreach($tabsToPrint as $tabKey => $tab)
+            $tab->addClass('tab-loaded');
+
         $this->template->navTemplate = $this->navTemplate;
         $this->template->tabContentTemplate = $this->tabContentTemplate;
         $this->template->tabHeaderTemplate = $this->tabHeaderTemplate;
         $this->template->tabs = $this->tabs;
         $this->template->lazyMode = $this->lazyMode;
         $this->template->reloadOnChangeTab = $this->reloadOnChangeTab;
-        $this->template->activeTab = $this->getActiveTab();
+        $this->template->activeTab = $this->getActiveTabId();
+        $this->template->tabsToPrint = $tabsToPrint;
 
         $this->template->setFile(__DIR__ . '/templates/default.latte');
         $this->template->render();
+    }
+
+
+    /**
+     * @return NavItem[]
+     */
+    public function getTabsToPrint(): array
+    {
+        if($this->lazyMode === true)
+        {
+            $this->tabsToPrint = [];
+            $this->tabsToPrint[$this->getActiveTabId()] = $this->getActiveTab();
+        }else{
+            $this->tabsToPrint = $this->tabs;
+        }
+        return $this->tabsToPrint;
     }
 
 
@@ -126,6 +152,14 @@ class Tabs extends Control
         $this->reload(self::SNIPPET_CONTENT);
     }
 
+    /**
+     * Reload single item content
+     * @throws AbortException
+     */
+    public function reloadSingleContent(): void
+    {
+        $this->reload(self::SNIPPET_CONTENT_AREA);
+    }
 
     /**
      * Get nav template
@@ -191,14 +225,26 @@ class Tabs extends Control
     }
 
     /**
-     * Get active tab
+     * Get active tab id
      * @return string|null
      */
-    public function getActiveTab(): ?string
+    public function getActiveTabId(): ?string
     {
         if(count($this->tabs) == 0)
             return null;
         return $this->activeTab ?? array_key_first($this->tabs);
+    }
+
+    /**
+     * Get active tab
+     * @return NavItem|null
+     */
+    public function getActiveTab(): ?NavItem
+    {
+        $activeTab = $this->getActiveTabId();
+        if(is_null($activeTab))
+            return null;
+        return $this->tabs[$activeTab];
     }
 
 }

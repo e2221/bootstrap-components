@@ -8,4 +8,10 @@ class TabContentTemplate extends BaseTemplate
 {
     protected ?string $elementName='div';
     public string $defaultClass='tab-content';
+
+    public function beforeRender(): void
+    {
+        parent::beforeRender();
+        $this->addDataAttribute('dynamic-mask', 'snippet--tab-\\d+');
+    }
 }
