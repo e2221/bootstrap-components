@@ -79,5 +79,4 @@ class Content extends BaseElement
     {
         return $this->name;
     }
-
 }

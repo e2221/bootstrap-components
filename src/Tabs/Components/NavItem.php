@@ -43,23 +43,16 @@ class NavItem extends BaseTemplate
     {
         parent::beforeRender();
         $this
-           // ->addDataAttribute('toggle', 'tab')
             ->addHtmlAttribute('role', 'tab')
             ->addDataAttribute('toggle-tab-link')
             ->addDataAttribute('id', $this->id)
             ->setTextContent($this->title)
-//            ->addHtmlAttribute('href', sprintf('#%s-tab-%s', $this->tabs->getUniqueId(), $this->id));
             ->addHtmlAttribute('href', 'javascript:void(0);')
             ->addDataAttribute('tab-href', $this->tabs->link('tab', $this->id));
-
         if($this->isActive() === true)
             $this->addClass('active');
-
         if($this->printContent() === true)
-        {
             $this->addClass('tab-loaded');
-        }
-
     }
 
     /**
@@ -136,7 +129,7 @@ class NavItem extends BaseTemplate
 
     /**
      * Set this tab active
-     * @return $this
+     * @return NavItem
      */
     public function setActive(): self
     {

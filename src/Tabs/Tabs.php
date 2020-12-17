@@ -10,6 +10,7 @@ use e2221\BootstrapComponents\Tabs\Components\TabContentTemplate;
 use e2221\BootstrapComponents\Tabs\Components\TabHeaderTemplate;
 use e2221\BootstrapComponents\Tabs\Exceptions\TabsException;
 use Nette\Application\AbortException;
+use Nette\Application\BadRequestException;
 use Nette\Application\UI\Control;
 
 class Tabs extends Control
@@ -36,6 +37,9 @@ class Tabs extends Control
 
     /** @var string|null @persistent */
     public ?string $activeTab=null;
+
+    /** @var string[] templates with blocks */
+    protected array $templates;
 
     public function __construct()
     {
@@ -79,16 +83,29 @@ class Tabs extends Control
         }
     }
 
+    /**
+     * Load state
+     * @param array $params
+     * @throws BadRequestException
+     */
     public function loadState(array $params): void
     {
         parent::loadState($params);
-        $activeTab = $this->getActiveTabId();
-        foreach($this->tabs as $tabId => $tab)
+
+        //if lazy mode - stop printing content of non-active container contents
+        if($this->lazyMode === true)
         {
-            $tab->setPrintContent($activeTab == $tabId);
+            $activeTab = $this->getActiveTabId();
+            foreach($this->tabs as $tabId => $tab)
+            {
+                $tab->setPrintContent($activeTab == $tabId);
+            }
         }
     }
 
+    /**
+     * Render
+     */
     public function render(): void
     {
         $this->template->navTemplate = $this->navTemplate;
@@ -98,15 +115,26 @@ class Tabs extends Control
         $this->template->lazyMode = $this->lazyMode;
         $this->template->reloadOnChangeTab = $this->reloadOnChangeTab;
         $this->template->activeTab = $this->getActiveTabId();
+        $this->template->templates = $this->templates;
 
         $this->template->setFile(__DIR__ . '/templates/default.latte');
         $this->template->render();
     }
 
+    /**
+     * Add template with blocks
+     * @param string $templatePath
+     * @return Tabs
+     */
+    public function addTemplate(string $templatePath): self
+    {
+        $this->templates[] = $templatePath;
+        return $this;
+    }
 
     /**
      * Reload
-     * @param null|string|array $snippets
+     * @param null|string|array $snippets [null = reload all, string = reload single snippet, array = reload snippets in array]
      * @throws AbortException
      */
     public function reload($snippets=null): void
@@ -149,11 +177,11 @@ class Tabs extends Control
 
     /**
      * Reload single item content
+     * @param string $tabId
      * @throws AbortException
      */
     public function reloadSingleContent(string $tabId): void
     {
-        //$this->reload(self::SNIPPET_CONTENT_AREA);
         $this->reload('tab-'.$tabId);
     }
 
@@ -212,28 +240,6 @@ class Tabs extends Control
     }
 
     /**
-     * Set lazy mode [true = render only content of active tab, false = render all]
-     * @param bool $lazyMode
-     * @return Tabs
-     */
-    public function setLazyMode(bool $lazyMode=true): self
-    {
-        $this->lazyMode = $lazyMode;
-        return $this;
-    }
-
-    /**
-     * Set reload on change tab => always on tab change the content will be reloaded
-     * @param bool $reloadOnChangeTab
-     * @return Tabs
-     */
-    public function setReloadOnChangeTab(bool $reloadOnChangeTab=true): self
-    {
-        $this->reloadOnChangeTab = $reloadOnChangeTab;
-        return $this;
-    }
-
-    /**
      * Get active tab id
      * @return string|null
      */
@@ -256,4 +262,25 @@ class Tabs extends Control
         return $this->tabs[$activeTab];
     }
 
+    /**
+     * Set lazy mode [true = render only content of active tab, false = render all]
+     * @param bool $lazyMode
+     * @return Tabs
+     */
+    public function setLazyMode(bool $lazyMode=true): self
+    {
+        $this->lazyMode = $lazyMode;
+        return $this;
+    }
+
+    /**
+     * Set reload on change tab => always on tab change the content will be reloaded
+     * @param bool $reloadOnChangeTab
+     * @return Tabs
+     */
+    public function setReloadOnChangeTab(bool $reloadOnChangeTab=true): self
+    {
+        $this->reloadOnChangeTab = $reloadOnChangeTab;
+        return $this;
+    }
 }

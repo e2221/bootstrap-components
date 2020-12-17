@@ -2,13 +2,18 @@
 
 {snippetArea tabsArea}
 
+    {* Blocks template *}
     {import default.blocks.latte}
+    {foreach $templates as $blocksTemplate}
+        {import $blocksTemplate}
+    {/foreach}
 
     {snippet tabs}
 
         {* <nav> *}
         {include #nav-start-tag}
 
+            {* tabs header *}
             <div n:snippet="tabsHeader" {$tabHeaderTemplate->getAttributes()|noescape}>
 
                 {foreach $tabs as $tabId => $tab}
@@ -21,6 +26,7 @@
 
             </div>
 
+            {* tabs content container *}
             <div n:snippet="tabsContent" {$tabContentTemplate->getAttributes()|noescape}>
 
                 {snippetArea tabContentArea}
@@ -29,6 +35,7 @@
 
                         <div n:snippet="tab-$tabId" {$tab->getTabContentContainerTemplate()->getAttributes()|noescape}>
 
+                            {* skip rendering content if is set as hidden *}
                             {continueIf $tab->printContent() === false}
 
                             {ifset #content-tab-$tabId}
@@ -47,6 +54,7 @@
                                     {if is_string($content->getElementName())}
                                         {$content->endTag()|noescape}
                                     {/if}
+
                                 {/foreach}
                             {/ifset}
 
@@ -66,12 +74,12 @@
     <script type="application/javascript">
         (window._stack = window._stack || []).push(function(di) {
 
-            function changeActiveTab(headerLink, contentContainer, activeTabId)
+            function changeActiveTab(headerLink, contentContainer)
             {
-                let linkTabId = headerLink.data('id');
-                headerLink.tab('show');
-                contentContainer.find('div[data-tab-id]').each(function(){
-                    if(linkTabId === activeTabId)
+                let linkTabId = $(headerLink).data('id');
+                $(headerLink).tab('show');
+                $(contentContainer).find('div[data-tab-id]').each(function(){
+                    if(linkTabId === $(this).data('tab-id'))
                     {
                         $(this).addClass('show active');
                     }else{
@@ -80,112 +88,51 @@
                 });
             }
 
-            var tabId, tabHref;
+            var tabId, tabHref, $this, $tabs;
             di.getService('page').getSnippet({snippet.id tabs})
                 .setup(function (tabs) {
                     $(tabs).on('click', 'a[data-toggle-tab-link]', function(){
                         tabId = $(this).data('id');
                         tabHref = $(this).data('tab-href');
-                        console.log(tabId);
+                        $this = $(this);
+                        $tabs = $(tabs);
 
                         {if $lazyMode === true}
-
                             {* reload tab *}
                             {if $reloadOnChangeTab === true}
-
                                 di.getService('page').open(tabHref);
                                 di.getService('snippetManager').one('after-update', function () {
                                     $(function () {
-                                        changeActiveTab($(this), $(tabs), tabId);
-                                        {*}$(tabs).find('div[data-tab-id]').each(function(){
-                                            if($(this).data('tab-id') === tabId)
-                                            {
-                                                $(this).addClass('show active');
-                                            }else{
-                                                $(this).removeClass('show active');
-                                            }
-                                        });{*}
+                                        changeActiveTab($this, $tabs);
                                     });
                                 });
-
                             {* if tab loaded => change tab, else => load *}
                             {else}
-
                                 if($(this).hasClass('tab-loaded'))
                                 {
-                                    changeActiveTab($(this), $(tabs), tabId);
-                                    {*}$(this).tab('show');
-                                    $(tabs).find('div[data-tab-id]').each(function(){
-                                        if($(this).data('tab-id') === tabId)
-                                        {
-                                            $(this).addClass('show active');
-                                        }else{
-                                            $(this).removeClass('show active');
-                                        }
-                                    });{*}
+                                    changeActiveTab($this, $tabs);
                                 }else{
                                     di.getService('page').open(tabHref);
                                     di.getService('snippetManager').one('after-update', function () {
                                         $(function () {
-                                            changeActiveTab($(this), $(tabs), tabId);
-                                            {*}$(tabs).find('div[data-tab-id]').each(function(){
-                                                if($(this).data('tab-id') === tabId)
-                                                {
-                                                    $(this).addClass('show active');
-                                                }else{
-                                                    $(this).removeClass('show active');
-                                                }
-                                            });{*}
+                                            changeActiveTab($this, $tabs);
                                         });
                                     });
                                 }
-
                             {/if}
-
                         {else}
-
                             {if $reloadOnChangeTab === true}
-
                                 di.getService('page').open(tabHref);
-
-
                             {else}
-
-                                changeActiveTab($(this), $(tabs), tabId);
-                                {*}$(this).tab('show');
-                                $(tabs).find('div[data-tab-id]').each(function(){
-                                    if($(this).data('tab-id') === tabId)
-                                    {
-                                        $(this).addClass('show active');
-                                    }else{
-                                        $(this).removeClass('show active');
-                                    }
-                                });{*}
-
+                                changeActiveTab($this, $tabs);
                             {/if}
-
                         {/if}
-
+                    });
+                })
+                .teardown(function() {
+                    tabId = tabHref =  $this = $tabs = null;
                 });
-            });
         });
-
     </script>
 
 {/snippetArea}
-
-
-{*}
-<nav>
-    <div class="nav nav-tabs" id="nav-tab" role="tablist">
-        <a class="nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Home</a>
-        <a class="nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Profile</a>
-        <a class="nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">Contact</a>
-    </div>
-</nav>
-<div class="tab-content" id="nav-tabContent">
-    <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">...</div>
-    <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">...</div>
-    <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">...</div>
-</div>
-{*}
