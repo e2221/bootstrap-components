@@ -225,6 +225,17 @@ class Tabs extends Control
     }
 
     /**
+     * Set reload on change tab => always on tab change the content will be reloaded
+     * @param bool $reloadOnChangeTab
+     * @return Tabs
+     */
+    public function setReloadOnChangeTab(bool $reloadOnChangeTab): self
+    {
+        $this->reloadOnChangeTab = $reloadOnChangeTab;
+        return $this;
+    }
+
+    /**
      * Get active tab id
      * @return string|null
      */
