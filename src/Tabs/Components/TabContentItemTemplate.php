@@ -28,6 +28,11 @@ class TabContentItemTemplate extends BaseTemplate
           //  ->addHtmlAttribute('id', sprintf('%s-tab-%s', $this->tabs->getUniqueId(), $this->navItem->getId())),
               ->addDataAttribute('tab-id', $this->navItem->getId())
             ->addHtmlAttribute('role', 'tabpanel');
+
+        if($this->navItem->isActive() === true)
+        {
+            $this->addClass('show active');
+        }
     }
 
 }

@@ -48,6 +48,9 @@ class NavItem extends BaseTemplate
 //            ->addHtmlAttribute('href', sprintf('#%s-tab-%s', $this->tabs->getUniqueId(), $this->id));
             ->addHtmlAttribute('href', 'javascript:void(0);');
 
+        if($this->isActive() === true)
+            $this->addClass('active');
+
     }
 
     /**
