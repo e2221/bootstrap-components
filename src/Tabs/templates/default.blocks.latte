@@ -15,3 +15,33 @@
 {define nav-tab}
     {$tab->render()|noescape}
 {/define}
+
+{* Horizontal row start tag *}
+{define horizontal-row-start-tag}
+    {$horizontalRowTemplate->startTag()|noescape}
+{/define}
+
+{* Horizontal row end tag *}
+{define horizontal-row-end-tag}
+    {$horizontalRowTemplate->endTag()|noescape}
+{/define}
+
+{* Horizontal header col start tag *}
+{define horizontal-header-col-start-tag}
+    {$horizontalHeaderColTemplate->startTag()|noescape}
+{/define}
+
+{* Horizontal header col end tag *}
+{define horizontal-header-col-end-tag}
+    {$horizontalHeaderColTemplate->endTag()|noescape}
+{/define}
+
+{* Horizontal content col start tag*}
+{define horizontal-content-col-start-tag}
+    {$horizontalContentColTemplate->startTag()|noescape}
+{/define}
+
+{* Horizontal content col end tag*}
+{define horizontal-content-col-end-tag}
+    {$horizontalContentColTemplate->endTag()|noescape}
+{/define}

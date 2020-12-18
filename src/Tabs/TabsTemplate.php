@@ -4,6 +4,9 @@ declare(strict_types=1);
 namespace e2221\BootstrapComponents\Tabs;
 
 
+use e2221\BootstrapComponents\Tabs\Components\HorizontalContentColTemplate;
+use e2221\BootstrapComponents\Tabs\Components\HorizontalHeaderColTemplate;
+use e2221\BootstrapComponents\Tabs\Components\HorizontalRowTemplate;
 use e2221\BootstrapComponents\Tabs\Components\NavItem;
 use e2221\BootstrapComponents\Tabs\Components\NavTemplate;
 use e2221\BootstrapComponents\Tabs\Components\TabContentTemplate;
@@ -21,6 +24,9 @@ class TabsTemplate extends Template
     public NavTemplate $navTemplate;
     public TabContentTemplate $tabContentTemplate;
     public TabHeaderTemplate $tabHeaderTemplate;
+    public HorizontalRowTemplate $horizontalRowTemplate;
+    public HorizontalHeaderColTemplate $horizontalHeaderColTemplate;
+    public HorizontalContentColTemplate $horizontalContentColTemplate;
     public bool $lazyMode;
     public bool $reloadOnChangeTab;
     public ?string $activeTab;

@@ -10,64 +10,82 @@
 
     {snippet tabs}
 
-        {* <nav> *}
-        {include #nav-start-tag}
+        {* <div class='row'> -- only if horizontal *}
+        {include #horizontal-row-start-tag}
 
-            {* tabs header *}
-            <div n:snippet="tabsHeader" {$tabHeaderTemplate->getAttributes()|noescape}>
+            {* <div class='col-x'> -- only if horizontal *}
+            {include #horizontal-header-col-start-tag}
 
-                {foreach $tabs as $tabId => $tab}
-                    {ifset #nav-tab-$tabId}
-                        {include #"nav-tab-{$tabId}"}
-                    {else}
-                        {include #nav-tab tab => $tab}
-                    {/ifset}
-                {/foreach}
+                {* <nav> *}
+                {include #nav-start-tag}
 
-            </div>
+                    {* tabs header *}
+                    <div n:snippet="tabsHeader" {$tabHeaderTemplate->getAttributes()|noescape}>
 
-            {* tabs content container *}
-            <div n:snippet="tabsContent" {$tabContentTemplate->getAttributes()|noescape}>
-
-                {snippetArea tabContentArea}
-
-                    {foreach $tabs as $tabId => $tab}
-
-                        <div n:snippet="tab-$tabId" {$tab->getTabContentContainerTemplate()->getAttributes()|noescape}>
-
-                            {* skip rendering content if is set as hidden *}
-                            {continueIf $tab->printContent() === false}
-
-                            {ifset #content-tab-$tabId}
-                                {include #"content-tab-{$tabId}"}
+                        {foreach $tabs as $tabId => $tab}
+                            {ifset #nav-tab-$tabId}
+                                {include #"nav-tab-{$tabId}"}
                             {else}
-                                {foreach $tab->getContents() as $contentName => $content}
-
-                                    {* Print wrapper tag if isset *}
-                                    {if is_string($content->getElementName())}
-                                        {$content->startTag()|noescape}
-                                    {/if}
-
-                                        {$content->renderContent()|noescape}
-
-                                    {* Print wrapper tag if isset *}
-                                    {if is_string($content->getElementName())}
-                                        {$content->endTag()|noescape}
-                                    {/if}
-
-                                {/foreach}
+                                {include #nav-tab tab => $tab}
                             {/ifset}
+                        {/foreach}
 
-                        </div>
+                    </div>
 
-                    {/foreach}
+                {* </nav> *}
+                {include #nav-end-tag}
 
-                {/snippetArea}
+            {* </div> -- only horizontal *}
+            {include #horizontal-header-col-end-tag}
 
-            </div>
+            {* <div class='col-x'> -- only horizontal *}
+            {include #horizontal-content-col-start-tag}
 
-        {* </nav> *}
-        {include #nav-end-tag}
+                {* tabs content container *}
+                <div n:snippet="tabsContent" {$tabContentTemplate->getAttributes()|noescape}>
+
+                    {snippetArea tabContentArea}
+
+                        {foreach $tabs as $tabId => $tab}
+
+                            <div n:snippet="tab-$tabId" {$tab->getTabContentContainerTemplate()->getAttributes()|noescape}>
+
+                                {* skip rendering content if is set as hidden *}
+                                {continueIf $tab->printContent() === false}
+
+                                {ifset #content-tab-$tabId}
+                                    {include #"content-tab-{$tabId}"}
+                                {else}
+                                    {foreach $tab->getContents() as $contentName => $content}
+
+                                        {* Print wrapper tag if isset *}
+                                        {if is_string($content->getElementName())}
+                                            {$content->startTag()|noescape}
+                                        {/if}
+
+                                            {$content->renderContent()|noescape}
+
+                                        {* Print wrapper tag if isset *}
+                                        {if is_string($content->getElementName())}
+                                            {$content->endTag()|noescape}
+                                        {/if}
+
+                                    {/foreach}
+                                {/ifset}
+
+                            </div>
+
+                        {/foreach}
+
+                    {/snippetArea}
+
+                </div>
+
+            {* </div> -- only horizontal *}
+            {include #horizontal-content-col-end-tag}
+
+        {* </div> -- only horizontal *}
+        {include #horizontal-row-end-tag}
 
     {/snippet}
 

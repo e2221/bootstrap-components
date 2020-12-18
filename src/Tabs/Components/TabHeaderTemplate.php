@@ -11,12 +11,10 @@ class TabHeaderTemplate extends BaseTemplate
     protected ?string $elementName='div';
     public string $defaultClass='nav';
 
-    private Tabs $tabs;
 
     public function __construct(Tabs $tabs)
     {
-        parent::__construct();
-        $this->tabs = $tabs;
+        parent::__construct($tabs);
     }
 
     public function beforeRender(): void

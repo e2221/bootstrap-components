@@ -28,14 +28,12 @@ class NavItem extends BaseTemplate
 
     protected TabContentItemTemplate $tabContentContainerTemplate;
 
-    private Tabs $tabs;
 
     public function __construct(Tabs $tabs, string $id, string $title)
     {
-        parent::__construct();
+        parent::__construct($tabs);
         $this->id = $id;
         $this->title = $title;
-        $this->tabs = $tabs;
         $this->tabContentContainerTemplate = new TabContentItemTemplate($tabs, $this);
     }
 
@@ -74,15 +72,6 @@ class NavItem extends BaseTemplate
     public function printContent(): bool
     {
         return $this->printContent;
-    }
-
-    /**
-     * Return to tabs
-     * @return Tabs
-     */
-    public function endTab(): Tabs
-    {
-        return $this->tabs;
     }
 
     /**

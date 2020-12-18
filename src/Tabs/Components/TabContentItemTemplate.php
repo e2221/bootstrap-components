@@ -11,13 +11,11 @@ class TabContentItemTemplate extends BaseTemplate
     protected ?string $elementName='div';
     public string $defaultClass='tab-pane';
     protected string $class='fade';
-    private Tabs $tabs;
     private NavItem $navItem;
 
     public function __construct(Tabs $tabs, NavItem $navItem)
     {
-        parent::__construct();
-        $this->tabs = $tabs;
+        parent::__construct($tabs);
         $this->navItem = $navItem;
     }
 

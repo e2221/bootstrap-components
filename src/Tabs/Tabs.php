@@ -4,6 +4,9 @@ declare(strict_types=1);
 namespace e2221\BootstrapComponents\Tabs;
 
 
+use e2221\BootstrapComponents\Tabs\Components\HorizontalContentColTemplate;
+use e2221\BootstrapComponents\Tabs\Components\HorizontalHeaderColTemplate;
+use e2221\BootstrapComponents\Tabs\Components\HorizontalRowTemplate;
 use e2221\BootstrapComponents\Tabs\Components\NavItem;
 use e2221\BootstrapComponents\Tabs\Components\NavTemplate;
 use e2221\BootstrapComponents\Tabs\Components\TabContentTemplate;
@@ -25,6 +28,9 @@ class Tabs extends Control
     protected NavTemplate $navTemplate;
     protected TabContentTemplate $tabContentTemplate;
     protected TabHeaderTemplate $tabHeaderTemplate;
+    protected HorizontalContentColTemplate $horizontalContentColTemplate;
+    protected HorizontalHeaderColTemplate $horizontalHeaderColTemplate;
+    protected HorizontalRowTemplate $horizontalRowTemplate;
 
     /** @var NavItem[] */
     protected array $tabs=[];
@@ -44,11 +50,17 @@ class Tabs extends Control
     /** @var string Style [tab, pill] */
     protected string $style='tab';
 
+    /** @var string Layout [vertical, horizontal] */
+    protected string $layout='vertical';
+
     public function __construct()
     {
-        $this->navTemplate = new NavTemplate();
-        $this->tabContentTemplate = new TabContentTemplate();
+        $this->navTemplate = new NavTemplate($this);
+        $this->tabContentTemplate = new TabContentTemplate($this);
         $this->tabHeaderTemplate = new TabHeaderTemplate($this);
+        $this->horizontalContentColTemplate = new HorizontalContentColTemplate($this);
+        $this->horizontalHeaderColTemplate = new HorizontalHeaderColTemplate($this);
+        $this->horizontalRowTemplate = new HorizontalRowTemplate($this);
     }
 
     /**
@@ -114,6 +126,9 @@ class Tabs extends Control
         $this->template->navTemplate = $this->navTemplate;
         $this->template->tabContentTemplate = $this->tabContentTemplate;
         $this->template->tabHeaderTemplate = $this->tabHeaderTemplate;
+        $this->template->horizontalRowTemplate = $this->horizontalRowTemplate;
+        $this->template->horizontalHeaderColTemplate = $this->horizontalHeaderColTemplate;
+        $this->template->horizontalContentColTemplate = $this->horizontalContentColTemplate;
         $this->template->tabs = $this->tabs;
         $this->template->lazyMode = $this->lazyMode;
         $this->template->reloadOnChangeTab = $this->reloadOnChangeTab;
@@ -129,7 +144,7 @@ class Tabs extends Control
      * Set style tabs [default]
      * @return Tabs
      */
-    public function setStyleTab(): self
+    public function setStyleTabs(): self
     {
         $this->style = 'tab';
         return $this;
@@ -139,7 +154,7 @@ class Tabs extends Control
      * Set style pills
      * @return Tabs
      */
-    public function setStylePill(): self
+    public function setStylePills(): self
     {
         $this->style = 'pill';
         return $this;
@@ -152,6 +167,35 @@ class Tabs extends Control
     public function getStyle(): string
     {
         return $this->style;
+    }
+
+    /**
+     * Set vertical layout (default)
+     * @return Tabs
+     */
+    public function setLayoutVertical(): self
+    {
+        $this->layout = 'vertical';
+        return $this;
+    }
+
+    /**
+     * Set horizontal layout
+     * @return Tabs
+     */
+    public function setLayoutHorizontal(): self
+    {
+        $this->layout = 'horizontal';
+        return $this;
+    }
+
+    /**
+     * Get layout
+     * @return string
+     */
+    public function getLayout(): string
+    {
+        return $this->layout;
     }
 
     /**
@@ -243,6 +287,31 @@ class Tabs extends Control
     public function getTabHeaderTemplate(): TabHeaderTemplate
     {
         return $this->tabHeaderTemplate;
+    }
+
+    /**
+     * Get horizontal content col template
+     * @return HorizontalContentColTemplate
+     */
+    public function getHorizontalContentColTemplate(): HorizontalContentColTemplate
+    {
+        return $this->horizontalContentColTemplate;
+    }
+
+    /**
+     * @return HorizontalHeaderColTemplate
+     */
+    public function getHorizontalHeaderColTemplate(): HorizontalHeaderColTemplate
+    {
+        return $this->horizontalHeaderColTemplate;
+    }
+
+    /**
+     * @return HorizontalRowTemplate
+     */
+    public function getHorizontalRowTemplate(): HorizontalRowTemplate
+    {
+        return $this->horizontalRowTemplate;
     }
 
     /**
