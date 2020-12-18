@@ -29,6 +29,8 @@ class TabHeaderTemplate extends BaseTemplate
             default:
                 $this->addClass('nav-tabs');
         }
+        if($this->tabs->getLayout() == 'horizontal')
+            $this->addClass('flex-column');
         $this->addHtmlAttribute('role', 'tablist');
     }
 }
