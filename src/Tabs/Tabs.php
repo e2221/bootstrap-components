@@ -41,11 +41,14 @@ class Tabs extends Control
     /** @var string[] templates with blocks */
     protected array $templates=[];
 
+    /** @var string Style [tab, pill] */
+    protected string $style='tab';
+
     public function __construct()
     {
         $this->navTemplate = new NavTemplate();
         $this->tabContentTemplate = new TabContentTemplate();
-        $this->tabHeaderTemplate = new TabHeaderTemplate();
+        $this->tabHeaderTemplate = new TabHeaderTemplate($this);
     }
 
     /**
@@ -116,9 +119,39 @@ class Tabs extends Control
         $this->template->reloadOnChangeTab = $this->reloadOnChangeTab;
         $this->template->activeTab = $this->getActiveTabId();
         $this->template->templates = $this->templates;
+        $this->template->style = $this->style;
 
         $this->template->setFile(__DIR__ . '/templates/default.latte');
         $this->template->render();
+    }
+
+    /**
+     * Set style tabs [default]
+     * @return Tabs
+     */
+    public function setStyleTab(): self
+    {
+        $this->style = 'tab';
+        return $this;
+    }
+
+    /**
+     * Set style pills
+     * @return Tabs
+     */
+    public function setStylePill(): self
+    {
+        $this->style = 'pill';
+        return $this;
+    }
+
+    /**
+     * Get tabs style [tab, pill]
+     * @return string
+     */
+    public function getStyle(): string
+    {
+        return $this->style;
     }
 
     /**

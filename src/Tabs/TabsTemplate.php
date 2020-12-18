@@ -24,4 +24,5 @@ class TabsTemplate extends Template
     public bool $lazyMode;
     public bool $reloadOnChangeTab;
     public ?string $activeTab;
+    public string $style;
 }

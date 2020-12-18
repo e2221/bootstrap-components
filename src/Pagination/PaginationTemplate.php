@@ -33,7 +33,6 @@ class PaginationTemplate extends Template
     public string $view;
     public ?Paginator $paginator;
     public int $showPagesCount;
-
     public bool $showFirstLink;
     public bool $showPreviousLink;
     public bool $showNextLink;
