@@ -134,6 +134,7 @@ class Tabs extends Control
     public function renderHeader(): void
     {
         $this->defineTemplateVariables();
+        $this->template->onlyHeader = true;
         $this->template->setFile(__DIR__ . '/templates/header.latte');
         $this->template->render();
     }
@@ -144,6 +145,7 @@ class Tabs extends Control
     public function renderContent(): void
     {
         $this->defineTemplateVariables();
+        $this->template->onlyContent = true;
         $this->template->setFile(__DIR__ . '/templates/content.latte');
         $this->template->render();
     }
@@ -162,6 +164,8 @@ class Tabs extends Control
         $this->template->activeTab = $this->getActiveTabId();
         $this->template->templates = $this->templates;
         $this->template->style = $this->style;
+        $this->template->onlyHeader = false;
+        $this->template->onlyContent = false;
     }
 
     /**

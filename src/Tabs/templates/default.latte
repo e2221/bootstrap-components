@@ -8,19 +8,38 @@
         {import $blocksTemplate}
     {/foreach}
 
-    {import header.latte}
-    {import content.latte}
-
     {snippet tabs}
 
-        {* <div class='row'> -- only if horizontal *}
-        {include #horizontal-row-start-tag}
+        {if $onlyContent === false && $onlyHeader === false}
 
-            {* <div class='col-x'> -- only if horizontal *}
-            {include #horizontal-header-col-start-tag}
+            {* <div class='row'> -- only if horizontal *}
+            {include #horizontal-row-start-tag}
 
-                {* header block *}
-                {include header}
+                {* <div class='col-x'> -- only if horizontal *}
+                {include #horizontal-header-col-start-tag}
+
+        {/if}
+        {if $onlyHeader === true || ($onlyHeader === false && $onlyContent === false)}
+                {* <nav> *}
+                {include #nav-start-tag}
+
+                    {* tabs header *}
+                    <div n:snippet="tabsHeader" {$tabHeaderTemplate->getAttributes()|noescape}>
+
+                        {foreach $tabs as $tabId => $tab}
+                            {ifset #nav-tab-$tabId}
+                                {include #"nav-tab-{$tabId}"}
+                            {else}
+                                {include #nav-tab tab => $tab}
+                            {/ifset}
+                        {/foreach}
+
+                    </div>
+
+                {* </nav> *}
+                {include #nav-end-tag}
+        {/if}
+        {if $onlyContent === false && $onlyHeader === false}
 
             {* </div> -- only horizontal *}
             {include #horizontal-header-col-end-tag}
@@ -28,79 +47,128 @@
             {* <div class='col-x'> -- only horizontal *}
             {include #horizontal-content-col-start-tag}
 
-                {* content block *}
-                {include content}
+        {/if}
+        {if $onlyContent === true || ($onlyHeader === false && $onlyContent === false)}
+
+                {* tabs content container *}
+                <div n:snippet="tabsContent" {$tabContentTemplate->getAttributes()|noescape}>
+
+                    {snippetArea tabContentArea}
+
+                        {foreach $tabs as $tabId => $tab}
+
+                            <div n:snippet="tab-$tabId" {$tab->getTabContentContainerTemplate()->getAttributes()|noescape}>
+
+                                {* skip rendering content if is set as hidden *}
+                                {continueIf $tab->printContent() === false}
+
+                                {ifset #content-tab-$tabId}
+                                    {include #"content-tab-{$tabId}"}
+                                {else}
+                                    {foreach $tab->getContents() as $contentName => $content}
+
+                                        {* Print wrapper tag if isset *}
+                                        {if is_string($content->getElementName())}
+                                            {$content->startTag()|noescape}
+                                        {/if}
+
+                                            {$content->renderContent()|noescape}
+
+                                        {* Print wrapper tag if isset *}
+                                        {if is_string($content->getElementName())}
+                                            {$content->endTag()|noescape}
+                                        {/if}
+
+                                    {/foreach}
+                                {/ifset}
+
+                            </div>
+
+                        {/foreach}
+
+                    {/snippetArea}
+
+                </div>
+
+        {/if}
+        {if $onlyContent === false && $onlyHeader === false}
+
+                {* </div> -- only horizontal *}
+                {include #horizontal-content-col-end-tag}
 
             {* </div> -- only horizontal *}
-            {include #horizontal-content-col-end-tag}
+            {include #horizontal-row-end-tag}
 
-        {* </div> -- only horizontal *}
-        {include #horizontal-row-end-tag}
+        {/if}
 
     {/snippet}
 
-    <script type="application/javascript">
-        (window._stack = window._stack || []).push(function(di) {
+    {if $onlyHeader === true || ($onlyHeader === false && $onlyContent === false)}
 
-            function changeActiveTab(headerLink, contentContainer)
-            {
-                let linkTabId = $(headerLink).data('id');
-                $(headerLink).tab('show');
-                $(contentContainer).find('div[data-tab-id]').each(function(){
-                    if(linkTabId === $(this).data('tab-id'))
-                    {
-                        $(this).addClass('show active');
-                    }else{
-                        $(this).removeClass('show active');
-                    }
-                });
-            }
+        <script type="application/javascript">
+            (window._stack = window._stack || []).push(function(di) {
 
-            var tabId, tabHref, $this, $tabs;
-            di.getService('page').getSnippet({snippet.id tabs})
-                .setup(function (tabs) {
-                    $(tabs).on('click', 'a[data-toggle-tab-link]', function(){
-                        tabId = $(this).data('id');
-                        tabHref = $(this).data('tab-href');
-                        $this = $(this);
-                        $tabs = $(tabs);
+                function changeActiveTab(headerLink, contentContainer)
+                {
+                    let linkTabId = $(headerLink).data('id');
+                    $(headerLink).tab('show');
+                    $(contentContainer).find('div[data-tab-id]').each(function(){
+                        if(linkTabId === $(this).data('tab-id'))
+                        {
+                            $(this).addClass('show active');
+                        }else{
+                            $(this).removeClass('show active');
+                        }
+                    });
+                }
 
-                        {if $lazyMode === true}
-                            {* reload tab *}
-                            {if $reloadOnChangeTab === true}
-                                di.getService('page').open(tabHref);
-                                di.getService('snippetManager').one('after-update', function () {
-                                    $(function () {
-                                        changeActiveTab($this, $tabs);
-                                    });
-                                });
-                            {* if tab loaded => change tab, else => load *}
-                            {else}
-                                if($(this).hasClass('tab-loaded'))
-                                {
-                                    changeActiveTab($this, $tabs);
-                                }else{
+                var tabId, tabHref, $this, $tabs;
+                di.getService('page').getSnippet({snippet.id tabs})
+                    .setup(function (tabs) {
+                        $(tabs).on('click', 'a[data-toggle-tab-link]', function(){
+                            tabId = $(this).data('id');
+                            tabHref = $(this).data('tab-href');
+                            $this = $(this);
+                            $tabs = $(tabs);
+
+                            {if $lazyMode === true}
+                                {* reload tab *}
+                                {if $reloadOnChangeTab === true}
                                     di.getService('page').open(tabHref);
                                     di.getService('snippetManager').one('after-update', function () {
                                         $(function () {
                                             changeActiveTab($this, $tabs);
                                         });
                                     });
-                                }
-                            {/if}
-                        {else}
-                            {if $reloadOnChangeTab === true}
-                                di.getService('page').open(tabHref);
+                                {* if tab loaded => change tab, else => load *}
+                                {else}
+                                    if($(this).hasClass('tab-loaded'))
+                                    {
+                                        changeActiveTab($this, $tabs);
+                                    }else{
+                                        di.getService('page').open(tabHref);
+                                        di.getService('snippetManager').one('after-update', function () {
+                                            $(function () {
+                                                changeActiveTab($this, $tabs);
+                                            });
+                                        });
+                                    }
+                                {/if}
                             {else}
-                                changeActiveTab($this, $tabs);
+                                {if $reloadOnChangeTab === true}
+                                    di.getService('page').open(tabHref);
+                                {else}
+                                    changeActiveTab($this, $tabs);
+                                {/if}
                             {/if}
-                        {/if}
+                        });
+                    })
+                    .teardown(function() {
+                        tabId = tabHref =  $this = $tabs = null;
                     });
-                })
-                .teardown(function() {
-                    tabId = tabHref =  $this = $tabs = null;
-                });
-        });
-    </script>
+            });
+        </script>
+
+    {/if}
 
 {/snippetArea}
