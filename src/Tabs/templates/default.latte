@@ -8,6 +8,9 @@
         {import $blocksTemplate}
     {/foreach}
 
+    {import header.latte}
+    {import content.latte}
+
     {snippet tabs}
 
         {* <div class='row'> -- only if horizontal *}
@@ -16,24 +19,7 @@
             {* <div class='col-x'> -- only if horizontal *}
             {include #horizontal-header-col-start-tag}
 
-                {* <nav> *}
-                {include #nav-start-tag}
-
-                    {* tabs header *}
-                    <div n:snippet="tabsHeader" {$tabHeaderTemplate->getAttributes()|noescape}>
-
-                        {foreach $tabs as $tabId => $tab}
-                            {ifset #nav-tab-$tabId}
-                                {include #"nav-tab-{$tabId}"}
-                            {else}
-                                {include #nav-tab tab => $tab}
-                            {/ifset}
-                        {/foreach}
-
-                    </div>
-
-                {* </nav> *}
-                {include #nav-end-tag}
+                {include header}
 
             {* </div> -- only horizontal *}
             {include #horizontal-header-col-end-tag}
@@ -41,46 +27,7 @@
             {* <div class='col-x'> -- only horizontal *}
             {include #horizontal-content-col-start-tag}
 
-                {* tabs content container *}
-                <div n:snippet="tabsContent" {$tabContentTemplate->getAttributes()|noescape}>
-
-                    {snippetArea tabContentArea}
-
-                        {foreach $tabs as $tabId => $tab}
-
-                            <div n:snippet="tab-$tabId" {$tab->getTabContentContainerTemplate()->getAttributes()|noescape}>
-
-                                {* skip rendering content if is set as hidden *}
-                                {continueIf $tab->printContent() === false}
-
-                                {ifset #content-tab-$tabId}
-                                    {include #"content-tab-{$tabId}"}
-                                {else}
-                                    {foreach $tab->getContents() as $contentName => $content}
-
-                                        {* Print wrapper tag if isset *}
-                                        {if is_string($content->getElementName())}
-                                            {$content->startTag()|noescape}
-                                        {/if}
-
-                                            {$content->renderContent()|noescape}
-
-                                        {* Print wrapper tag if isset *}
-                                        {if is_string($content->getElementName())}
-                                            {$content->endTag()|noescape}
-                                        {/if}
-
-                                    {/foreach}
-                                {/ifset}
-
-                            </div>
-
-                        {/foreach}
-
-                    {/snippetArea}
-
-                </div>
-
+                {include content}
             {* </div> -- only horizontal *}
             {include #horizontal-content-col-end-tag}
 

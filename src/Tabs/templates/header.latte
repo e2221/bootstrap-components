@@ -1,0 +1,22 @@
+{templateType e2221\BootstrapComponents\Tabs\TabsTemplate}
+
+{define header}
+    {* <nav> *}
+    {include #nav-start-tag}
+
+    {* tabs header *}
+    <div n:snippet="tabsHeader" {$tabHeaderTemplate->getAttributes()|noescape}>
+
+        {foreach $tabs as $tabId => $tab}
+            {ifset #nav-tab-$tabId}
+                {include #"nav-tab-{$tabId}"}
+            {else}
+                {include #nav-tab tab => $tab}
+            {/ifset}
+        {/foreach}
+
+    </div>
+
+    {* </nav> *}
+    {include #nav-end-tag}
+{/define}
