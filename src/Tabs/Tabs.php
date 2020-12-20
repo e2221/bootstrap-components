@@ -123,32 +123,6 @@ class Tabs extends Control
      */
     public function render(): void
     {
-        $this->defineTemplateVariables();
-        $this->template->render();
-    }
-
-    /**
-     * Render header
-     */
-    public function renderHeader(): void
-    {
-        $this->defineTemplateVariables();
-        $this->template->onlyHeader = true;
-        $this->template->render();
-    }
-
-    /**
-     * Render content
-     */
-    public function renderContent(): void
-    {
-        $this->defineTemplateVariables();
-        $this->template->onlyContent = true;
-        $this->template->render();
-    }
-
-    private function defineTemplateVariables(): void
-    {
         $this->template->navTemplate = $this->navTemplate;
         $this->template->tabContentTemplate = $this->tabContentTemplate;
         $this->template->tabHeaderTemplate = $this->tabHeaderTemplate;
@@ -161,9 +135,8 @@ class Tabs extends Control
         $this->template->activeTab = $this->getActiveTabId();
         $this->template->templates = $this->templates;
         $this->template->style = $this->style;
-        $this->template->onlyHeader = false;
-        $this->template->onlyContent = false;
         $this->template->setFile(__DIR__ . '/templates/default.latte');
+        $this->template->render();
     }
 
     /**
