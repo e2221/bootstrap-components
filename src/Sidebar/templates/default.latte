@@ -1,0 +1,22 @@
+{templateType e2221\BootstrapComponents\Sidebar\SidebarTemplate}
+
+<nav n:snippet="sidebar" {$sidebarNavTemplate->getAttributes()|noescape}>
+
+    {$ulWrapperTemplate->startTag()|noescape}
+
+        {foreach $lists as $listName => $list}
+
+            {$list->getTitleTemplate()|noescape}
+
+            {foreach $list->getItems() as $itemName => $item}
+
+                {$item|noescape}
+
+            {/foreach}
+
+
+        {/foreach}
+
+    {$ulWrapperTemplate->endTag()|noescape}
+
+</nav>
