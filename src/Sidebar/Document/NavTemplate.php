@@ -12,8 +12,8 @@ class NavTemplate extends BaseTemplate
     /** @var string Bootstrap width grid class */
     public string $width='col-md-2';
 
-    /** @var string|null Show from width bootstrap class [null = visible always] */
-    public ?string $displayFromWidth='d-md-block';
+    /** @var string|null Show from width [null = visible always, xs, sm, md, lg, xl] */
+    public ?string $displayFromWidth='md';
 
     /** @var string Background class */
     public string $background='bg-light';
@@ -27,11 +27,12 @@ class NavTemplate extends BaseTemplate
         if(is_string($this->displayFromWidth))
         {
             $this->addClass('d-none');
-            $this->addClass($this->displayFromWidth);
+            $this->addClass(sprintf('d-%s-block', $this->displayFromWidth));
         }
     }
 
     /**
+     * Set width (ex. cols-sm-3 ...)
      * @param string $width
      */
     public function setWidth(string $width): void
@@ -40,6 +41,7 @@ class NavTemplate extends BaseTemplate
     }
 
     /**
+     * Set display from width expecting parameters [null, xs, sm, md, lg, xl]
      * @param string|null $displayFromWidth
      */
     public function setDisplayFromWidth(?string $displayFromWidth): void
@@ -48,6 +50,7 @@ class NavTemplate extends BaseTemplate
     }
 
     /**
+     * Set background class
      * @param string $background
      */
     public function setBackground(string $background): void
