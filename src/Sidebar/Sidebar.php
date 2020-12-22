@@ -50,7 +50,7 @@ class Sidebar extends Control
         $navItem = $this->getItem($list, $item);
         $linkCallback = $navItem->getOnClickCallback();
         if(is_callable($linkCallback))
-            $linkCallback($this, $item, $list);
+            $linkCallback($this, $navItem, $navItem->backToList());
         $this->reload();
     }
 
