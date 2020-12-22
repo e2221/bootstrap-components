@@ -3,8 +3,6 @@ declare(strict_types=1);
 
 namespace e2221\BootstrapComponents\Sidebar\Components;
 
-
-use e2221\BootstrapComponents\Sidebar\Document\ItemLinkTemplate;
 use e2221\utils\Html\HrefElement;
 
 class Item extends HrefElement
@@ -15,6 +13,11 @@ class Item extends HrefElement
     protected string $title;
     protected ?string $href;
     private ItemsList $itemsList;
+
+    /** @var null|callable on click callback: function(Sidebar $sidebar, Item $item, ItemList $itemList): void */
+    protected $onClickCallback=null;
+
+    protected bool $active=false;
 
     public function __construct(ItemsList $itemsList, string $name, string $title, ?string $href=null)
     {
@@ -31,6 +34,29 @@ class Item extends HrefElement
         parent::beforeRender();
         if(is_string($this->href))
             $this->setLink($this->href);
+        if($this->active === true)
+            $this->addClass('active');
+        if(is_callable($this->onClickCallback))
+            $this->setLink($this->itemsList->backToSidebar()->link('link', $this->itemsList->getName(), $this->name));
+    }
+
+    /**
+     * Set on click callback
+     * @param callable|null $onClickCallback function(Sidebar $sidebar, Item $item, ItemList $itemList): void
+     * @return Item
+     */
+    public function setOnClickCallback(?callable $onClickCallback): self
+    {
+        $this->onClickCallback = $onClickCallback;
+        return $this;
+    }
+
+    /**
+     * @return callable|null
+     */
+    public function getOnClickCallback(): ?callable
+    {
+        return $this->onClickCallback;
     }
 
     /**
@@ -40,9 +66,17 @@ class Item extends HrefElement
      */
     public function setActive(bool $active=true): self
     {
-        if($active===true)
-            $this->addClass('active');
+        $this->active = $active;
         return $this;
+    }
+
+    /**
+     * Is this item active?
+     * @return bool
+     */
+    public function isActive(): bool
+    {
+        return $this->active;
     }
 
     /**
@@ -55,6 +89,7 @@ class Item extends HrefElement
     }
 
     /**
+     * Get unique name
      * @return string
      */
     public function getName(): string
@@ -63,6 +98,7 @@ class Item extends HrefElement
     }
 
     /**
+     * Get title
      * @return string
      */
     public function getTitle(): string
@@ -71,6 +107,7 @@ class Item extends HrefElement
     }
 
     /**
+     * Get href
      * @return string|null
      */
     public function getHref(): ?string

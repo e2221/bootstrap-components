@@ -19,9 +19,9 @@ class ItemsList
     /** @var ItemsListTitle Title template */
     protected ItemsListTitle $titleTemplate;
 
-    private Sidebar $sidebar;
-    private string $name;
-    private ?string $title;
+    protected Sidebar $sidebar;
+    protected string $name;
+    protected ?string $title;
 
     public function __construct(Sidebar $sidebar, string $name, ?string $title)
     {
@@ -83,5 +83,21 @@ class ItemsList
         if(isset($this->items[$name]) === false)
             throw new SidebarException(sprintf('Item [%s] does not exist in Item list [%s]', $name, $this->name));
         return $this->items[$name];
+    }
+
+    /**
+     * @return string
+     */
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getTitle(): ?string
+    {
+        return $this->title;
     }
 }
