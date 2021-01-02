@@ -60,7 +60,9 @@ class ItemsList
      */
     public function addItem(string $name, ?string $title=null, ?string $href=null)
     {
-        return $this->items[$name] = new Item($this, $name, $title ?? ucfirst($name), $href);
+        $item = $this->items[$name] = new Item($this, $name, $title ?? ucfirst($name), $href);
+        $this->sidebar->onItemAdd($item);
+        return $item;
     }
 
     /**

@@ -20,6 +20,9 @@ class Sidebar extends Control
     /** @var ItemsList[] Lists of items */
     protected array $lists=[];
 
+    /** @var Item[] List of all items  */
+    protected array $items=[];
+
     protected NavTemplate $navTemplate;
     protected UlWrapperTemplate $ulWrapperTemplate;
 
@@ -139,6 +142,36 @@ class Sidebar extends Control
             $this->redrawControl(self::SNIPPET_SIDEBAR_AREA);
             $this->redrawControl(sprintf('sidebar-%s-%s', $listName, $itemName));
         }
+    }
+
+    /**
+     * On item add - add item to list of items
+     * @param Item $item
+     * @internal
+     */
+    public function onItemAdd(Item $item): void
+    {
+        $this->items[$item->getName()] = $item;
+    }
+
+    /**
+     * Get all items
+     * @return Item[]
+     */
+    public function getItems(): array
+    {
+        return $this->items;
+    }
+
+    /**
+     * Set item active (be sure that all items in all lists has unique name!)
+     * @param string $itemName
+     * @return Sidebar
+     */
+    public function setItemActive(string $itemName): self
+    {
+        $this->items[$itemName]->setActive();
+        return $this;
     }
 }
 
