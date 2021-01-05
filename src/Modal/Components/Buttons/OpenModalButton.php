@@ -39,8 +39,8 @@ class OpenModalButton extends BaseButton
         $this->prepareElement();
         $attrs = $this->getElement()->attrs;
         return [
-            'toggle'    => $attrs['data-toggle'],
-            'target'    => $attrs['data-target'],
+            'data-toggle'    => $attrs['data-toggle'],
+            'data-target'    => $attrs['data-target'],
             'href'      => $attrs['href'],
         ];
     }
