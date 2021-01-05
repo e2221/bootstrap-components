@@ -41,7 +41,7 @@ class OpenModalButton extends BaseButton
         return [
             'data-toggle'    => $attrs['data-toggle'],
             'data-target'    => $attrs['data-target'],
-            'href'      => $attrs['href'],
+            'href'           => $attrs['href'],
         ];
     }
 }
