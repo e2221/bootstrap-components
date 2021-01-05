@@ -473,6 +473,14 @@ class Modal extends Control
         return $this->headerCloseButton;
     }
 
+    /**
+     * @return OpenModalButton
+     */
+    public function getOpenModalButton(): OpenModalButton
+    {
+        return $this->openModalButton;
+    }
+
 
     /**
      * Reloading snippets
