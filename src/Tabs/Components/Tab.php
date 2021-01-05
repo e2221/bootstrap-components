@@ -90,7 +90,7 @@ class Tab extends BaseTemplate
      */
     public function addContent($content, string $name): Content
     {
-        return $this->contents[$name] = new Content($this->tabs, $content, $name);
+        return $this->contents[$name] = new Content($this->tabs, $this, $content, $name);
     }
 
     /**
