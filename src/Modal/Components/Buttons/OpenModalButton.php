@@ -29,4 +29,19 @@ class OpenModalButton extends BaseButton
             ->addDataAttribute('target', sprintf('#%s', $this->modal->getModalId()))
             ->addHtmlAttribute('href', 'javascript:void(0)');
     }
+
+    /**
+     * Get attributes to open modal
+     * @return array
+     */
+    public function getOpenAttributes(): array
+    {
+        $this->prepareElement();
+        $attrs = $this->getElement()->attrs;
+        return [
+            'toggle'    => $attrs['toggle'],
+            'target'    => $attrs['target'],
+            'href'      => $attrs['href'],
+        ];
+    }
 }
