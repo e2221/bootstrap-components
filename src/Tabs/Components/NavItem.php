@@ -37,6 +37,15 @@ class NavItem extends BaseTemplate
         $this->tabContentContainerTemplate = new TabContentItemTemplate($tabs, $this);
     }
 
+    /**
+     * End item - back to tab
+     * @return Tabs
+     */
+    public function endNav(): Tabs
+    {
+        return $this->tabs;
+    }
+
     public function beforeRender(): void
     {
         parent::beforeRender();

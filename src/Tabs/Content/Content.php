@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace e2221\BootstrapComponents\Tabs\Content;
 
 
+use e2221\BootstrapComponents\Tabs\Components\NavItem;
 use e2221\BootstrapComponents\Tabs\Tabs;
 use e2221\utils\Html\BaseElement;
 use Nette\Application\UI\Component;
@@ -13,6 +14,7 @@ use Nette\Utils\Html;
 class Content extends BaseElement
 {
     protected Tabs $tabs;
+    protected NavItem $navItem;
 
     /** @var IComponent|string|Html|BaseElement */
     protected $content;
@@ -22,10 +24,11 @@ class Content extends BaseElement
     /**
      * Content constructor.
      * @param Tabs $tabs
+     * @param NavItem $navItem
      * @param IComponent|string|Html|BaseElement $content
      * @param string $name
      */
-    public function __construct(Tabs $tabs, $content, string $name)
+    public function __construct(Tabs $tabs, NavItem $navItem, $content, string $name)
     {
         parent::__construct();
         $this->tabs = $tabs;
@@ -33,13 +36,23 @@ class Content extends BaseElement
         $this->name = $name;
         if($this->content instanceof Component && is_null($this->content->getPresenterIfExists()))
             $tabs->addComponent($this->content, $name);
+        $this->navItem = $navItem;
     }
 
     /**
-     * End content - go back to tabs
+     * End content - go back to nav item
+     * @return NavItem
+     */
+    public function endContent(): NavItem
+    {
+        return $this->navItem;
+    }
+
+    /**
+     * End content - go back to tab
      * @return Tabs
      */
-    public function endContent(): Tabs
+    public function backToTab(): Tabs
     {
         return $this->tabs;
     }
