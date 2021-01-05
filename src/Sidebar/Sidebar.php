@@ -101,6 +101,16 @@ class Sidebar extends Control
     }
 
     /**
+     * Get item - all items must have unique name!
+     * @param string $itemName
+     * @return Item
+     */
+    public function getItem_unique(string $itemName): Item
+    {
+        return $this->items[$itemName];
+    }
+
+    /**
      * Get nav template
      * @return NavTemplate
      */
