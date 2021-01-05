@@ -7,7 +7,7 @@ namespace e2221\BootstrapComponents\Tabs;
 use e2221\BootstrapComponents\Tabs\Components\HorizontalContentColTemplate;
 use e2221\BootstrapComponents\Tabs\Components\HorizontalHeaderColTemplate;
 use e2221\BootstrapComponents\Tabs\Components\HorizontalRowTemplate;
-use e2221\BootstrapComponents\Tabs\Components\NavItem;
+use e2221\BootstrapComponents\Tabs\Components\Tab;
 use e2221\BootstrapComponents\Tabs\Components\NavTemplate;
 use e2221\BootstrapComponents\Tabs\Components\TabContentTemplate;
 use e2221\BootstrapComponents\Tabs\Components\TabHeaderTemplate;
@@ -15,7 +15,7 @@ use Nette\Bridges\ApplicationLatte\Template;
 
 class TabsTemplate extends Template
 {
-    /** @var NavItem[] */
+    /** @var Tab[] */
     public array $tabs;
 
     /** @var string[] */

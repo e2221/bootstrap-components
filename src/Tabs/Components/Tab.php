@@ -12,7 +12,7 @@ use Nette\Application\UI\InvalidLinkException;
 use Nette\ComponentModel\IComponent;
 use Nette\Utils\Html;
 
-class NavItem extends BaseTemplate
+class Tab extends BaseTemplate
 {
     protected ?string $elementName='a';
     public string $defaultClass='nav-link';
@@ -41,7 +41,7 @@ class NavItem extends BaseTemplate
      * End item - back to tab
      * @return Tabs
      */
-    public function endNav(): Tabs
+    public function getTabs(): Tabs
     {
         return $this->tabs;
     }
@@ -65,7 +65,7 @@ class NavItem extends BaseTemplate
     /**
      * Set print content
      * @param bool $printContent
-     * @return NavItem
+     * @return Tab
      * @internal
      */
     public function setPrintContent(bool $printContent=true): self
@@ -127,7 +127,7 @@ class NavItem extends BaseTemplate
 
     /**
      * Set this tab active
-     * @return NavItem
+     * @return Tab
      */
     public function setActive(): self
     {

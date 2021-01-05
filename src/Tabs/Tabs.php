@@ -7,7 +7,7 @@ namespace e2221\BootstrapComponents\Tabs;
 use e2221\BootstrapComponents\Tabs\Components\HorizontalContentColTemplate;
 use e2221\BootstrapComponents\Tabs\Components\HorizontalHeaderColTemplate;
 use e2221\BootstrapComponents\Tabs\Components\HorizontalRowTemplate;
-use e2221\BootstrapComponents\Tabs\Components\NavItem;
+use e2221\BootstrapComponents\Tabs\Components\Tab;
 use e2221\BootstrapComponents\Tabs\Components\NavTemplate;
 use e2221\BootstrapComponents\Tabs\Components\TabContentTemplate;
 use e2221\BootstrapComponents\Tabs\Components\TabHeaderTemplate;
@@ -32,7 +32,7 @@ class Tabs extends Control
     protected HorizontalHeaderColTemplate $horizontalHeaderColTemplate;
     protected HorizontalRowTemplate $horizontalRowTemplate;
 
-    /** @var NavItem[] */
+    /** @var Tab[] */
     protected array $tabs=[];
 
     /** @var bool Lazy mode [true = render only content of active tab, false = render all content] */
@@ -67,12 +67,12 @@ class Tabs extends Control
      * Add tab
      * @param string $id
      * @param string|null $title
-     * @return NavItem
+     * @return Tab
      */
     public function addTab(string $id, ?string $title=null)
     {
         $title = $title ?? ucfirst($id);
-        return $this->tabs[$id] = new NavItem($this, $id, $title);
+        return $this->tabs[$id] = new Tab($this, $id, $title);
     }
 
 
@@ -316,10 +316,10 @@ class Tabs extends Control
     /**
      * Get tab
      * @param string $id
-     * @return NavItem
+     * @return Tab
      * @throws TabsException
      */
-    public function getTab(string $id): NavItem
+    public function getTab(string $id): Tab
     {
         if(!isset($this->tabs[$id]))
             throw new TabsException(sprintf('Tab [%s] does not exist.', $id));
@@ -353,9 +353,9 @@ class Tabs extends Control
 
     /**
      * Get active tab
-     * @return NavItem|null
+     * @return Tab|null
      */
-    public function getActiveTab(): ?NavItem
+    public function getActiveTab(): ?Tab
     {
         $activeTab = $this->getActiveTabId();
         if(is_null($activeTab))
