@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace e2221\BootstrapComponents\Sidebar\Components;
 
+use e2221\BootstrapComponents\Sidebar\Exceptions\SidebarException;
 use e2221\utils\Html\HrefElement;
 
 class Item extends HrefElement
@@ -38,6 +39,15 @@ class Item extends HrefElement
             $this->addClass('active');
         if(is_callable($this->onClickCallback))
             $this->setLink($this->itemsList->backToSidebar()->link('link', $this->itemsList->getName(), $this->name));
+    }
+
+    /**
+     * Simulate click on this item
+     * @throws SidebarException
+     */
+    public function click(): void
+    {
+        $this->itemsList->backToSidebar()->handleLink($this->itemsList->getName(), $this->getName());
     }
 
     /**
