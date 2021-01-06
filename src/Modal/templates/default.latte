@@ -171,3 +171,14 @@
     {/ifset}
 
 {/snippetArea}
+
+<script type="application/javascript">
+    (window._stack = window._stack || []).push(function(di) {
+        di.getService('page').getSnippet({snippet.id modal})
+            .setup(function (modal) {
+                $(modal).on('click', '[data-close-modal]', function () {
+                    $('#' + {$modalId}).modal('hide');
+                });
+            });
+    })
+</script>

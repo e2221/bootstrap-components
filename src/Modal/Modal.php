@@ -160,6 +160,7 @@ class Modal extends Control
         $this->template->content = $this->content;
         $this->template->headerContent = $this->headerContent;
         $this->template->footerContent = $this->footerContent;
+        $this->template->modalId = $this->getModalId();
 
         if($this->printOpenButton === true)
             $this->template->openModalButton = $this->openModalButton;

@@ -32,6 +32,7 @@ class ModalTemplate extends Template
     public HeaderCloseButton $headerCloseButton;
     public FooterCloseButton $footerCloseButton;
     public OpenModalButton $openModalButton;
+    public string $modalId;
 
     /** @var string[] */
     public array $templates;
