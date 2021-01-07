@@ -110,7 +110,7 @@
                 var tabId, tabHref, $this, $tabs;
                 di.getService('page').getSnippet({snippet.id tabs})
                     .setup(function (tabs) {
-                        $(tabs).on('click', 'a[data-toggle-tab-link][data-unique-id="{$uniqueId}"]', function(){
+                        $(tabs).on('click', 'a[data-toggle-tab-link][data-unique-id={$uniqueId}]', function(){
                             tabId = $(this).data('id');
                             tabHref = $(this).data('tab-href');
                             $this = $(this);
