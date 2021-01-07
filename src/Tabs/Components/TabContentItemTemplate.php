@@ -24,7 +24,8 @@ class TabContentItemTemplate extends BaseTemplate
         parent::beforeRender();
         $this
             ->addDataAttribute('tab-id', $this->navItem->getId())
-            ->addHtmlAttribute('role', 'tabpanel');
+            ->addHtmlAttribute('role', 'tabpanel')
+            ->addDataAttribute('unique-id', $this->tabs->getUniqueId());
         if($this->navItem->isActive() === true)
             $this->addClass('show active');
     }

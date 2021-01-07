@@ -93,7 +93,7 @@
         <script type="application/javascript">
             (window._stack = window._stack || []).push(function(di) {
 
-                function changeActiveTab(headerLink, contentContainer)
+                {*}function changeActiveTab(headerLink, contentContainer)
                 {
                     let linkTabId = $(headerLink).data('id');
                     $(headerLink).tab('show');
@@ -105,9 +105,9 @@
                             $(this).removeClass('show active');
                         }
                     });
-                }
+                }{*}
 
-                var tabId, tabHref, $this, $tabs;
+                var tabId, tabHref, $this, $tabs, linkTabId;
                 di.getService('page').getSnippet({snippet.id tabs})
                     .setup(function (tabs) {
                         $(tabs).on('click', 'a[data-toggle-tab-link][data-unique-id={$uniqueId}]', function(){
@@ -122,19 +122,46 @@
                                     di.getService('page').open(tabHref);
                                     di.getService('snippetManager').one('after-update', function () {
                                         $(function () {
-                                            changeActiveTab($this, $tabs);
+                                            linkTabId = $($this).data('id');
+                                            $($this).tab('show');
+                                            $($tabs).find('div[data-tab-id][data-unique-id={$uniqueId}]').each(function(){
+                                                if(linkTabId === $(this).data('tab-id'))
+                                                {
+                                                    $(this).addClass('show active');
+                                                }else{
+                                                    $(this).removeClass('show active');
+                                                }
+                                            });
                                         });
                                     });
                                 {* if tab loaded => change tab, else => load *}
                                 {else}
                                     if($(this).hasClass('tab-loaded'))
                                     {
-                                        changeActiveTab($this, $tabs);
+                                        linkTabId = $($this).data('id');
+                                        $($this).tab('show');
+                                        $($tabs).find('div[data-tab-id][data-unique-id={$uniqueId}]').each(function(){
+                                            if(linkTabId === $(this).data('tab-id'))
+                                            {
+                                                $(this).addClass('show active');
+                                            }else{
+                                                $(this).removeClass('show active');
+                                            }
+                                        });
                                     }else{
                                         di.getService('page').open(tabHref);
                                         di.getService('snippetManager').one('after-update', function () {
                                             $(function () {
-                                                changeActiveTab($this, $tabs);
+                                                linkTabId = $($this).data('id');
+                                                $($this).tab('show');
+                                                $($tabs).find('div[data-tab-id][data-unique-id={$uniqueId}]').each(function(){
+                                                    if(linkTabId === $(this).data('tab-id'))
+                                                    {
+                                                        $(this).addClass('show active');
+                                                    }else{
+                                                        $(this).removeClass('show active');
+                                                    }
+                                                });
                                             });
                                         });
                                     }
@@ -143,13 +170,22 @@
                                 {if $reloadOnChangeTab === true}
                                     di.getService('page').open(tabHref);
                                 {else}
-                                    changeActiveTab($this, $tabs);
+                                    linkTabId = $($this).data('id');
+                                    $($this).tab('show');
+                                    $($tabs).find('div[data-tab-id][data-unique-id={$uniqueId}]').each(function(){
+                                        if(linkTabId === $(this).data('tab-id'))
+                                        {
+                                            $(this).addClass('show active');
+                                        }else{
+                                            $(this).removeClass('show active');
+                                        }
+                                    });
                                 {/if}
                             {/if}
                         });
                     })
                     .teardown(function() {
-                        tabId = tabHref =  $this = $tabs = null;
+                        tabId = tabHref =  $this = $tabs = linkTabId = null;
                     });
             });
         </script>
