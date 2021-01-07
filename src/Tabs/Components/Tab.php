@@ -53,6 +53,7 @@ class Tab extends BaseTemplate
             ->addHtmlAttribute('role', 'tab')
             ->addDataAttribute('toggle-tab-link')
             ->addDataAttribute('id', $this->id)
+            ->addDataAttribute('unique-id', $this->tabs->getUniqueId())
             ->setTextContent($this->title)
             ->addHtmlAttribute('href', 'javascript:void(0);')
             ->addDataAttribute('tab-href', $this->tabs->link('tab', $this->id));

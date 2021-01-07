@@ -31,4 +31,5 @@ class TabsTemplate extends Template
     public bool $reloadOnChangeTab;
     public ?string $activeTab;
     public string $style;
+    public string $uniqueId;
 }

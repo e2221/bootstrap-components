@@ -135,6 +135,7 @@ class Tabs extends Control
         $this->template->activeTab = $this->getActiveTabId();
         $this->template->templates = $this->templates;
         $this->template->style = $this->style;
+        $this->template->uniqueId = $this->getUniqueId();
         $this->template->setFile(__DIR__ . '/templates/default.latte');
         $this->template->render();
     }
