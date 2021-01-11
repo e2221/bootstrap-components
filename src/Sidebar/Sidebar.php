@@ -46,14 +46,16 @@ class Sidebar extends Control
     /**
      * @param string $list
      * @param string $item
-     * @throws SidebarException
      */
     public function handleLink(string $list, string $item): void
     {
-        $navItem = $this->getItem($list, $item);
-        $linkCallback = $navItem->getOnClickCallback();
-        if(is_callable($linkCallback))
-            $linkCallback($this, $navItem, $navItem->backToList());
+        try {
+            $navItem = $this->getItem($list, $item);
+            $linkCallback = $navItem->getOnClickCallback();
+            if(is_callable($linkCallback))
+                $linkCallback($this, $navItem, $navItem->backToList());
+        } catch (SidebarException $e) {
+        }
         $this->reload();
     }
 
