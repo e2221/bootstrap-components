@@ -102,4 +102,14 @@ class ItemsList
     {
         return $this->title;
     }
+
+    /**
+     * Remove this list
+     * @return Sidebar
+     */
+    public function remove(): Sidebar
+    {
+        unset($this->getItems()[$this->name]);
+        return $this->sidebar;
+    }
 }
