@@ -8,6 +8,8 @@
 
             {foreach $lists as $listName => $list}
 
+                {continueIf count($list->getItems()) == 0 && $list->isPrintWithEmptyContent() === false}
+
                 {$list->getTitleTemplate()|noescape}
 
                 {foreach $list->getItems() as $itemName => $item}

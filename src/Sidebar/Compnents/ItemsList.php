@@ -19,6 +19,9 @@ class ItemsList
     /** @var ItemsListTitle Title template */
     protected ItemsListTitle $titleTemplate;
 
+    /** @var bool Print list with empty content? */
+    public bool $printWithEmptyContent=false;
+
     protected Sidebar $sidebar;
     protected string $name;
     protected ?string $title;
@@ -111,5 +114,24 @@ class ItemsList
     {
         unset($this->getItems()[$this->name]);
         return $this->sidebar;
+    }
+
+    /**
+     * Set print with empty content
+     * @param bool $printWithEmptyContent
+     * @return ItemsList
+     */
+    public function setPrintWithEmptyContent(bool $printWithEmptyContent=true): ItemsList
+    {
+        $this->printWithEmptyContent = $printWithEmptyContent;
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isPrintWithEmptyContent(): bool
+    {
+        return $this->printWithEmptyContent;
     }
 }
