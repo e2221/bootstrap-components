@@ -110,8 +110,8 @@ class Sidebar extends Control
      */
     public function getItem_unique(string $itemName): Item
     {
-        if(isset($this->lists[$itemName]) === false)
-            throw new SidebarException(sprintf('List [%s] does not exist', $itemName));
+        if(isset($this->items[$itemName]) === false)
+            throw new SidebarException(sprintf('Item [%s] does not exist', $itemName));
         return $this->items[$itemName];
     }
 
