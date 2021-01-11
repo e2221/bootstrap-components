@@ -104,9 +104,12 @@ class Sidebar extends Control
      * Get item - all items must have unique name!
      * @param string $itemName
      * @return Item
+     * @throws SidebarException
      */
     public function getItem_unique(string $itemName): Item
     {
+        if(isset($this->lists[$itemName]) === false)
+            throw new SidebarException(sprintf('List [%s] does not exist', $itemName));
         return $this->items[$itemName];
     }
 
@@ -176,11 +179,19 @@ class Sidebar extends Control
     /**
      * Set item active (be sure that all items in all lists has unique name!)
      * @param string $itemName
+     * @param string|null $listName
      * @return Sidebar
+     * @throws SidebarException
      */
-    public function setItemActive(string $itemName): self
+    public function setItemActive(string $itemName, ?string $listName=null): self
     {
-        $this->items[$itemName]->setActive();
+        if(is_string($listName) === true)
+        {
+            $item = $this->getItem($listName, $itemName);
+        }else{
+            $item = $this->getItem_unique($itemName);
+        }
+        $item->setActive();
         return $this;
     }
 }
