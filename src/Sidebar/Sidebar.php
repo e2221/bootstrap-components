@@ -158,14 +158,12 @@ class Sidebar extends Control
     {
         if($this->getPresenter()->isAjax() === false)
             return;
+        if(is_string($item))
+            $item = is_null($listName) ? $this->getItem_unique($item) : $this->getItem($listName, $item);
         if(is_callable($fn = $this->onReloadItemCallback))
-        {
-            if(is_string($item))
-                $item = is_null($listName) ? $this->getItem_unique($item) : $this->getItem($listName, $item);
             $fn($item, $item->getList(), $this);
-        }
         $this->redrawControl(self::SNIPPET_SIDEBAR_AREA);
-        $this->redrawControl(sprintf('sidebar-%s-%s', $listName, $item));
+        $this->redrawControl(sprintf('sidebar-%s-%s', $item->getList()->getName(), $item->getName()));
     }
 
 
