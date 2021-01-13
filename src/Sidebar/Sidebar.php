@@ -23,6 +23,9 @@ class Sidebar extends Control
     /** @var Item[] List of all items  */
     protected array $items=[];
 
+    /** @var null|callable on reload single item: function(Item $item, ItemsList $itemsList, Sidebar $sidebar): void */
+    protected $onReloadItemCallback=null;
+
     protected NavTemplate $navTemplate;
     protected UlWrapperTemplate $ulWrapperTemplate;
 
@@ -147,17 +150,24 @@ class Sidebar extends Control
 
     /**
      * Reload sidebar item
-     * @param string $listName
-     * @param string $itemName
+     * @param string|Item $item
+     * @param string|null $listName
+     * @throws SidebarException
      */
-    public function reloadItem(string $listName, string $itemName): void
+    public function reloadItem($item, ?string $listName=null): void
     {
-        if($this->getPresenter()->isAjax() === true)
+        if($this->getPresenter()->isAjax() === false)
+            return;
+        if(is_callable($fn = $this->onReloadItemCallback))
         {
-            $this->redrawControl(self::SNIPPET_SIDEBAR_AREA);
-            $this->redrawControl(sprintf('sidebar-%s-%s', $listName, $itemName));
+            if(is_string($item))
+                $item = is_null($listName) ? $this->getItem_unique($item) : $this->getItem($listName, $item);
+            $fn($item, $item->getList(), $this);
         }
+        $this->redrawControl(self::SNIPPET_SIDEBAR_AREA);
+        $this->redrawControl(sprintf('sidebar-%s-%s', $listName, $item));
     }
+
 
     /**
      * On item add - add item to list of items
@@ -194,6 +204,17 @@ class Sidebar extends Control
             $item = $this->getItem_unique($itemName);
         }
         $item->setActive();
+        return $this;
+    }
+
+    /**
+     * Set on reload item callback
+     * @param callable|null $onReloadItemCallback function(Item $item, ItemsList $itemsList, Sidebar $sidebar): void
+     * @return Sidebar
+     */
+    public function setOnReloadItemCallback(?callable $onReloadItemCallback): self
+    {
+        $this->onReloadItemCallback = $onReloadItemCallback;
         return $this;
     }
 }

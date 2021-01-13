@@ -10,12 +10,12 @@
 
                 {continueIf count($list->getItems()) == 0 && $list->isPrintWithEmptyContent() === false}
 
-                {$list->getTitleTemplate()|noescape}
+                {$list->getTitleTemplate()->render()}
 
                 {foreach $list->getItems() as $itemName => $item}
 
                     {snippet sidebar-$listName-$itemName}
-                        {$item|noescape}
+                        {$item->render()}
                     {/snippet}
 
                 {/foreach}

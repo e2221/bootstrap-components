@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace e2221\BootstrapComponents\Sidebar\Components;
 
+use e2221\BootstrapComponents\Sidebar\Exceptions\SidebarException;
 use e2221\utils\Html\HrefElement;
 
 class Item extends HrefElement
@@ -12,7 +13,7 @@ class Item extends HrefElement
     protected string $name;
     protected string $title;
     protected ?string $href;
-    private ItemsList $itemsList;
+    protected ItemsList $itemsList;
 
     /** @var null|callable on click callback: function(Sidebar $sidebar, Item $item, ItemList $itemList): void */
     protected $onClickCallback=null;
@@ -26,18 +27,27 @@ class Item extends HrefElement
         $this->title = $title;
         $this->href = $href;
         $this->itemsList = $itemsList;
-        $this->setTextContent($title);
     }
 
     public function beforeRender(): void
     {
         parent::beforeRender();
+        $this->setTextContent($this->title);
         if(is_string($this->href))
             $this->setLink($this->href);
         if($this->active === true)
             $this->addClass('active');
         if(is_callable($this->onClickCallback))
             $this->setLink($this->itemsList->backToSidebar()->link('link', $this->itemsList->getName(), $this->name));
+    }
+
+    /**
+     * Get parent list
+     * @return ItemsList
+     */
+    public function getList(): ItemsList
+    {
+        return $this->itemsList;
     }
 
     /**
@@ -135,17 +145,12 @@ class Item extends HrefElement
     }
 
     /**
-     * Set href
-     * @param string|null $href
-     * @return Item
+     * Reload this item
+     * @throws SidebarException
      */
-    public function setHref(?string $href): self
+    public function reload(): void
     {
-        $this->href = $href;
-        return $this;
+        $this->getList()->backToSidebar()
+            ->reloadItem($this);
     }
-
-
-
-
 }
