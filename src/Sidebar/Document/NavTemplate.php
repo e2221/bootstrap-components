@@ -7,7 +7,7 @@ namespace e2221\BootstrapComponents\Sidebar\Document;
 class NavTemplate extends BaseTemplate
 {
     protected ?string $elementName='nav';
-    public string $defaultClass='sidebar';
+    public string $defaultClass='sidebar collapse';
 
     /** @var string Bootstrap width grid class */
     public string $width='col-md-2';
