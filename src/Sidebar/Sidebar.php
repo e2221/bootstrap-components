@@ -26,6 +26,9 @@ class Sidebar extends Control
     /** @var null|callable on reload single item: function(Item $item, ItemsList $itemsList, Sidebar $sidebar): void */
     protected $onReloadItemCallback=null;
 
+    /** @var null|callable add list with item in callback: function(Sidebar $this): void  */
+    protected $addListsCallback=null;
+
     protected NavTemplate $navTemplate;
     protected UlWrapperTemplate $ulWrapperTemplate;
 
@@ -77,6 +80,8 @@ class Sidebar extends Control
      */
     public function getLists(): array
     {
+        if(is_callable($fn = $this->addListsCallback))
+            $fn($this);
         return $this->lists;
     }
 
@@ -213,6 +218,17 @@ class Sidebar extends Control
     public function setOnReloadItemCallback(?callable $onReloadItemCallback): self
     {
         $this->onReloadItemCallback = $onReloadItemCallback;
+        return $this;
+    }
+
+    /**
+     * Set add lists callback
+     * @param callable $addListsCallback function(Sidebar $this): void
+     * @return Sidebar
+     */
+    public function setAddListsCallback(callable $addListsCallback): self
+    {
+        $this->addListsCallback = $addListsCallback;
         return $this;
     }
 }
