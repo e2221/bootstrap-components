@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace e2221\BootstrapComponents\Sidebar\Components;
 
-use e2221\BootstrapComponents\Sidebar\Exceptions\SidebarException;
 use e2221\utils\Html\HrefElement;
 
 class Item extends HrefElement
@@ -43,7 +42,6 @@ class Item extends HrefElement
 
     /**
      * Simulate click on this item
-     * @throws SidebarException
      */
     public function click(): void
     {

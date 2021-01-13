@@ -25,10 +25,7 @@ class NavTemplate extends BaseTemplate
             ->addClass($this->width)
             ->addClass($this->background);
         if(is_string($this->displayFromWidth))
-        {
-            $this->addClass('d-none');
             $this->addClass(sprintf('d-%s-block', $this->displayFromWidth));
-        }
     }
 
     /**
