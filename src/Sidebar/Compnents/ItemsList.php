@@ -61,7 +61,7 @@ class ItemsList
      * @param string|null $href
      * @return Item
      */
-    public function addItem(string $name, ?string $title=null, ?string $href=null)
+    public function addItem(string $name, ?string $title=null, ?string $href=null): Item
     {
         $item = $this->items[$name] = new Item($this, $name, $title ?? ucfirst($name), $href);
         $this->sidebar->onItemAdd($item);

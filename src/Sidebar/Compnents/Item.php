@@ -123,6 +123,29 @@ class Item extends HrefElement
         return $this->href;
     }
 
+    /**
+     * Set title
+     * @param string $title
+     * @return Item
+     */
+    public function setTitle(string $title): self
+    {
+        $this->title = $title;
+        return $this;
+    }
+
+    /**
+     * Set href
+     * @param string|null $href
+     * @return Item
+     */
+    public function setHref(?string $href): self
+    {
+        $this->href = $href;
+        return $this;
+    }
+
+
 
 
 }
