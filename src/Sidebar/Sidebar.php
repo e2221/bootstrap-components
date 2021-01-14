@@ -29,6 +29,9 @@ class Sidebar extends Control
     /** @var null|callable add list with item in callback: function(Sidebar $this): void  */
     protected $addListsCallback=null;
 
+    /** @var callable[] function(Sidebar $this):void  */
+    protected array $beforeRender=[];
+
     protected NavTemplate $navTemplate;
     protected UlWrapperTemplate $ulWrapperTemplate;
 
@@ -50,24 +53,32 @@ class Sidebar extends Control
     }
 
     /**
+     * Signal - item link
      * @param string $list
      * @param string $item
      */
     public function handleLink(string $list, string $item): void
     {
-        try {
+        $this->getLists();
+        try{
             $navItem = $this->getItem($list, $item);
             $linkCallback = $navItem->getOnClickCallback();
             if(is_callable($linkCallback))
                 $linkCallback($this, $navItem, $navItem->backToList());
-        } catch (SidebarException $e) {
+        }catch (SidebarException $exception) {
+            $this->reload();
         }
-        $this->reload();
     }
 
+    /**
+     * Renderer
+     */
     public function render(): void
     {
-        $this->template->lists = $this->getLists();
+        $lists = $this->getLists();
+        foreach($this->beforeRender as $beforeRenderCallback)
+            $beforeRenderCallback($this);
+        $this->template->lists = $lists;
         $this->template->sidebarNavTemplate = $this->navTemplate;
         $this->template->ulWrapperTemplate = $this->ulWrapperTemplate;
         $this->template->setFile(__DIR__ . '/templates/default.latte');
@@ -230,6 +241,18 @@ class Sidebar extends Control
     {
         $this->addListsCallback = $addListsCallback;
         return $this;
+    }
+
+    /**
+     * Add before render callback
+     * @param callable $callback
+     * @param bool $clearCallbacks
+     */
+    public function addBeforeRenderCallback(callable $callback, bool $clearCallbacks=false): void
+    {
+        if($clearCallbacks === true)
+            $this->beforeRender = [];
+        $this->beforeRender[] = $callback;
     }
 }
 

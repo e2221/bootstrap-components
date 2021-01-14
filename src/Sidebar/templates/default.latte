@@ -24,6 +24,21 @@
 
         {$ulWrapperTemplate->endTag()|noescape}
 
+        <script type="application/javascript">
+            (window._stack = window._stack || []).push(function(di) {
+                di.getService('page').getSnippet({snippet.id sidebar})
+                    .setup(function (sidebar) {
+                        $(sidebar).on('click', '[data-sidebar-item]', function(){
+                            $(sidebar).find('[data-sidebar-item]').each(function(){
+                                $(this).removeClass('active');
+                            });
+                            $(this).addClass('active');
+                        });
+                    });
+            });
+
+        </script>
+
     </nav>
 
 {/snippetArea}

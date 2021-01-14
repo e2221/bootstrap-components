@@ -27,6 +27,7 @@ class Item extends HrefElement
         $this->title = $title;
         $this->href = $href;
         $this->itemsList = $itemsList;
+        $this->addDataAttribute('sidebar-item');
     }
 
     public function beforeRender(): void
