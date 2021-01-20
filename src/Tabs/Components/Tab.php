@@ -54,7 +54,7 @@ class Tab extends BaseTemplate
             ->addDataAttribute('toggle-tab-link')
             ->addDataAttribute('id', $this->id)
             ->addDataAttribute('unique-id', $this->tabs->getUniqueId())
-            ->setTextContent($this->title)
+            ->setHtmlContent($this->title)
             ->addHtmlAttribute('href', 'javascript:void(0);')
             ->addDataAttribute('tab-href', $this->tabs->link('tab', $this->id));
         if($this->isActive() === true)
