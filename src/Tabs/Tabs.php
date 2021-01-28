@@ -349,7 +349,7 @@ class Tabs extends Control
     {
         if(count($this->tabs) == 0)
             return null;
-        return $this->activeTab ?? array_key_first($this->tabs);
+        return $this->activeTab ?? (string)array_key_first($this->tabs);
     }
 
     /**
