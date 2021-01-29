@@ -90,103 +90,46 @@
 
     {/snippet}
 
-        <script type="application/javascript">
-            (window._stack = window._stack || []).push(function(di) {
-
-                {*}function changeActiveTab(headerLink, contentContainer)
-                {
-                    let linkTabId = $(headerLink).data('id');
-                    $(headerLink).tab('show');
-                    $(contentContainer).find('div[data-tab-id]').each(function(){
-                        if(linkTabId === $(this).data('tab-id'))
-                        {
-                            $(this).addClass('show active');
-                        }else{
-                            $(this).removeClass('show active');
-                        }
-                    });
-                }{*}
-
-                var tabId, tabHref, $this, $tabs, linkTabId;
-                di.getService('page').getSnippet({snippet.id tabs})
-                    .setup(function (tabs) {
-                        $(tabs).on('click', 'a[data-toggle-tab-link][data-unique-id={$uniqueId}]', function(){
-                            tabId = $(this).data('id');
-                            tabHref = $(this).data('tab-href');
-                            $this = $(this);
-                            $tabs = $(tabs);
-
-                            {if $lazyMode === true}
-                                {* reload tab *}
-                                {if $reloadOnChangeTab === true}
-                                    di.getService('page').open(tabHref);
-                                    di.getService('snippetManager').one('after-update', function () {
-                                        $(function () {
-                                            linkTabId = $($this).data('id');
-                                            $($this).tab('show');
-                                            $($tabs).find('div[data-tab-id][data-unique-id={$uniqueId}]').each(function(){
-                                                if(linkTabId === $(this).data('tab-id'))
-                                                {
-                                                    $(this).addClass('show active');
-                                                }else{
-                                                    $(this).removeClass('show active');
-                                                }
-                                            });
-                                        });
-                                    });
-                                {* if tab loaded => change tab, else => load *}
-                                {else}
-                                    if($(this).hasClass('tab-loaded'))
-                                    {
-                                        linkTabId = $($this).data('id');
-                                        $($this).tab('show');
-                                        $($tabs).find('div[data-tab-id][data-unique-id={$uniqueId}]').each(function(){
-                                            if(linkTabId === $(this).data('tab-id'))
-                                            {
-                                                $(this).addClass('show active');
-                                            }else{
-                                                $(this).removeClass('show active');
-                                            }
-                                        });
-                                    }else{
-                                        di.getService('page').open(tabHref);
-                                        di.getService('snippetManager').one('after-update', function () {
-                                            $(function () {
-                                                linkTabId = $($this).data('id');
-                                                $($this).tab('show');
-                                                $($tabs).find('div[data-tab-id][data-unique-id={$uniqueId}]').each(function(){
-                                                    if(linkTabId === $(this).data('tab-id'))
-                                                    {
-                                                        $(this).addClass('show active');
-                                                    }else{
-                                                        $(this).removeClass('show active');
-                                                    }
-                                                });
-                                            });
-                                        });
-                                    }
-                                {/if}
-                            {else}
-                                {if $reloadOnChangeTab === true}
-                                    di.getService('page').open(tabHref);
-                                {else}
-                                    linkTabId = $($this).data('id');
-                                    $($this).tab('show');
-                                    $($tabs).find('div[data-tab-id][data-unique-id={$uniqueId}]').each(function(){
-                                        if(linkTabId === $(this).data('tab-id'))
-                                        {
-                                            $(this).addClass('show active');
-                                        }else{
-                                            $(this).removeClass('show active');
-                                        }
-                                    });
-                                {/if}
-                            {/if}
+    <script type="application/javascript">
+        (window._stack = window._stack || []).push(function(di) {
+            var tabId, tabHref, $this, $tabs, linkTabId;
+            di.getService('page').getSnippet({snippet.id tabs})
+                .setup(function (tabs) {
+                    $(tabs).on('click', 'a[data-toggle-tab-link][data-unique-id={$uniqueId}]', function(){
+                        tabId = $(this).data('id');
+                        tabHref = $(this).data('tab-href');
+                        $this = $(this);
+                        $tabs = $(tabs);
+                        linkTabId = $($this).data('id');
+                        {* remove all active tabs *}
+                        $($tabs).find('a[data-toggle-tab-link][data-unique-id={$uniqueId}]').each(function(){
+                            $(this).removeClass('active');
                         });
-                    })
-                    .teardown(function() {
-                        tabId = tabHref =  $this = $tabs = linkTabId = null;
+                        {* set active this tab *}
+                        $($this).addClass('active');
+                        {* show tab *}
+                        $($this).tab('show');
+                        {* remove active class on all active tabs *}
+                        $($tabs).find('div[data-tab-id][data-unique-id={$uniqueId}]').each(function(){
+                            $(this).removeClass('show active');
+                        });
+                        {* set active this tab *}
+                        $($tabs).find('div[data-tab-id="'+linkTabId+'"][data-unique-id={$uniqueId}]').addClass('show active');
+
+                        {if $reloadOnChangeTab === true}
+                        di.getService('page').open(tabHref);
+                        {elseif $lazyMode === true}
+                        if(!$(this).hasClass('tab-loaded')){
+                            di.getService('page').open(tabHref);
+                            $(this).addClass('tab-loaded')
+                        }
+                        {/if}
                     });
-            });
-        </script>
+                })
+                .teardown(function() {
+                    tabId = tabHref =  $this = $tabs = linkTabId = null;
+                });
+        });
+    </script>
+
 {/snippetArea}
