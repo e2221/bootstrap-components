@@ -59,6 +59,8 @@ class Tab extends BaseTemplate
             ->addDataAttribute('tab-href', $this->tabs->link('tab', $this->id));
         if($this->isActive() === true)
             $this->addClass('active');
+        if($this->printContent() === true)
+            $this->addClass('tab-loaded');
     }
 
     /**
