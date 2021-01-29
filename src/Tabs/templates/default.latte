@@ -107,22 +107,35 @@
                         });
                         {* set active this tab *}
                         $($this).addClass('active');
-                        {* show tab *}
-                        $($this).tab('show');
-                        {* remove active class on all active tabs *}
-                        $($tabs).find('div[data-tab-id][data-unique-id={$uniqueId}]').each(function(){
-                            $(this).removeClass('show active');
-                        });
-                        {* set active this tab *}
-                        $($tabs).find('div[data-tab-id="'+linkTabId+'"][data-unique-id={$uniqueId}]').addClass('show active');
+
+                        {if $reloadOnChangeTab === false}
+                            {* show tab *}
+                            $($this).tab('show');
+                            {* remove active class on all active tabs content *}
+                            $($tabs).find('div[data-tab-id][data-unique-id={$uniqueId}]').each(function(){
+                                $(this).removeClass('show active');
+                            });
+                            {* set active this tab content *}
+                            $($tabs).find('div[data-tab-id="'+linkTabId+'"][data-unique-id={$uniqueId}]').addClass('show active');
+                        {/if}
 
                         {if $reloadOnChangeTab === true}
-                        di.getService('page').open(tabHref);
-                        {elseif $lazyMode === true}
-                        if(!$(this).hasClass('tab-loaded')){
                             di.getService('page').open(tabHref);
-                            $(this).addClass('tab-loaded')
-                        }
+                            di.getService('snippetManager').one('after-update', function () {
+                                {* show tab *}
+                                $($this).tab('show');
+                                {* remove active class on all active tabs content *}
+                                $($tabs).find('div[data-tab-id][data-unique-id={$uniqueId}]').each(function(){
+                                    $(this).removeClass('show active');
+                                });
+                                {* set active this tab content *}
+                                $($tabs).find('div[data-tab-id="'+linkTabId+'"][data-unique-id={$uniqueId}]').addClass('show active');
+                            });
+                        {elseif $lazyMode === true}
+                            if(!$(this).hasClass('tab-loaded')){
+                                di.getService('page').open(tabHref);
+                                $(this).addClass('tab-loaded')
+                            }
                         {/if}
                     });
                 })
