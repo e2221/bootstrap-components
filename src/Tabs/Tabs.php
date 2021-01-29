@@ -89,11 +89,11 @@ class Tabs extends Control
             ->getActiveTab()
             ->setPrintContent(true);
 
-        $this->reloadHeader();
         if($this->lazyMode === true)
         {
             $this->reloadSingleContent($tabId);
         }else{
+            $this->reloadHeader();
             $this->reloadContent();
         }
     }
