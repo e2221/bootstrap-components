@@ -13,7 +13,6 @@ use e2221\BootstrapComponents\Tabs\Components\TabContentTemplate;
 use e2221\BootstrapComponents\Tabs\Components\TabHeaderTemplate;
 use e2221\BootstrapComponents\Tabs\Exceptions\TabsException;
 use Nette\Application\AbortException;
-use Nette\Application\BadRequestException;
 use Nette\Application\UI\Control;
 
 class Tabs extends Control
@@ -91,15 +90,12 @@ class Tabs extends Control
         $this->reloadSingleContent($tabId);
     }
 
-    /**
-     * Load state
-     * @param array $params
-     * @throws BadRequestException
-     */
-    public function loadState(array $params): void
-    {
-        parent::loadState($params);
 
+    /**
+     * Render all
+     */
+    public function render(): void
+    {
         //if lazy mode - stop printing content of non-active container contents
         if($this->lazyMode === true)
         {
@@ -109,13 +105,7 @@ class Tabs extends Control
                 $tab->setPrintContent($activeTab == $tabId);
             }
         }
-    }
 
-    /**
-     * Render all
-     */
-    public function render(): void
-    {
         $this->template->navTemplate = $this->navTemplate;
         $this->template->tabContentTemplate = $this->tabContentTemplate;
         $this->template->tabHeaderTemplate = $this->tabHeaderTemplate;
