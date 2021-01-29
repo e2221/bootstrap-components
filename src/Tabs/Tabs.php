@@ -78,16 +78,22 @@ class Tabs extends Control
     /**
      * Change active table
      * @param string $tabId
+     * @param bool $reloadAll
      * @throws AbortException
      * @throws TabsException
      */
-    public function handleTab(string $tabId): void
+    public function handleTab(string $tabId, bool $reloadAll=false): void
     {
         $this
             ->setActiveTab($tabId)
             ->getActiveTab()
             ->setPrintContent(true);
-        $this->reloadSingleContent($tabId);
+        if($reloadAll === true)
+        {
+            $this->reload();
+        }else{
+            $this->reloadSingleContent($tabId);
+        }
     }
 
 
