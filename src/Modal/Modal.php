@@ -542,4 +542,21 @@ class Modal extends Control
         $this->reload(self::SNIPPET_OPEN_BUTTON);
     }
 
+    /**
+     * Get attributes to open this modal
+     * @return string[]
+     */
+    public function getOpenModalAttributes(): array
+    {
+        return $this->getOpenModalButton()->getOpenAttributes();
+    }
+
+    /**
+     * Get close modal attributes (works only inside this modal)
+     * @return string[]
+     */
+    public function getCloseModalAttributes(): array
+    {
+        return ['data-close-modal' => ''];
+    }
 }
