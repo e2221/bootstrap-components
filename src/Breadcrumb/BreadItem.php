@@ -19,9 +19,21 @@ class BreadItem
         $this->title = $title ?? $id;
         $this->template = new BreadItemTemplate();
         $this->link = $link;
+        $this->setTitle($this->title);
         if(is_string($this->link))
             $this->setLink($this->link);
         $this->id = $id;
+    }
+
+    /**
+     * Set title
+     * @param string $title
+     * @return BreadItem
+     */
+    public function setTitle(string $title): self
+    {
+        $this->getTemplate()->setTextContent($title);
+        return $this;
     }
 
     /**

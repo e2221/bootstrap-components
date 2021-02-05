@@ -41,7 +41,7 @@ class Breadcrumb extends Control
      * @param string|null $link
      * @return BreadItem
      */
-    public function addItem(string $id, ?string $title, ?string $link=null): BreadItem
+    public function addItem(string $id, ?string $title=null, ?string $link=null): BreadItem
     {
         return $this->items[$id] = new BreadItem($this, $id, $title, $link);
     }
