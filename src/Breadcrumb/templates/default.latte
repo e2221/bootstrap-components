@@ -1,0 +1,16 @@
+{templateType e2221\BootstrapComponents\Breadcrumb\BreadcrumbTemplate}
+
+<nav n:snippet="breadcrumb" {$navTemplate->getAttributes()|noescape}>
+
+    {$olTemplate->startTag()|noescape}
+
+        {foreach $items as $itemId => $item}
+
+            {last}{php $item->setActive()}{/last}
+            {$item->getTemplate()}
+
+        {/foreach}
+
+    {$olTemplate->endTag()|noescape}
+
+</nav>
