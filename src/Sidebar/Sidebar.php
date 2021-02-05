@@ -7,11 +7,14 @@ use e2221\BootstrapComponents\Sidebar\Components\Item;
 use e2221\BootstrapComponents\Sidebar\Components\ItemsList;
 use e2221\BootstrapComponents\Sidebar\Document\NavTemplate;
 use e2221\BootstrapComponents\Sidebar\Document\UlWrapperTemplate;
+use e2221\BootstrapComponents\Sidebar\Events\ItemAddEvent;
+use e2221\BootstrapComponents\Sidebar\Events\ItemEditEvent;
 use e2221\BootstrapComponents\Sidebar\Exceptions\SidebarException;
 use Nette\Application\UI\Control;
 use Nette\Bridges\ApplicationLatte\Template;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-class Sidebar extends Control
+class Sidebar extends Control implements EventSubscriberInterface
 {
     const
         SNIPPET_SIDEBAR_AREA = 'sidebarArea',
@@ -255,6 +258,37 @@ class Sidebar extends Control
         if($clearCallbacks === true)
             $this->beforeRender = [];
         $this->beforeRender[] = $callback;
+    }
+
+    /**
+     * Reload event
+     * @internal
+     */
+    public function reloadEvent(): void
+    {
+        $this->reload();
+    }
+
+    /**
+     * Reload item event
+     * @param ItemEditEvent $editEvent
+     * @throws SidebarException
+     * @internal
+     */
+    public function reloadItemEvent(ItemEditEvent $editEvent): void
+    {
+        $this->reloadItem($editEvent->getItemId());
+    }
+
+    /**
+     * @return string[]
+     */
+    public static function getSubscribedEvents()
+    {
+        return [
+            ItemAddEvent::class => 'reloadEvent',
+            ItemEditEvent::class => 'reloadItemEvent'
+        ];
     }
 }
 
