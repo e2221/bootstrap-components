@@ -2,12 +2,6 @@
     "name": "e2221/bootstrap-components",
     "description": "Bootstrap components for Nette 3 Framework",
     "type": "libraly",
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/e2221/utils"
-        }
-    ],
     "require": {
         "nette/application": "^3.0",
         "nette/component-model": "^3.0",
@@ -15,10 +9,8 @@
         "latte/latte": "^2.8",
         "phpstan/phpstan-nette": "^0.12.12",
         "nittro/nette-bridges": "^2.1",
-        "contributte/event-dispatcher": "^0.8.0"
-    },
-    "require-dev": {
-        "e2221/utils": "dev-main@dev"
+        "contributte/event-dispatcher": "^0.8.0",
+        "e2221/utils": "^0.1"
     },
     "autoload": {
         "classmap": ["src/"]
