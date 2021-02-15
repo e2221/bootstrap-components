@@ -3,6 +3,7 @@
     "description": "Bootstrap components for Nette 3 Framework",
     "type": "libraly",
     "require": {
+        "php": ">=7.4",
         "nette/application": "^3.0",
         "nette/component-model": "^3.0",
         "nette/utils": "^3.1",
