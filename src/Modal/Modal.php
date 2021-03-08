@@ -555,7 +555,7 @@ class Modal extends Control
      * Get close modal attributes (works only inside this modal)
      * @return string[]
      */
-    public function getCloseModalAttributes(): array
+    public static function getCloseModalAttributes(): array
     {
         return ['data-close-modal' => ''];
     }
